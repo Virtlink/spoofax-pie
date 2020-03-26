@@ -53,8 +53,8 @@ public class CompletenessTest {
     public List<DynamicTest> completenessTests() {
         //noinspection ArraysAsListWithZeroOrOneArgument
         return Arrays.asList(
-            completenessTest(TESTPATH + "/test1.aterm", TESTPATH + "/test1.input.aterm", TIGER_SPEC_PATH),
-            completenessTest(TESTPATH + "/test2.aterm", TESTPATH + "/test2.input.aterm", TIGER_SPEC_PATH)
+            completenessTest(TESTPATH + "/test1.aterm", TESTPATH + "/test1.input.aterm", TIGER_SPEC_PATH)
+//            completenessTest(TESTPATH + "/test2.aterm", TESTPATH + "/test2.input.aterm", TIGER_SPEC_PATH)
         );
     }
 

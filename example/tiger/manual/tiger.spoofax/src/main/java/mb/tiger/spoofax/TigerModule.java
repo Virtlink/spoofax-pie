@@ -123,6 +123,7 @@ public class TigerModule {
         TigerCompleteTaskDef complete,
         TigerStatixSpecTaskDef statixSpec,
         TigerPrettyPrintTaskDef prettyPrintTaskDef,
+        TigerPreAnalyzeTaskDef explicateTaskDef,
 
         TigerListLiteralVals listLiteralVals,
         TigerListDefNames listDefNames,
@@ -148,6 +149,7 @@ public class TigerModule {
         taskDefs.add(complete);
         taskDefs.add(statixSpec);
         taskDefs.add(prettyPrintTaskDef);
+        taskDefs.add(explicateTaskDef);
 
         taskDefs.add(listLiteralVals);
         taskDefs.add(listDefNames);

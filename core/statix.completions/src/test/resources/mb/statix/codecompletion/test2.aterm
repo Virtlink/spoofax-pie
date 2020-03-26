@@ -2,38 +2,42 @@ Mod(
   Let(
     [ FunDecs(
         [ FunDec(
-            "fact"
-          , [FArg("n", Tid("int"))]
-          , Tid("int")
+            I2O("fact")
+          , [FArg(I2O("n"), Tid(O2TI(I2O("int"))))]
+          , Tid(O2TI(I2O("int")))
           , Let(
-              [VarDecNoType(
-                 "c"
-               , Lt(L2E(V2L(Var("n"))), Int("1"))
-               )]
+              [ VarDecNoType(
+                  I2O("c")
+                , Lt(LV2E(V2LV(Var(I2O("n")))), Int("1"))
+                )
+              ]
             , [ If(
-                  L2E(V2L(Var("c")))
+                  LV2E(V2LV(Var(I2O("c"))))
                 , Int("1")
                 , Let(
                     [ VarDec(
-                        "a"
-                      , Tid("int")
-                      , Minus(L2E(V2L(Var("n"))), Int("1"))
+                        I2O("a")
+                      , Tid(O2TI(I2O("int")))
+                      , Minus(LV2E(V2LV(Var(I2O("n")))), Int("1"))
                       )
                     , VarDec(
-                        "b"
-                      , Tid("int")
-                      , Call("fact", [L2E(V2L(Var("a")))])
+                        I2O("b")
+                      , Tid(O2TI(I2O("int")))
+                      , Call(
+                          I2O("fact")
+                        , [LV2E(V2LV(Var(I2O("a"))))]
+                        )
                       )
                     , VarDec(
-                        "c"
-                      , Tid("int")
+                        I2O("c")
+                      , Tid(O2TI(I2O("int")))
                       , Times(
-                          L2E(V2L(Var("n")))
-                        , L2E(V2L(Var("b")))
+                          LV2E(V2LV(Var(I2O("n"))))
+                        , LV2E(V2LV(Var(I2O("b"))))
                         )
                       )
                     ]
-                  , [L2E(V2L(Var("c")))]
+                  , [LV2E(V2LV(Var(I2O("c"))))]
                   )
                 )
               ]
@@ -41,8 +45,11 @@ Mod(
           )
         ]
       )
-    , VarDecNoType("r", Call("fact", [Int("10")]))
+    , VarDecNoType(
+        I2O("r")
+      , Call(I2O("fact"), [Int("10")])
+      )
     ]
-  , [L2E(V2L(Var("r")))]
+  , [LV2E(V2LV(Var(I2O("r"))))]
   )
 )

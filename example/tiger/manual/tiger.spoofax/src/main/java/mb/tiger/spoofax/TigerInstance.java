@@ -19,7 +19,6 @@ import mb.spoofax.core.language.command.CommandDef;
 import mb.spoofax.core.language.command.arg.RawArgs;
 import mb.spoofax.core.language.menu.CommandAction;
 import mb.spoofax.core.language.menu.MenuItem;
-import mb.statix.common.StatixSpecProvider;
 import mb.statix.spec.Spec;
 import mb.tiger.spoofax.command.TigerCompileDirectoryCommand;
 import mb.tiger.spoofax.command.TigerCompileFileAltCommand;
@@ -30,11 +29,8 @@ import mb.tiger.spoofax.command.TigerShowParsedAstCommand;
 import mb.tiger.spoofax.command.TigerShowPrettyPrintedTextCommand;
 import mb.tiger.spoofax.task.TigerIdeCheck;
 import mb.tiger.spoofax.task.TigerIdeTokenize;
-import mb.tiger.spoofax.task.reusable.TigerCompleteTaskDef;
-import mb.tiger.spoofax.task.reusable.TigerParse;
-import mb.tiger.spoofax.task.reusable.TigerPrettyPrintTaskDef;
-import mb.tiger.spoofax.task.reusable.TigerStatixSpecTaskDef;
-import mb.tiger.spoofax.task.reusable.TigerStyle;
+import mb.tiger.spoofax.task.reusable.*;
+import mb.tiger.spoofax.task.reusable.TigerPreAnalyzeTaskDef;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 import javax.inject.Inject;
@@ -51,6 +47,8 @@ public class TigerInstance implements LanguageInstance {
     private final TigerCompleteTaskDef completeTaskDef;
     private final TigerStatixSpecTaskDef statixSpecTaskDef;
     private final TigerPrettyPrintTaskDef prettyPrintTaskDef;
+    private final TigerPreAnalyzeTaskDef explicateTaskDef;
+//    private final TigerDeexplicateTaskDef deexplicateTaskDef;
 
     private final TigerShowParsedAstCommand showParsedAstCommand;
     private final TigerShowPrettyPrintedTextCommand showPrettyPrintedTextCommand;
@@ -72,6 +70,7 @@ public class TigerInstance implements LanguageInstance {
         TigerCompleteTaskDef completeTaskDef,
         TigerStatixSpecTaskDef statixSpecTaskDef,
         TigerPrettyPrintTaskDef prettyPrintTaskDef,
+        TigerPreAnalyzeTaskDef explicateTaskDef,
 
         TigerShowParsedAstCommand showParsedAstCommand,
         TigerShowPrettyPrintedTextCommand showPrettyPrintedTextCommand,
@@ -91,6 +90,7 @@ public class TigerInstance implements LanguageInstance {
         this.completeTaskDef = completeTaskDef;
         this.statixSpecTaskDef = statixSpecTaskDef;
         this.prettyPrintTaskDef = prettyPrintTaskDef;
+        this.explicateTaskDef = explicateTaskDef;
 
         this.showParsedAstCommand = showParsedAstCommand;
         this.showPrettyPrintedTextCommand = showPrettyPrintedTextCommand;
@@ -128,7 +128,10 @@ public class TigerInstance implements LanguageInstance {
             resourceKey,
             primarySelection.getStartOffset(),
             parse.createAstSupplier(resourceKey),
-            (c, t) -> prettyPrintTaskDef.createFunction().apply(c, new TigerPrettyPrintTaskDef.Input(c2 -> t))
+            (c, t) -> prettyPrintTaskDef.createFunction().apply(c, new TigerPrettyPrintTaskDef.Input(c2 -> t)),
+            (c, t) -> explicateTaskDef.createFunction().apply(c, new TigerPreAnalyzeTaskDef.Input(c2 -> t)),
+            null
+//            deexplicateFunction
         ));
     }
 

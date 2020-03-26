@@ -25,6 +25,7 @@ import mb.statix.codecompletion.TermCompleter;
 import mb.statix.common.SolverContext;
 import mb.statix.common.SolverState;
 import mb.nabl2.terms.stratego.PlaceholderVarMap;
+import mb.statix.spoofax.StatixTerms;
 import mb.tiger.TigerAnalyzer;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spoofax.interpreter.terms.IStrategoAppl;
@@ -37,7 +38,6 @@ import org.spoofax.terms.util.TermUtils;
 import javax.inject.Inject;
 import javax.inject.Provider;
 import java.io.Serializable;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -51,16 +51,23 @@ public class TigerCompleteTaskDef implements TaskDef<TigerCompleteTaskDef.Input,
         public final int caretLocation;
         public final Supplier<@Nullable IStrategoTerm> astSupplier;
         public final Function<IStrategoTerm, @Nullable String> prettyPrinterFunction;
+        public final Function<IStrategoTerm, @Nullable IStrategoTerm> explicateFunction;
+        public final Function<IStrategoTerm, @Nullable IStrategoTerm> deexplicateFunction;
 
         public Input(
             ResourceKey resourceKey,
             int caretLocation,
             Supplier<IStrategoTerm> astSupplier,
-            Function<IStrategoTerm, @Nullable String> prettyPrinterFunction) {
+            Function<IStrategoTerm, @Nullable String> prettyPrinterFunction,
+            Function<IStrategoTerm, @Nullable IStrategoTerm> explicateFunction,
+            Function<IStrategoTerm, @Nullable IStrategoTerm> deexplicateFunction
+        ) {
             this.resourceKey = resourceKey;
             this.caretLocation = caretLocation;
             this.astSupplier = astSupplier;
             this.prettyPrinterFunction = prettyPrinterFunction;
+            this.explicateFunction = explicateFunction;
+            this.deexplicateFunction = deexplicateFunction;
         }
     }
 
@@ -101,6 +108,12 @@ public class TigerCompleteTaskDef implements TaskDef<TigerCompleteTaskDef.Input,
             return null;   // Cannot complete when we don't get an AST.
         }
 
+        @Nullable IStrategoTerm explicatedAst = explicate(context, input, ast);
+        if (explicatedAst == null) {
+            log.error("Completion failed: we did not get an explicated AST.");
+            return null;    // Cannot complete when we don't get an explicated AST.
+        }
+
         // 3) Find the placeholder closest to the caret <- that's the one we want to complete
         @Nullable IStrategoAppl placeholder = findPlaceholderAt(ast, input.caretLocation);
         if (placeholder == null) {
@@ -136,10 +149,10 @@ public class TigerCompleteTaskDef implements TaskDef<TigerCompleteTaskDef.Input,
         // 7) Format each completion as a proposal, with pretty-printed text
         List<String> completionStrings = completionTerms.stream().map(t -> {
             try {
-                // FIXME: We should remove the explicated injections, somehow
-                // How do we know which are injections?
-                @Nullable String prettyPrinted = prettyPrint(context, t, input.prettyPrinterFunction);
-                return prettyPrinted != null ? prettyPrinted : t.toString();
+                @Nullable IStrategoTerm deexplicatedTerm = deexplicate(context, input, t);
+                if (deexplicatedTerm == null) return t.toString();  // Return the term when deexplication failed
+                @Nullable String prettyPrinted = prettyPrint(context, deexplicatedTerm, input.prettyPrinterFunction);
+                return prettyPrinted != null ? prettyPrinted : t.toString();    // Return the term when pretty-printing failed
             } catch(ExecException | InterruptedException e) {
                 throw new RuntimeException(e);
             }
@@ -189,7 +202,10 @@ public class TigerCompleteTaskDef implements TaskDef<TigerCompleteTaskDef.Input,
 
     private List<IStrategoTerm> complete(SolverContext ctx, SolverState state, ITermVar placeholderVar, PlaceholderVarMap placeholderVarMap) throws InterruptedException {
         List<TermCompleter.CompletionSolverProposal> proposalTerms = completer.complete(ctx, state, placeholderVar);
-        return proposalTerms.stream().map(p -> strategoTerms.toStratego(StrategoPlaceholders.replaceVariablesByPlaceholders(p.getTerm(), placeholderVarMap))).collect(Collectors.toList());
+        return proposalTerms.stream().map(p -> {
+            ITerm replacedTerms = StrategoPlaceholders.replaceVariablesByPlaceholders(p.getTerm(), placeholderVarMap);
+            return strategoTerms.toStratego(replacedTerms);
+        }).collect(Collectors.toList());
     }
 
     /**
@@ -253,5 +269,16 @@ public class TigerCompleteTaskDef implements TaskDef<TigerCompleteTaskDef.Input,
             imploder = originTerm != null ? ImploderAttachment.get(originTerm) : null;
         }
         return imploder;
+    }
+
+    private @Nullable IStrategoTerm explicate(ExecContext context, Input input, IStrategoTerm term) throws ExecException, InterruptedException {
+        // TODO:
+        return input.explicateFunction.apply(context, term);
+    }
+
+    private @Nullable IStrategoTerm deexplicate(ExecContext context, Input input, IStrategoTerm term) throws ExecException, InterruptedException {
+        // TODO
+        return term;
+//        return input.deexplicateFunction.apply(context, term);
     }
 }
