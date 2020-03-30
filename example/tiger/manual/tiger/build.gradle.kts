@@ -125,11 +125,11 @@ fun copySpoofaxLanguageResources(
   tasks.getByName(JavaPlugin.TEST_CLASSES_TASK_NAME).dependsOn(copyTestTask)
 }
 copySpoofaxLanguageResources(
-  createModuleDependency(compositeBuild("org.metaborg.lang.tiger")),
+  createModuleDependency(compositeBuild("org.metaborg.lang.tiger.statix")),
   "mb/tiger",
   true,
   true,
-  "target/metaborg/editor.esv.af", "target/metaborg/sdf.tbl"
+  "target/metaborg/editor.esv.af", "target/metaborg/sdf.tbl", "src-gen/statix/"
 )
 
 ecj {

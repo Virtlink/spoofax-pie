@@ -7,10 +7,12 @@ import mb.spoofax.core.language.command.CommandFeedback;
 import mb.spoofax.core.language.command.CommandOutput;
 import mb.tiger.spoofax.command.TigerShowScopeGraphCommand;
 import mb.tiger.spoofax.task.TigerShowArgs;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@Disabled
 class ShowScopeGraphTest extends TestBase {
     @Test void test() throws ExecException {
         final TextResource resource = textResourceRegistry.createResource("1 + 1", "a.tig");

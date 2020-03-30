@@ -19,6 +19,7 @@ import mb.resource.url.URLResourceRegistry;
 import mb.stratego.common.StrategoRuntime;
 import mb.stratego.common.StrategoRuntimeBuilder;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.spoofax.interpreter.terms.IStrategoTerm;
 
@@ -26,6 +27,7 @@ import java.util.HashMap;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@Disabled
 class TigerConstraintAnalyzerTest {
     private static final String qualifier = "test";
 
@@ -36,6 +38,7 @@ class TigerConstraintAnalyzerTest {
     private final StrategoRuntime strategoRuntime = strategoRuntimeBuilder.build();
     private final TigerConstraintAnalyzer analyzer = new TigerConstraintAnalyzerFactory(loggerFactory, resourceService, strategoRuntime).create();
 
+    @Disabled
     @Test void analyzeSingleErrors() throws InterruptedException, ConstraintAnalyzerException {
         final ResourceKey resource = new DefaultResourceKey(qualifier, "a.tig");
         final JSGLR1ParseResult parsed = parser.parse("1 + nil", "Module", resource);
@@ -47,6 +50,7 @@ class TigerConstraintAnalyzerTest {
         assertTrue(result.messages.containsError());
     }
 
+    @Disabled
     @Test void analyzeSingleSuccess() throws InterruptedException, ConstraintAnalyzerException {
         final ResourceKey resource = new DefaultResourceKey(qualifier, "a.tig");
         final JSGLR1ParseResult parsed = parser.parse("1 + 2", "Module", resource);
@@ -58,6 +62,7 @@ class TigerConstraintAnalyzerTest {
         assertTrue(result.messages.isEmpty());
     }
 
+    @Disabled
     @Test void analyzeMultipleErrors() throws InterruptedException, ConstraintAnalyzerException {
         final ResourceKey resource1 = new DefaultResourceKey(qualifier, "a.tig");
         final JSGLR1ParseResult parsed1 = parser.parse("1 + 1", "Module", resource1);
@@ -98,6 +103,7 @@ class TigerConstraintAnalyzerTest {
         assertTrue(foundCorrectMessage[0]);
     }
 
+    @Disabled
     @Test void analyzeMultipleSuccess() throws InterruptedException, ConstraintAnalyzerException {
         final ResourceKey resource1 = new DefaultResourceKey(qualifier, "a.tig");
         final JSGLR1ParseResult parsed1 = parser.parse("1 + 1", "Module", resource1);

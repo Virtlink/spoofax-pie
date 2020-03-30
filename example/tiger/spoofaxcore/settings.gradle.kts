@@ -25,3 +25,4 @@ if(gradle.parent == null) {
 }
 
 include("org.metaborg.lang.tiger")
+include("org.metaborg.lang.tiger.statix")

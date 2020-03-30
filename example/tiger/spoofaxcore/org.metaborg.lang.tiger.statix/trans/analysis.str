@@ -1,0 +1,45 @@
+module analysis
+
+imports
+
+  libspoofax/sdf/pp
+
+  statixruntime
+  statix/api
+
+  pp/-
+  pp
+
+rules // Analysis
+
+  // single-file analysis
+  editor-analyze = stx-editor-analyze(pre-analyze, post-analyze|"static-semantics", "programOK")
+  pre-analyze = explicate-injections(inj-name)
+  post-analyze = strip-annos //remove-injections
+  
+  // multi-file analysis
+//  editor-analyze = stx-editor-analyze(pre-analyze, post-analyze|"static-semantics", "projectOk", "fileOk")
+
+  inj-name: (sort, into-sort) -> $[[sort']2[into-sort']]
+    with sort' := <camel-abbr> sort
+    with into-sort' := <camel-abbr> into-sort
+
+  camel-abbr = explode-string; filter(is-upper); implode-string
+
+rules // Editor Services
+
+  editor-resolve = stx-editor-resolve
+
+  editor-hover = stx-editor-hover
+
+rules // Debugging
+
+  // Prints the abstract syntax ATerm of a selection.
+  debug-show-aterm: (selected, _, _, path, project-path) -> (filename, result)
+    with filename := <guarantee-extension(|"aterm")> path
+       ; result   := selected
+
+  // Prints the analyzed annotated AST.
+  debug-show-analyzed: (_, _, ast, path, project-path) -> (filename, result)
+    with filename := <guarantee-extension(|"analyzed.aterm")> path
+       ; result   := ast
