@@ -13,12 +13,13 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spoofax.interpreter.terms.IStrategoTerm;
 
 import javax.inject.Inject;
+import javax.inject.Provider;
 import java.io.Serializable;
 
 /**
  * Explicates the injections of an input AST in the Tiger language.
  */
-public final class TigerPreAnalyzeTaskDef implements TaskDef<TigerPreAnalyzeTaskDef.Input, @Nullable IStrategoTerm> {
+public final class TigerPreAnalyzeTaskDef extends StrategoTaskDefBase<TigerPreAnalyzeTaskDef.Input, @Nullable IStrategoTerm> {
 
     public static class Input implements Serializable {
         public final Supplier<@Nullable IStrategoTerm> termSupplier;
@@ -28,48 +29,18 @@ public final class TigerPreAnalyzeTaskDef implements TaskDef<TigerPreAnalyzeTask
         }
     }
 
-    private final Logger log;
-    private final StrategoRuntimeBuilder strategoRuntimeBuilder;
-    private final StrategoRuntime prototypeStrategoRuntime;
-
     @Inject public TigerPreAnalyzeTaskDef(
-        StrategoRuntimeBuilder strategoRuntimeBuilder,
-        StrategoRuntime prototypeStrategoRuntime,
+        Provider<StrategoRuntime> strategoRuntimeProvider,
         LoggerFactory loggerFactory
     ) {
-        this.strategoRuntimeBuilder = strategoRuntimeBuilder;
-        this.prototypeStrategoRuntime = prototypeStrategoRuntime;
-        this.log = loggerFactory.create(TigerPreAnalyzeTaskDef.class);
-    }
-
-    @Override public String getId() {
-        return getClass().getName();
+        super(strategoRuntimeProvider, loggerFactory);
     }
 
     @Override public @Nullable IStrategoTerm exec(ExecContext context, Input input) throws Exception {
-
-        @Nullable final IStrategoTerm term = input.termSupplier.get(context);
-        if(term == null) {
-            log.error("Cannot show pretty-printed text, got no input.");
-            return null;
-        }
-
-        final StrategoRuntime strategoRuntime = strategoRuntimeBuilder.buildFromPrototype(prototypeStrategoRuntime);
-        final String strategyId = "pre-analyze";
-        try {
-            final @Nullable IStrategoTerm result = strategoRuntime.invoke(strategyId, term);
-            if(result == null) {
-                log.error("Cannot show pretty-printed text, executing Stratego strategy '{}' failed with input: {}", strategyId, term);
-                return null;
-            }
-            return result;
-        } catch (StrategoException e) {
-            log.error("Cannot show pretty-printed text, executing Stratego strategy '{}' failed with input: {}", e, strategyId, term);
-            return null;
-        }
+        return callStrategy("pre-analyze", input.termSupplier.get(context));
     }
 
-    @Override public Task<IStrategoTerm> createTask(Input input) {
-        return TaskDef.super.createTask(input);
-    }
+//    @Override public Task<IStrategoTerm> createTask(Input input) {
+//        return StrategoTaskDefBase.super.createTask(input);
+//    }
 }
