@@ -122,7 +122,7 @@ public class TigerCompleteTaskDef implements TaskDef<TigerCompleteTaskDef.Input,
         }
 
         // Convert to Statix AST
-        IStrategoTerm annotatedAst = StrategoTermIndices.index(ast, input.resourceKey.toString(), termFactory);
+        IStrategoTerm annotatedAst = StrategoTermIndices.index(explicatedAst, input.resourceKey.toString(), termFactory);
         ITerm tmpStatixAst = strategoTerms.fromStratego(annotatedAst);
         PlaceholderVarMap placeholderVarMap = new PlaceholderVarMap(input.resourceKey.toString());
         ITerm statixAst = StrategoPlaceholders.replacePlaceholdersByVariables(tmpStatixAst, placeholderVarMap);

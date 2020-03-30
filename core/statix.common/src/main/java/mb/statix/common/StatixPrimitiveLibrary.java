@@ -28,6 +28,7 @@ public class StatixPrimitiveLibrary extends AbstractStrategoOperatorRegistry {
         add(new STX_solve_constraint());
         add(new STX_solve_multi_file());
         add(new STX_solve_multi_project());
+        add(new ExplicateInjectionsPrimitive());
     }
 
     @Override public String getOperatorRegistryName() {

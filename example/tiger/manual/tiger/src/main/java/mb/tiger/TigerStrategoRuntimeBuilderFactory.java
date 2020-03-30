@@ -5,6 +5,7 @@ import mb.log.api.LoggerFactory;
 import mb.nabl2.common.NaBL2PrimitiveLibrary;
 import mb.resource.ResourceService;
 import mb.spoofax.compiler.interfaces.spoofaxcore.StrategoRuntimeBuilderFactory;
+import mb.statix.common.StatixPrimitiveLibrary;
 import mb.stratego.common.StrategoRuntimeBuilder;
 
 public class TigerStrategoRuntimeBuilderFactory implements StrategoRuntimeBuilderFactory {
@@ -13,6 +14,7 @@ public class TigerStrategoRuntimeBuilderFactory implements StrategoRuntimeBuilde
         builder.addInteropRegistererByReflection("org.metaborg.lang.tiger.statix.trans.InteropRegisterer");
         builder.addInteropRegistererByReflection("org.metaborg.lang.tiger.statix.strategies.InteropRegisterer");
         builder.withJarParentClassLoader(TigerStrategoRuntimeBuilderFactory.class.getClassLoader());
+        builder.addLibrary(new StatixPrimitiveLibrary());
         builder.addLibrary(new NaBL2PrimitiveLibrary());
         builder.addLibrary(new ConstraintPrimitiveLibrary(resourceService));
         return builder;
