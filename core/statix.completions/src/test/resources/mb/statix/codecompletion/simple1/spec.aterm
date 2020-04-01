@@ -1,0 +1,58 @@
+Spec(
+  []
+, [Decl()]
+, EOP()
+, [ Rule(NoName(), C("statics!projectOk", [Var("s"){OfSort(SCOPE())}]), CTrue())
+  , Rule(
+      NoName()
+    , C(
+        "statics!fileOk"
+      , [Var("s"){OfSort(SCOPE())}, Op("Block", [List([]){OfSort(LIST(SORT("Stmt")))}]){OfSort(SORT("Start"))}]
+      )
+    , CTrue()
+    )
+  , Rule(
+      NoName()
+    , C("statics!programOK", [Op("Block", [Var("stmts"){OfSort(LIST(SORT("Stmt")))}]){OfSort(SORT("Start"))}])
+    , CExists(
+        [Var("s"){OfSort(SCOPE())}]
+      , CConj(
+          CNew([Var("s"){OfSort(SCOPE())}])
+        , C("statics!stmtsOk", [Var("s"){OfSort(SCOPE())}, Var("stmts"){OfSort(LIST(SORT("Stmt")))}], NoMessage())
+        )
+      )
+    )
+  , Rule(
+      NoName()
+    , C("statics!stmtOk", [Var("s"){OfSort(SCOPE())}, Op("A", []){OfSort(SORT("Stmt"))}])
+    , CTrue()
+    )
+  , Rule(
+      NoName()
+    , C("statics!stmtOk", [Var("s"){OfSort(SCOPE())}, Op("B", []){OfSort(SORT("Stmt"))}])
+    , CTrue()
+    )
+  , Rule(
+      NoName()
+    , C("statics!stmtOk", [Var("s"){OfSort(SCOPE())}, Op("Stmt-Plhdr", []){OfSort(SORT("Stmt"))}])
+    , CTrue()
+    )
+  , Rule(
+      NoName()
+    , C("statics!stmtsOk", [Wld(){OfSort(SCOPE())}, List([]){OfSort(LIST(SORT("Stmt")))}])
+    , CTrue()
+    )
+  , Rule(
+      NoName()
+    , C(
+        "statics!stmtsOk"
+      , [Var("x_1"){OfSort(SCOPE())}, ListTail([Var("x_2"){OfSort(SORT("Stmt"))}], Var("xs_2"){OfSort(LIST(SORT("Stmt")))}){OfSort(LIST(SORT("Stmt")))}]
+      )
+    , CConj(
+        C("statics!stmtOk", [Var("x_1"){OfSort(SCOPE())}, Var("x_2"){OfSort(SORT("Stmt"))}], NoMessage())
+      , C("statics!stmtsOk", [Var("x_1"){OfSort(SCOPE())}, Var("xs_2"){OfSort(LIST(SORT("Stmt")))}], NoMessage())
+      )
+    )
+  ]
+, []
+)

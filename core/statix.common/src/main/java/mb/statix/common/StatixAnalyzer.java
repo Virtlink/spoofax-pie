@@ -66,8 +66,8 @@ public class StatixAnalyzer {
      * @return the resulting solver state
      * @throws InterruptedException
      */
-    public SolverState analyze(SolverContext ctx, ITerm statixAst) throws InterruptedException {
-        IConstraint rootConstraint = getRootConstraint(statixAst, "static-semantics");   /* TODO: Get the spec name from the spec? */
+    public SolverState analyze(SolverContext ctx, ITerm statixAst, String specName, String rootRuleName) throws InterruptedException {
+        IConstraint rootConstraint = getRootConstraint(statixAst, specName, rootRuleName);
         log.info("Analyzing: " + rootConstraint);
         return analyze(ctx, spec.getSpec(), rootConstraint);
     }
@@ -77,8 +77,7 @@ public class StatixAnalyzer {
      *
      * @return the root constraint
      */
-    private IConstraint getRootConstraint(ITerm statixAst, String specName) {
-        String rootRuleName = "programOK";      // FIXME: Ability to specify root rule somewhere
+    private IConstraint getRootConstraint(ITerm statixAst, String specName, String rootRuleName) {
         String qualifiedName = makeQualifiedName(specName, rootRuleName);
         return new CUser(qualifiedName, Collections.singletonList(statixAst), null);
     }

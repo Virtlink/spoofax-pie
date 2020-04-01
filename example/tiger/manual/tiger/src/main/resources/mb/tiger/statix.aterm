@@ -195,12 +195,12 @@ Spec(
       NoName()
     , C(
         "static-semantics!lookupType"
-      , [Var("s"){OfSort(SCOPE())}, Var("x"){OfSort(STRING())}, Var("out2"){OfSort(SORT("TYPE"))}]
+      , [Var("s"){OfSort(SCOPE())}, Var("x"){OfSort(STRING())}, Var("out0"){OfSort(SORT("TYPE"))}]
       )
     , CExists(
         [Var("T"){OfSort(SORT("TYPE"))}]
       , CConj(
-          CEqual(Var("out2"){OfSort(SORT("TYPE"))}, Var("T"){OfSort(SORT("TYPE"))}, NoMessage())
+          CEqual(Var("out0"){OfSort(SORT("TYPE"))}, Var("T"){OfSort(SORT("TYPE"))}, NoMessage())
         , CExists(
             [Var("x'"){OfSort(STRING())}, Var("wld9"){OfSort(PATH())}, Var("wld10"){ OfSort(
                                                                                        LIST(
@@ -320,12 +320,12 @@ Spec(
       NoName()
     , C(
         "static-semantics!lookupVar"
-      , [Var("s"){OfSort(SCOPE())}, Var("x"){OfSort(STRING())}, Var("out3"){OfSort(SORT("TYPE"))}]
+      , [Var("s"){OfSort(SCOPE())}, Var("x"){OfSort(STRING())}, Var("out1"){OfSort(SORT("TYPE"))}]
       )
     , CExists(
         [Var("T"){OfSort(SORT("TYPE"))}]
       , CConj(
-          CEqual(Var("out3"){OfSort(SORT("TYPE"))}, Var("T"){OfSort(SORT("TYPE"))}, NoMessage())
+          CEqual(Var("out1"){OfSort(SORT("TYPE"))}, Var("T"){OfSort(SORT("TYPE"))}, NoMessage())
         , CExists(
             [Var("x'"){OfSort(STRING())}, Var("wld13"){OfSort(PATH())}, Var("wld14"){ OfSort(
                                                                                         LIST(
@@ -2718,9 +2718,9 @@ Spec(
       NoName()
     , C(
         "static-semantics!typesOfArgs"
-      , [Wld(){OfSort(SCOPE())}, Wld(){OfSort(SCOPE())}, List([]){OfSort(LIST(SORT("FArg")))}, Var("out100"){OfSort(LIST(SORT("TYPE")))}]
+      , [Wld(){OfSort(SCOPE())}, Wld(){OfSort(SCOPE())}, List([]){OfSort(LIST(SORT("FArg")))}, Var("out49"){OfSort(LIST(SORT("TYPE")))}]
       )
-    , CConj(CEqual(Var("out100"){OfSort(LIST(SORT("TYPE")))}, List([]){OfSort(LIST(SORT("TYPE")))}, NoMessage()), CTrue())
+    , CConj(CEqual(Var("out49"){OfSort(LIST(SORT("TYPE")))}, List([]){OfSort(LIST(SORT("TYPE")))}, NoMessage()), CTrue())
     )
   , Rule(
       NoName()
@@ -2729,14 +2729,14 @@ Spec(
       , [ Var("x_1"){OfSort(SCOPE())}
         , Var("x_2"){OfSort(SCOPE())}
         , ListTail([Var("x_3"){OfSort(SORT("FArg"))}], Var("xs_3"){OfSort(LIST(SORT("FArg")))}){OfSort(LIST(SORT("FArg")))}
-        , Var("out101"){OfSort(LIST(SORT("TYPE")))}
+        , Var("out50"){OfSort(LIST(SORT("TYPE")))}
         ]
       )
     , CExists(
         [Var("y_1"){OfSort(SORT("TYPE"))}, Var("ys_1"){OfSort(LIST(SORT("TYPE")))}, Var("typeOfArg0"){OfSort(SORT("TYPE"))}, Var("typesOfArgs2"){OfSort(LIST(SORT("TYPE")))}]
       , CConj(
           CEqual(
-            Var("out101"){OfSort(LIST(SORT("TYPE")))}
+            Var("out50"){OfSort(LIST(SORT("TYPE")))}
           , ListTail([Var("y_1"){OfSort(SORT("TYPE"))}], Var("ys_1"){OfSort(LIST(SORT("TYPE")))}){OfSort(LIST(SORT("TYPE")))}
           , NoMessage()
           )

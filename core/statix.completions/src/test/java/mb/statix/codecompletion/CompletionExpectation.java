@@ -95,12 +95,16 @@ abstract class CompletionExpectation<T extends ITerm> {
             return null;
         }
         ITerm expectedTerm = getExpectations().get(var);
+        if (expectedTerm == null) {
+            throw new IllegalStateException("expected term is null");
+        }
         // Does the term we got, including variables, match the expected term?
         Optional<ISubstitution.Immutable> optSubstitution = TermPattern.P.fromTerm(term).match(expectedTerm);
         if (!optSubstitution.isPresent()) return null;
         // Yes, and the substitution shows the new variables and their expected term values
         ISubstitution.Immutable substitution = optSubstitution.get();
-        HashMap<ITermVar, ITerm> expectedAsts = new HashMap<>();
+        HashMap<ITermVar, ITerm> expectedAsts = new HashMap<>(this.getExpectations());
+        expectedAsts.remove(var);
         for(Map.Entry<ITermVar, ITerm> entry : substitution.entrySet()) {
             expectedAsts.put(entry.getKey(), entry.getValue());
         }

@@ -132,7 +132,8 @@ public class TigerCompleteTaskDef implements TaskDef<TigerCompleteTaskDef.Input,
         //    which should have some remaining constraints on the placeholder.
         //    TODO: What to do when the file is semantically incorrect? Recovery?
         SolverContext ctx = analyzer.createContext();
-        SolverState initialState = analyzer.analyze(ctx, statixAst);
+        // TODO: Specify spec name and root rule name somewhere
+        SolverState initialState = analyzer.analyze(ctx, statixAst, "static-semantics", "programOK");
         if (initialState.hasErrors()) {
             log.error("Completion failed: input program validation failed.\n" + initialState.toString());
             return null;    // Cannot complete when analysis fails.

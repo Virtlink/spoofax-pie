@@ -48,76 +48,55 @@ public class CompletenessTest {
     private static final Logger log = loggerFactory.create(CompletenessTest.class);
     private static final String TESTPATH = "mb/statix/codecompletion";
     private static final String TIGER_SPEC_PATH = TESTPATH + "/spec.aterm";
+    private static final String TIGER_SPEC_SIMPLE1_PATH = TESTPATH + "/simple1/spec.aterm";
 
     @TestFactory
     public List<DynamicTest> completenessTests() {
         //noinspection ArraysAsListWithZeroOrOneArgument
         return Arrays.asList(
-            completenessTest(TESTPATH + "/test1.aterm", TESTPATH + "/test1.input.aterm", TIGER_SPEC_PATH)
-//            completenessTest(TESTPATH + "/test2.aterm", TESTPATH + "/test2.input.aterm", TIGER_SPEC_PATH)
+            completenessTest(TESTPATH + "/simple1/test1.aterm", TESTPATH + "/simple1/test1.input.aterm", TIGER_SPEC_SIMPLE1_PATH, "statics", "programOK"),
+            completenessTest(TESTPATH + "/test1.aterm", TESTPATH + "/test1.input.aterm", TIGER_SPEC_PATH, "static-semantics", "programOK")
+            //completenessTest(TESTPATH + "/test2.aterm", TESTPATH + "/test2.input.aterm", TIGER_SPEC_PATH, "static-semantics", "programOK")
         );
     }
 
-    private DynamicTest completenessTest(String expectedTermPath, String inputTermPath, String specPath) {
+    private DynamicTest completenessTest(String expectedTermPath, String inputTermPath, String specPath, String specName, String rootRuleName) {
         return DynamicTest.dynamicTest("complete file " + Paths.get(inputTermPath).getFileName() + " to " + Paths.get(expectedTermPath).getFileName() + " using spec " + Paths.get(specPath).getFileName() + "",
             () -> {
                 StatixSpec spec = StatixSpec.fromClassLoaderResources(CompletenessTest.class, specPath);
                 IStrategoTerm expectedTerm = MoreTermUtils.fromClassLoaderResources(CompletenessTest.class, expectedTermPath);
                 IStrategoTerm inputTerm = MoreTermUtils.fromClassLoaderResources(CompletenessTest.class, inputTermPath);
-                doCompletenessTest(expectedTerm, inputTerm, spec);
+                doCompletenessTest(expectedTerm, inputTerm, spec, specName, rootRuleName);
             });
     }
 
-    private void doCompletenessTest(IStrategoTerm expectedTerm, IStrategoTerm inputTerm, StatixSpec spec) throws InterruptedException, IOException {
+    private void doCompletenessTest(IStrategoTerm expectedTerm, IStrategoTerm inputTerm, StatixSpec spec, String specName, String rootRuleName) throws InterruptedException, IOException {
         ITermFactory termFactory = new TermFactory();
         StrategoTerms strategoTerms = new StrategoTerms(termFactory);
         ResourceKey resourceKey = new DefaultResourceKey("test", "ast");
 
         IStrategoTerm annotatedExpectedTerm = StrategoTermIndices.index(expectedTerm, resourceKey.toString(), termFactory);
         ITerm expectedStatixTerm = strategoTerms.fromStratego(annotatedExpectedTerm);
-//        PlaceholderVarMap placeholderVarMap = new PlaceholderVarMap(resourceKey.toString());
-//        ITerm statixAst = StrategoPlaceholders.replacePlaceholdersByVariables(tmpStatixAst, placeholderVarMap);
 
         IStrategoTerm annotatedInputTerm = StrategoTermIndices.index(inputTerm, resourceKey.toString(), termFactory);
         ITerm inputStatixTerm = strategoTerms.fromStratego(annotatedInputTerm);
 
-        doCompletenessTest(expectedStatixTerm, inputStatixTerm, spec, termFactory, resourceKey);
+        doCompletenessTest(expectedStatixTerm, inputStatixTerm, spec, termFactory, resourceKey, specName, rootRuleName);
     }
 
-//    private void doCompletenessTestRandom(ITerm expectedTerm, StatixSpec spec, ITermFactory termFactory, ResourceKey resourceKey) throws InterruptedException, IOException {
-//        AtomicInteger varI = new AtomicInteger();
-//        AstShooter shooter = new AstShooter(new Random(1337), resourceKey.toString(), () -> "v" + varI.getAndIncrement());
-//        ImmutableCompletionExpectation<? extends ITerm> completionExpectation = shooter.shootHoleInTerm(expectedTerm, 3);
-//        doCompletenessTest(expectedTerm, completionExpectation.getIncompleteAst(), spec, termFactory, resourceKey);
-//    }
-
-    private void doCompletenessTest(ITerm expectedTerm, ITerm inputTerm, StatixSpec spec, ITermFactory termFactory, ResourceKey resourceKey) throws InterruptedException, IOException {
-//        ITermFactory termFactory = new TermFactory();
-//        StrategoTerms strategoTerms = new StrategoTerms(termFactory);
-//        StatixSpec spec = StatixSpec.fromClassLoaderResources(CompletenessTest.class, specPath);//"mb/statix/codecompletion/spec.aterm");
-//        ResourceKey resourceKey = new DefaultResourceKey("test", "ast");
-//        IStrategoTerm expectedAst = MoreTermUtils.fromClassLoaderResources(CompletenessTest.class, inputAtermPath);//"mb/statix/codecompletion/test1.aterm");
+    private void doCompletenessTest(ITerm expectedTerm, ITerm inputTerm, StatixSpec spec, ITermFactory termFactory, ResourceKey resourceKey, String specName, String rootRuleName) throws InterruptedException, IOException {
         TermCompleter completer = new TermCompleter();
         StatixAnalyzer analyzer = new StatixAnalyzer(spec, termFactory, loggerFactory);
-//        AtomicInteger varI = new AtomicInteger();
-//        AstShooter shooter = new AstShooter(new Random(1337), resourceKey.toString(), () -> "v" + varI.getAndIncrement());
-
-        // Get a Statix AST with term variables
-//        IStrategoTerm annotatedAst = StrategoTermIndices.index(expectedTerm, resourceKey.toString(), termFactory);
-//        ITerm tmpStatixAst = strategoTerms.fromStratego(annotatedAst);
-//        PlaceholderVarMap placeholderVarMap = new PlaceholderVarMap(resourceKey.toString());
-//        ITerm statixAst = StrategoPlaceholders.replacePlaceholdersByVariables(tmpStatixAst, placeholderVarMap);
 
         // Preparation
         long prepStartTime = System.nanoTime();
         ImmutableCompletionExpectation<? extends ITerm> completionExpectation = ImmutableCompletionExpectation.fromTerm(inputTerm, expectedTerm, resourceKey.toString());
 
-//        ImmutableCompletionExpectation<? extends ITerm> completionExpectation = shooter.shootHoleInTerm(expectedTerm, 3);
         // Get the solver state of the program (whole project),
         // which should have some remaining constraints on the placeholders.
         SolverContext ctx = analyzer.createContext();
         long analyzeStartTime = System.nanoTime();
-        SolverState initialState = analyzer.analyze(ctx, completionExpectation.getIncompleteAst());
+        SolverState initialState = analyzer.analyze(ctx, completionExpectation.getIncompleteAst(), specName, rootRuleName);
         if (initialState.hasErrors()) {
             fail("Completion failed: input program validation failed.\n" + initialState.toString());
             return;
@@ -148,11 +127,18 @@ public class CompletenessTest {
                     // and otherwise the first one (could also use the biggest one instead)
                     candidates.sort(Comparator.comparingInt(o -> o.getVars().size()));
                     completionExpectation = candidates.get(0);
+                } else if(candidates.size() == 0){
+                    // No candidates, completion algorithm is not complete
+                    fail(() -> "Could not complete var " + var + " in AST:\n  " + currentCompletionExpectation.getIncompleteAst() + "\n" +
+                        "Expected:\n  " + currentCompletionExpectation.getExpectations().get(var) + "\n" +
+                        "Got NO proposals. State:\n  " + state);
+                    return;
                 } else {
                     // No candidates, completion algorithm is not complete
                     fail(() -> "Could not complete var " + var + " in AST:\n  " + currentCompletionExpectation.getIncompleteAst() + "\n" +
                         "Expected:\n  " + currentCompletionExpectation.getExpectations().get(var) + "\n" +
-                        "Got proposals:\n  " + proposals.stream().map(p -> p.getTerm().toString()).collect(Collectors.joining("\n  ")));
+                        "Got proposals:\n  " + proposals.stream().map(p -> p.getTerm().toString()).collect(Collectors.joining("\n  ")) + "\n" +
+                        "State:\n  " + state);
                     return;
                 }
                 stepCount += 1;

@@ -21,6 +21,8 @@ public class TigerAnalyzerFactory {
         this.termFactory = termFactory;
         this.loggerFactory = loggerFactory;
         this.spec = StatixSpec.fromClassLoaderResources(TigerAnalyzerFactory.class, "/mb/tiger/statix.aterm");
+        // TODO: This is a FileSpec(), we need a Spec():
+//        this.spec = StatixSpec.fromClassLoaderResources(TigerAnalyzerFactory.class, "/mb/tiger/src-gen/static/static-semantics.spec.aterm");
     }
 
     public TigerAnalyzer create() {
