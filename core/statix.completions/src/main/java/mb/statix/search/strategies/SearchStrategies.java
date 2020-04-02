@@ -1,8 +1,10 @@
 package mb.statix.search.strategies;
 
+import mb.statix.common.SolverState;
 import mb.statix.common.strategies.InferStrategy;
 import mb.statix.solver.IConstraint;
 
+import java.util.function.BiPredicate;
 import java.util.function.Predicate;
 
 
@@ -46,7 +48,7 @@ public final class SearchStrategies {
      * @param <C> the type of constraints to focus on
      * @return the resulting strategy
      */
-    public static <C extends IConstraint> FocusStrategy<C> focus(Class<C> constraintClass, Predicate<C> predicate) {
+    public static <C extends IConstraint> FocusStrategy<C> focus(Class<C> constraintClass, BiPredicate<C, SolverState> predicate) {
         return new FocusStrategy<>(constraintClass, predicate);
     }
 
@@ -58,7 +60,7 @@ public final class SearchStrategies {
      * @return the resulting strategy
      */
     public static <C extends IConstraint> FocusStrategy<C> focus(Class<C> constraintClass) {
-        return focus(constraintClass, c -> true);
+        return focus(constraintClass, (c, s) -> true);
     }
 
     /**

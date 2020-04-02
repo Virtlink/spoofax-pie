@@ -9,7 +9,10 @@ import mb.statix.constraints.CUser;
 import mb.statix.search.FocusedSolverState;
 import mb.statix.search.strategies.LimitStrategy;
 import mb.statix.search.strategies.Strategies;
+import one.util.streamex.StreamEx;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -26,38 +29,19 @@ public final class TermCompleter {
 
     private static Strategy<FocusedSolverState<CUser>, SolverState, SolverContext> completionStrategyCont =
         // @formatter:off
-        seq(expandRule())
-         .$(infer())
-         .$(isSuccessful())
+        seq(print("Expand: ", expandRule()))
+         .$(print("Infer: ", infer()))
+         .$(print("Success: ", isSuccessful()))
          .$(delayStuckQueries())
-         .$(repeat(seq(limit(1, focus(CResolveQuery.class)))
+         .$(repeat(print("Repetition: ", seq(limit(1, focus(CResolveQuery.class)))
             .$(expandQuery())
             .$(infer())
             .$(isSuccessful())
             .$(delayStuckQueries())
             .$()
-         ))
+         )))
          .$();
     // @formatter:on
-
-//    private static Strategy<SolverState, SolverState, SolverContext> completionStrategy =
-//    // @formatter:off
-//        seq(Strategies.<SolverState, SolverContext>id())
-//         .$(seq(limit(1, focus(CUser.class)))
-//             .$(expandRule())
-//             .$(infer())
-//             .$(isSuccessful())
-//             .$(delayStuckQueries())
-//             .$())
-//         .$(repeat(seq(limit(1, focus(CResolveQuery.class)))
-//            .$(expandQuery())
-//            .$(infer())
-//            .$(isSuccessful())
-//            .$(delayStuckQueries())
-//            .$()
-//         ))
-//         .$();
-//    // @formatter:on
 
     /**
      * Completes the specified constraint.
@@ -68,7 +52,14 @@ public final class TermCompleter {
      * @return the resulting completion proposals
      */
     public List<CompletionSolverProposal> complete(SolverContext ctx, SolverState state, ITermVar placeholderVar) throws InterruptedException {
-        return completeNodes(ctx, state, placeholderVar).map(s -> new CompletionSolverProposal(s, project(placeholderVar, s))).collect(Collectors.toList());
+        ITerm termInUnifier = state.getState().unifier().findRecursive(placeholderVar);
+        if (!termInUnifier.equals(placeholderVar)) {
+            // The variable we're looking for is already in the unifier
+            return Collections.singletonList(new CompletionSolverProposal(state, termInUnifier));
+        } else {
+            // The variable we're looking for is not in the unifier
+            return completeNodes(ctx, state, placeholderVar).map(s -> new CompletionSolverProposal(s, project(placeholderVar, s))).collect(Collectors.toList());
+        }
     }
 
     /**
@@ -84,18 +75,23 @@ public final class TermCompleter {
     }
 
     private Strategy<SolverState, SolverState, SolverContext> buildCompletionStrategy(ITermVar placeholderVar, Strategy<FocusedSolverState<CUser>, SolverState, SolverContext> continuation) {
-        return seq(limit(1, focus(CUser.class, c -> c.args().stream().anyMatch(a -> a.getVars().contains(placeholderVar)))))
+//        return seq(limit(1, focus(CUser.class, (c, s) -> c.args().stream().anyMatch(a -> a.getVars().contains(placeholderVar)))))
+        return seq(print("Focus ("+placeholderVar+"): ", limit(1, focus(CUser.class, (c, s) -> constraintContainsVar(s, c, placeholderVar)))))
             .$(continuation)
             .$();
     }
 
+    private static boolean constraintContainsVar(SolverState state, CUser constraint, ITermVar var) {
+        // We use the unifier to get all the variables in each of the argument to the constraint
+        // (or the constraint argument itself when there where no variables and the argument is a term var)
+        // and see if any match the var we're looking for.
+        return constraint.args().stream().anyMatch(a -> StreamEx.of(state.getState().unifier().getVars(a))
+            .ifEmpty(a instanceof ITermVar ? Stream.of((ITermVar)a) : Stream.empty())
+            .anyMatch(var::equals));
+    }
+
     private static ITerm project(ITermVar placeholderVar, SolverState s) {
         return s.getState().unifier().findRecursive(placeholderVar);
-//        if(s.getExistentials() != null && s.getExistentials().containsKey(placeholderVar)) {
-//            return s.getState().unifier().findRecursive(s.getExistentials().get(placeholderVar));
-//        } else {
-//            return placeholderVar;
-//        }
     }
 
     /**

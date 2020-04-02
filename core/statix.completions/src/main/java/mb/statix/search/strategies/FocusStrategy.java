@@ -7,6 +7,7 @@ import mb.statix.search.*;
 import mb.statix.solver.IConstraint;
 
 import java.util.Optional;
+import java.util.function.BiPredicate;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
@@ -17,7 +18,7 @@ import java.util.stream.Stream;
 public final class FocusStrategy<C extends IConstraint> implements Strategy<SolverState, FocusedSolverState<C>, SolverContext> {
 
     private final Class<C> constraintClass;
-    private final Predicate<C> predicate;
+    private final BiPredicate<C, SolverState> predicate;
 
     /**
      * Initializes a new instance of the {@link FocusStrategy} class.
@@ -25,7 +26,7 @@ public final class FocusStrategy<C extends IConstraint> implements Strategy<Solv
      * @param constraintClass the class of constraints that can be focused on
      * @param predicate the predicate that determine which constraints to focus on
      */
-    public FocusStrategy(Class<C> constraintClass, Predicate<C> predicate) {
+    public FocusStrategy(Class<C> constraintClass, BiPredicate<C, SolverState> predicate) {
         this.constraintClass = constraintClass;
         this.predicate = predicate;
     }
@@ -36,7 +37,7 @@ public final class FocusStrategy<C extends IConstraint> implements Strategy<Solv
         Optional<C> focus = input.getConstraints().stream()
                 .filter(c -> constraintClass.isAssignableFrom(c.getClass()))
                 .map(c -> (C)c)
-                .filter(predicate)
+                .filter(c -> predicate.test(c, input))
                 .findFirst();
         return focus.map(c -> Stream.of(new FocusedSolverState<>(input, c))).orElseGet(Stream::empty);
 

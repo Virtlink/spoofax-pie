@@ -54,9 +54,9 @@ public class CompletenessTest {
     public List<DynamicTest> completenessTests() {
         //noinspection ArraysAsListWithZeroOrOneArgument
         return Arrays.asList(
-            completenessTest(TESTPATH + "/simple1/test1.aterm", TESTPATH + "/simple1/test1.input.aterm", TIGER_SPEC_SIMPLE1_PATH, "statics", "programOK"),
-            completenessTest(TESTPATH + "/test1.aterm", TESTPATH + "/test1.input.aterm", TIGER_SPEC_PATH, "static-semantics", "programOK")
-            //completenessTest(TESTPATH + "/test2.aterm", TESTPATH + "/test2.input.aterm", TIGER_SPEC_PATH, "static-semantics", "programOK")
+            //completenessTest(TESTPATH + "/simple1/test1.aterm", TESTPATH + "/simple1/test1.input.aterm", TIGER_SPEC_SIMPLE1_PATH, "statics", "programOK"),
+            //completenessTest(TESTPATH + "/test1.aterm", TESTPATH + "/test1.input.aterm", TIGER_SPEC_PATH, "static-semantics", "programOK")
+            completenessTest(TESTPATH + "/test2.aterm", TESTPATH + "/test2.input.aterm", TIGER_SPEC_PATH, "static-semantics", "programOK")
         );
     }
 
@@ -127,18 +127,12 @@ public class CompletenessTest {
                     // and otherwise the first one (could also use the biggest one instead)
                     candidates.sort(Comparator.comparingInt(o -> o.getVars().size()));
                     completionExpectation = candidates.get(0);
-                } else if(candidates.size() == 0){
-                    // No candidates, completion algorithm is not complete
-                    fail(() -> "Could not complete var " + var + " in AST:\n  " + currentCompletionExpectation.getIncompleteAst() + "\n" +
-                        "Expected:\n  " + currentCompletionExpectation.getExpectations().get(var) + "\n" +
-                        "Got NO proposals. State:\n  " + state);
-                    return;
                 } else {
                     // No candidates, completion algorithm is not complete
                     fail(() -> "Could not complete var " + var + " in AST:\n  " + currentCompletionExpectation.getIncompleteAst() + "\n" +
                         "Expected:\n  " + currentCompletionExpectation.getExpectations().get(var) + "\n" +
-                        "Got proposals:\n  " + proposals.stream().map(p -> p.getTerm().toString()).collect(Collectors.joining("\n  ")) + "\n" +
-                        "State:\n  " + state);
+                        "From proposals:\n  " + proposals.stream().map(p -> p.getTerm() + "\n  " + p.getNewState()).collect(Collectors.joining("\n  ")) + "\n" +
+                        "Got NO candidates. State:\n  " + state);
                     return;
                 }
                 stepCount += 1;

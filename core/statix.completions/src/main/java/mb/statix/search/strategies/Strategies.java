@@ -85,8 +85,21 @@ public final class Strategies {
      * @param <CTX> the context of the strategy
      * @return the resulting strategy
      */
+    public static <T, R, CTX> DebugStrategy<T, R, CTX> print(String prefix, Strategy<T, R, CTX> s) {
+        return new DebugStrategy<>(s, v -> System.out.println(prefix + v.toString()));
+    }
+
+    /**
+     * Prints all values resulting from the given strategy.
+     *
+     * @param s the strategy
+     * @param <T> the type of input for the strategy
+     * @param <R> the type of outputs for the strategy
+     * @param <CTX> the context of the strategy
+     * @return the resulting strategy
+     */
     public static <T, R, CTX> DebugStrategy<T, R, CTX> print(Strategy<T, R, CTX> s) {
-        return new DebugStrategy<>(s, v -> System.out.println(v.toString()));
+        return print("", s);
     }
 
     /**
