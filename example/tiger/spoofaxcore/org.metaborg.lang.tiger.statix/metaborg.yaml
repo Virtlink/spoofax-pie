@@ -5,10 +5,14 @@ dependencies:
   compile:
   - org.metaborg:org.metaborg.meta.lang.esv:${metaborgVersion}
   - org.metaborg:org.metaborg.meta.lang.template:${metaborgVersion}
+  - org.metaborg:sdf3.ext.statix:${metaborgVersion}
   - org.metaborg:statix.lang:${metaborgVersion}
   source:
   - org.metaborg:meta.lib.spoofax:${metaborgVersion}
   - org.metaborg:statix.runtime:${metaborgVersion}
+runtime:
+  nabl2:
+    debug: analysis files
 pardonedLanguages:
 - EditorService
 - Stratego-Sugar
