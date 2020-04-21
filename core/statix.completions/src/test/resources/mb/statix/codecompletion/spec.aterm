@@ -1,10 +1,10 @@
 Spec(
   [Label("static-semantics!R"), Label("static-semantics!P")]
-, [Decl(), Label("static-semantics!typeOfDecl")]
+, [Label("static-semantics!typeOfDecl"), Decl()]
 , EOP()
 , [ Rule(
       NoName()
-    , C("static-semantics!programOK", [Op("Mod", [Var("e"){OfSort(SORT("Exp"))}]){OfSort(SORT("Module"))}])
+    , C("static-semantics!programOk", [Op("Mod", [Var("e"){OfSort(SORT("Exp"))}]){OfSort(SORT("Module"))}])
     , CExists(
         [Var("s"){OfSort(SCOPE())}, Var("T"){OfSort(SORT("TYPE"))}, Var("typeOfExp0"){OfSort(SORT("TYPE"))}]
       , CConj(
@@ -219,10 +219,10 @@ Spec(
                   Closure(Label("static-semantics!P"))
                 , LLam(
                     [ Tuple(
-                        [Occurrence("static-semantics!Type", [Var("u3"){OfSort(STRING())}], WithId(Wld(){OfSort(AST_ID())})), Wld(){OfSort(SORT("TYPE"))}]
+                        [Occurrence("static-semantics!Type", [Var("u6"){OfSort(STRING())}], WithId(Wld(){OfSort(AST_ID())})), Wld(){OfSort(SORT("TYPE"))}]
                       ){OfSort(TUPLE([OCCURRENCE(), SORT("TYPE")]))}
                     ]
-                  , CEqual(Var("u3"){OfSort(STRING())}, Var("x"){OfSort(STRING())}, NoMessage())
+                  , CEqual(Var("u6"){OfSort(STRING())}, Var("x"){OfSort(STRING())}, NoMessage())
                   )
                 )
               , Min(
@@ -287,10 +287,10 @@ Spec(
               Closure(Label("static-semantics!P"))
             , LLam(
                 [ Tuple(
-                    [Occurrence("static-semantics!Var", [Var("u4"){OfSort(STRING())}], WithId(Wld(){OfSort(AST_ID())})), Wld(){OfSort(SORT("TYPE"))}]
+                    [Occurrence("static-semantics!Var", [Var("u7"){OfSort(STRING())}], WithId(Wld(){OfSort(AST_ID())})), Wld(){OfSort(SORT("TYPE"))}]
                   ){OfSort(TUPLE([OCCURRENCE(), SORT("TYPE")]))}
                 ]
-              , CEqual(Var("u4"){OfSort(STRING())}, Var("x"){OfSort(STRING())}, NoMessage())
+              , CEqual(Var("u7"){OfSort(STRING())}, Var("x"){OfSort(STRING())}, NoMessage())
               )
             )
           , Min(
@@ -344,10 +344,10 @@ Spec(
                   Closure(Label("static-semantics!P"))
                 , LLam(
                     [ Tuple(
-                        [Occurrence("static-semantics!Var", [Var("u5"){OfSort(STRING())}], WithId(Wld(){OfSort(AST_ID())})), Wld(){OfSort(SORT("TYPE"))}]
+                        [Occurrence("static-semantics!Var", [Var("u11"){OfSort(STRING())}], WithId(Wld(){OfSort(AST_ID())})), Wld(){OfSort(SORT("TYPE"))}]
                       ){OfSort(TUPLE([OCCURRENCE(), SORT("TYPE")]))}
                     ]
-                  , CEqual(Var("u5"){OfSort(STRING())}, Var("x"){OfSort(STRING())}, NoMessage())
+                  , CEqual(Var("u11"){OfSort(STRING())}, Var("x"){OfSort(STRING())}, NoMessage())
                   )
                 )
               , Min(
@@ -390,7 +390,10 @@ Spec(
     , C(
         "static-semantics!declareField"
       , [ Var("s"){OfSort(SCOPE())}
-        , Op("O2TI", [Op("I2O", [Var("x"){OfSort(STRING())}]){OfSort(SORT("Occ"))}]){OfSort(SORT("TypeId"))}
+        , Op(
+            "Occ2TypeId"
+          , [Op("Id2Occ", [Op("Id-LEX2Id", [Var("x"){OfSort(STRING())}]){OfSort(SORT("Id"))}]){OfSort(SORT("Occ"))}]
+          ){OfSort(SORT("TypeId"))}
         , Var("T"){OfSort(SORT("TYPE"))}
         ]
       )
@@ -415,10 +418,10 @@ Spec(
               Closure(Label("static-semantics!P"))
             , LLam(
                 [ Tuple(
-                    [Occurrence("static-semantics!Field", [Var("u6"){OfSort(STRING())}], WithId(Wld(){OfSort(AST_ID())})), Wld(){OfSort(SORT("TYPE"))}]
+                    [Occurrence("static-semantics!Field", [Var("u12"){OfSort(STRING())}], WithId(Wld(){OfSort(AST_ID())})), Wld(){OfSort(SORT("TYPE"))}]
                   ){OfSort(TUPLE([OCCURRENCE(), SORT("TYPE")]))}
                 ]
-              , CEqual(Var("u6"){OfSort(STRING())}, Var("x"){OfSort(STRING())}, NoMessage())
+              , CEqual(Var("u12"){OfSort(STRING())}, Var("x"){OfSort(STRING())}, NoMessage())
               )
             )
           , Min(
@@ -448,12 +451,12 @@ Spec(
       NoName()
     , C(
         "static-semantics!lookupField"
-      , [Var("s"){OfSort(SCOPE())}, Var("x"){OfSort(STRING())}, Var("out4"){OfSort(SORT("TYPE"))}]
+      , [Var("s"){OfSort(SCOPE())}, Var("x"){OfSort(STRING())}, Var("out2"){OfSort(SORT("TYPE"))}]
       )
     , CExists(
         [Var("T"){OfSort(SORT("TYPE"))}]
       , CConj(
-          CEqual(Var("out4"){OfSort(SORT("TYPE"))}, Var("T"){OfSort(SORT("TYPE"))}, NoMessage())
+          CEqual(Var("out2"){OfSort(SORT("TYPE"))}, Var("T"){OfSort(SORT("TYPE"))}, NoMessage())
         , CExists(
             [Var("x'"){OfSort(STRING())}, Var("wld17"){OfSort(PATH())}, Var("wld18"){ OfSort(
                                                                                         LIST(
@@ -472,10 +475,10 @@ Spec(
                   Closure(Label("static-semantics!P"))
                 , LLam(
                     [ Tuple(
-                        [Occurrence("static-semantics!Field", [Var("u7"){OfSort(STRING())}], WithId(Wld(){OfSort(AST_ID())})), Wld(){OfSort(SORT("TYPE"))}]
+                        [Occurrence("static-semantics!Field", [Var("u13"){OfSort(STRING())}], WithId(Wld(){OfSort(AST_ID())})), Wld(){OfSort(SORT("TYPE"))}]
                       ){OfSort(TUPLE([OCCURRENCE(), SORT("TYPE")]))}
                     ]
-                  , CEqual(Var("u7"){OfSort(STRING())}, Var("x"){OfSort(STRING())}, NoMessage())
+                  , CEqual(Var("u13"){OfSort(STRING())}, Var("x"){OfSort(STRING())}, NoMessage())
                   )
                 )
               , Min(
@@ -588,17 +591,17 @@ Spec(
       NoName()
     , C(
         "static-semantics!lub"
-      , [Var("S"){OfSort(SORT("TYPE"))}, Var("T"){OfSort(SORT("TYPE"))}, Var("out5"){OfSort(SORT("TYPE"))}]
+      , [Var("S"){OfSort(SORT("TYPE"))}, Var("T"){OfSort(SORT("TYPE"))}, Var("out4"){OfSort(SORT("TYPE"))}]
       )
-    , CConj(CEqual(Var("out5"){OfSort(SORT("TYPE"))}, Var("S"){OfSort(SORT("TYPE"))}, NoMessage()), CTrue())
+    , CConj(CEqual(Var("out4"){OfSort(SORT("TYPE"))}, Var("S"){OfSort(SORT("TYPE"))}, NoMessage()), CTrue())
     )
   , Rule(
       NoName()
     , C(
         "static-semantics!lub"
-      , [Op("NIL", []){OfSort(SORT("TYPE"))}, Var("T"){OfSort(SORT("TYPE"))}, Var("out6"){OfSort(SORT("TYPE"))}]
+      , [Op("NIL", []){OfSort(SORT("TYPE"))}, Var("T"){OfSort(SORT("TYPE"))}, Var("out5"){OfSort(SORT("TYPE"))}]
       )
-    , CConj(CEqual(Var("out6"){OfSort(SORT("TYPE"))}, Var("T"){OfSort(SORT("TYPE"))}, NoMessage()), CTrue())
+    , CConj(CEqual(Var("out5"){OfSort(SORT("TYPE"))}, Var("T"){OfSort(SORT("TYPE"))}, NoMessage()), CTrue())
     )
   , Rule(
       NoName()
@@ -606,13 +609,13 @@ Spec(
         "static-semantics!typeOfExp"
       , [ Var("s_outer"){OfSort(SCOPE())}
         , Op("Let", [Var("ds"){OfSort(LIST(SORT("Dec")))}, Var("es"){OfSort(LIST(SORT("Exp")))}]){OfSort(SORT("Exp"))}
-        , Var("out7"){OfSort(SORT("TYPE"))}
+        , Var("out6"){OfSort(SORT("TYPE"))}
         ]
       )
     , CExists(
         [Var("T"){OfSort(SORT("TYPE"))}]
       , CConj(
-          CEqual(Var("out7"){OfSort(SORT("TYPE"))}, Var("T"){OfSort(SORT("TYPE"))}, NoMessage())
+          CEqual(Var("out6"){OfSort(SORT("TYPE"))}, Var("T"){OfSort(SORT("TYPE"))}, NoMessage())
         , CExists(
             [Var("s_body"){OfSort(SCOPE())}, Var("typeOfSeq0"){OfSort(SORT("TYPE"))}]
           , CConj(
@@ -714,7 +717,9 @@ Spec(
         , Var("s_outer"){OfSort(SCOPE())}
         , Op(
             "TypeDec"
-          , [Op("I2O", [Var("x"){OfSort(STRING())}]){OfSort(SORT("Occ"))}, Var("t"){OfSort(SORT("Type"))}]
+          , [ Op("Id2Occ", [Op("Id-LEX2Id", [Var("x"){OfSort(STRING())}]){OfSort(SORT("Id"))}]){OfSort(SORT("Occ"))}
+            , Var("t"){OfSort(SORT("Type"))}
+            ]
           ){OfSort(SORT("TypeDec"))}
         ]
       )
@@ -744,9 +749,13 @@ Spec(
       , [ Var("s"){OfSort(SCOPE())}
         , Op(
             "Tid"
-          , [Op("O2TI", [Op("I2O", [Var("x"){OfSort(STRING())}]){OfSort(SORT("Occ"))}]){OfSort(SORT("TypeId"))}]
+          , [ Op(
+                "Occ2TypeId"
+              , [Op("Id2Occ", [Op("Id-LEX2Id", [Var("x"){OfSort(STRING())}]){OfSort(SORT("Id"))}]){OfSort(SORT("Occ"))}]
+              ){OfSort(SORT("TypeId"))}
+            ]
           ){OfSort(SORT("Type"))}
-        , Var("out8"){OfSort(SORT("TYPE"))}
+        , Var("out7"){OfSort(SORT("TYPE"))}
         ]
       )
     , CExists(
@@ -758,7 +767,7 @@ Spec(
             , [Var("s"){OfSort(SCOPE())}, Var("x"){OfSort(STRING())}, Var("lookupType0"){OfSort(SORT("TYPE"))}]
             , NoMessage()
             )
-          , CEqual(Var("out8"){OfSort(SORT("TYPE"))}, Var("lookupType0"){OfSort(SORT("TYPE"))}, NoMessage())
+          , CEqual(Var("out7"){OfSort(SORT("TYPE"))}, Var("lookupType0"){OfSort(SORT("TYPE"))}, NoMessage())
           )
         , CTrue()
         )
@@ -786,7 +795,10 @@ Spec(
             Var("d"){OfSort(SORT("FunDec"))}
           , Op(
               "ProcDec"
-            , [Op("I2O", [Var("f"){OfSort(STRING())}]){OfSort(SORT("Occ"))}, Var("args"){OfSort(LIST(SORT("FArg")))}, Var("e"){OfSort(SORT("Exp"))}]
+            , [ Op("Id2Occ", [Op("Id-LEX2Id", [Var("f"){OfSort(STRING())}]){OfSort(SORT("Id"))}]){OfSort(SORT("Occ"))}
+              , Var("args"){OfSort(LIST(SORT("FArg")))}
+              , Var("e"){OfSort(SORT("Exp"))}
+              ]
             ){OfSort(SORT("FunDec"))}
           ){OfSort(SORT("FunDec"))}
         ]
@@ -839,7 +851,7 @@ Spec(
             Var("d"){OfSort(SORT("FunDec"))}
           , Op(
               "FunDec"
-            , [ Op("I2O", [Var("f"){OfSort(STRING())}]){OfSort(SORT("Occ"))}
+            , [ Op("Id2Occ", [Op("Id-LEX2Id", [Var("f"){OfSort(STRING())}]){OfSort(SORT("Id"))}]){OfSort(SORT("Occ"))}
               , Var("args"){OfSort(LIST(SORT("FArg")))}
               , Var("t"){OfSort(SORT("Type"))}
               , Var("e"){OfSort(SORT("Exp"))}
@@ -918,15 +930,17 @@ Spec(
         , Var("s_outer"){OfSort(SCOPE())}
         , Op(
             "FArg"
-          , [Op("I2O", [Var("x"){OfSort(STRING())}]){OfSort(SORT("Occ"))}, Var("t"){OfSort(SORT("Type"))}]
+          , [ Op("Id2Occ", [Op("Id-LEX2Id", [Var("x"){OfSort(STRING())}]){OfSort(SORT("Id"))}]){OfSort(SORT("Occ"))}
+            , Var("t"){OfSort(SORT("Type"))}
+            ]
           ){OfSort(SORT("FArg"))}
-        , Var("out9"){OfSort(SORT("TYPE"))}
+        , Var("out8"){OfSort(SORT("TYPE"))}
         ]
       )
     , CExists(
         [Var("T"){OfSort(SORT("TYPE"))}, Var("typeOfType2"){OfSort(SORT("TYPE"))}]
       , CConj(
-          CEqual(Var("out9"){OfSort(SORT("TYPE"))}, Var("T"){OfSort(SORT("TYPE"))}, NoMessage())
+          CEqual(Var("out8"){OfSort(SORT("TYPE"))}, Var("T"){OfSort(SORT("TYPE"))}, NoMessage())
         , CConj(
             CConj(
               C(
@@ -952,15 +966,17 @@ Spec(
       , [ Var("s"){OfSort(SCOPE())}
         , Op(
             "Call"
-          , [Op("I2O", [Var("f"){OfSort(STRING())}]){OfSort(SORT("Occ"))}, Var("es"){OfSort(LIST(SORT("Exp")))}]
+          , [ Op("Id2Occ", [Op("Id-LEX2Id", [Var("f"){OfSort(STRING())}]){OfSort(SORT("Id"))}]){OfSort(SORT("Occ"))}
+            , Var("es"){OfSort(LIST(SORT("Exp")))}
+            ]
           ){OfSort(SORT("Exp"))}
-        , Var("out10"){OfSort(SORT("TYPE"))}
+        , Var("out9"){OfSort(SORT("TYPE"))}
         ]
       )
     , CExists(
         [Var("T"){OfSort(SORT("TYPE"))}]
       , CConj(
-          CEqual(Var("out10"){OfSort(SORT("TYPE"))}, Var("T"){OfSort(SORT("TYPE"))}, NoMessage())
+          CEqual(Var("out9"){OfSort(SORT("TYPE"))}, Var("T"){OfSort(SORT("TYPE"))}, NoMessage())
         , CExists(
             [Var("Ts"){OfSort(LIST(SORT("TYPE")))}, Var("Ss"){OfSort(LIST(SORT("TYPE")))}, Var("lookupVar0"){OfSort(SORT("TYPE"))}, Var("typeOfExps0"){OfSort(LIST(SORT("TYPE")))}]
           , CConj(
@@ -1000,7 +1016,10 @@ Spec(
         , Var("s_outer"){OfSort(SCOPE())}
         , Op(
             "VarDec"
-          , [Op("I2O", [Var("x"){OfSort(STRING())}]){OfSort(SORT("Occ"))}, Var("t"){OfSort(SORT("Type"))}, Var("e"){OfSort(SORT("Exp"))}]
+          , [ Op("Id2Occ", [Op("Id-LEX2Id", [Var("x"){OfSort(STRING())}]){OfSort(SORT("Id"))}]){OfSort(SORT("Occ"))}
+            , Var("t"){OfSort(SORT("Type"))}
+            , Var("e"){OfSort(SORT("Exp"))}
+            ]
           ){OfSort(SORT("Dec"))}
         ]
       )
@@ -1044,7 +1063,9 @@ Spec(
         , Var("s_outer"){OfSort(SCOPE())}
         , Op(
             "VarDecNoType"
-          , [Op("I2O", [Var("x"){OfSort(STRING())}]){OfSort(SORT("Occ"))}, Var("e"){OfSort(SORT("Exp"))}]
+          , [ Op("Id2Occ", [Op("Id-LEX2Id", [Var("x"){OfSort(STRING())}]){OfSort(SORT("Id"))}]){OfSort(SORT("Occ"))}
+            , Var("e"){OfSort(SORT("Exp"))}
+            ]
           ){OfSort(SORT("Dec"))}
         ]
       )
@@ -1076,14 +1097,18 @@ Spec(
         "static-semantics!typeOfExp"
       , [ Var("s"){OfSort(SCOPE())}
         , Op(
-            "LV2E"
+            "LValue2Exp"
           , [ Op(
-                "V2LV"
-              , [Op("Var", [Op("I2O", [Var("x"){OfSort(STRING())}]){OfSort(SORT("Occ"))}]){OfSort(SORT("Var"))}]
+                "Var2LValue"
+              , [ Op(
+                    "Var"
+                  , [Op("Id2Occ", [Op("Id-LEX2Id", [Var("x"){OfSort(STRING())}]){OfSort(SORT("Id"))}]){OfSort(SORT("Occ"))}]
+                  ){OfSort(SORT("Var"))}
+                ]
               ){OfSort(SORT("LValue"))}
             ]
           ){OfSort(SORT("Exp"))}
-        , Var("out11"){OfSort(SORT("TYPE"))}
+        , Var("out10"){OfSort(SORT("TYPE"))}
         ]
       )
     , CExists(
@@ -1095,7 +1120,7 @@ Spec(
             , [Var("s"){OfSort(SCOPE())}, Var("x"){OfSort(STRING())}, Var("lookupVar1"){OfSort(SORT("TYPE"))}]
             , NoMessage()
             )
-          , CEqual(Var("out11"){OfSort(SORT("TYPE"))}, Var("lookupVar1"){OfSort(SORT("TYPE"))}, NoMessage())
+          , CEqual(Var("out10"){OfSort(SORT("TYPE"))}, Var("lookupVar1"){OfSort(SORT("TYPE"))}, NoMessage())
           )
         , CTrue()
         )
@@ -1105,13 +1130,13 @@ Spec(
       NoName()
     , C(
         "static-semantics!typeOfType"
-      , [Var("s"){OfSort(SCOPE())}, Op("ArrayTy", [Var("x"){OfSort(SORT("TypeId"))}]){OfSort(SORT("Type"))}, Var("out12"){OfSort(SORT("TYPE"))}]
+      , [Var("s"){OfSort(SCOPE())}, Op("ArrayTy", [Var("x"){OfSort(SORT("TypeId"))}]){OfSort(SORT("Type"))}, Var("out11"){OfSort(SORT("TYPE"))}]
       )
     , CExists(
         [Var("T"){OfSort(SORT("TYPE"))}, Var("s_arr"){OfSort(SCOPE())}, Var("typeOfType4"){OfSort(SORT("TYPE"))}]
       , CConj(
           CEqual(
-            Var("out12"){OfSort(SORT("TYPE"))}
+            Var("out11"){OfSort(SORT("TYPE"))}
           , Op("ARRAY", [Var("T"){OfSort(SORT("TYPE"))}, Var("s_arr"){OfSort(SCOPE())}]){OfSort(SORT("TYPE"))}
           , NoMessage()
           )
@@ -1138,14 +1163,14 @@ Spec(
             "Array"
           , [Var("x"){OfSort(SORT("TypeId"))}, Var("e1"){OfSort(SORT("Exp"))}, Var("e2"){OfSort(SORT("Exp"))}]
           ){OfSort(SORT("Exp"))}
-        , Var("out13"){OfSort(SORT("TYPE"))}
+        , Var("out12"){OfSort(SORT("TYPE"))}
         ]
       )
     , CExists(
         [Var("T"){OfSort(SORT("TYPE"))}, Var("s_arr"){OfSort(SCOPE())}]
       , CConj(
           CEqual(
-            Var("out13"){OfSort(SORT("TYPE"))}
+            Var("out12"){OfSort(SORT("TYPE"))}
           , Op("ARRAY", [Var("T"){OfSort(SORT("TYPE"))}, Var("s_arr"){OfSort(SCOPE())}]){OfSort(SORT("TYPE"))}
           , NoMessage()
           )
@@ -1196,13 +1221,13 @@ Spec(
         "static-semantics!typeOfLVal"
       , [ Var("s"){OfSort(SCOPE())}
         , Op("Subscript", [Var("e1"){OfSort(SORT("LValue"))}, Var("e2"){OfSort(SORT("Exp"))}]){OfSort(SORT("LValue"))}
-        , Var("out14"){OfSort(SORT("TYPE"))}
+        , Var("out13"){OfSort(SORT("TYPE"))}
         ]
       )
     , CExists(
         [Var("T"){OfSort(SORT("TYPE"))}]
       , CConj(
-          CEqual(Var("out14"){OfSort(SORT("TYPE"))}, Var("T"){OfSort(SORT("TYPE"))}, NoMessage())
+          CEqual(Var("out13"){OfSort(SORT("TYPE"))}, Var("T"){OfSort(SORT("TYPE"))}, NoMessage())
         , CExists(
             [Var("s_arr"){OfSort(SCOPE())}, Var("typeOfLVal0"){OfSort(SORT("TYPE"))}, Var("typeOfExp7"){OfSort(SORT("TYPE"))}]
           , CConj(
@@ -1237,11 +1262,11 @@ Spec(
         "static-semantics!typeOfExp"
       , [ Var("s"){OfSort(SCOPE())}
         , Op("Assign", [Var("e1"){OfSort(SORT("LValue"))}, Var("e2"){OfSort(SORT("Exp"))}]){OfSort(SORT("Exp"))}
-        , Var("out15"){OfSort(SORT("TYPE"))}
+        , Var("out14"){OfSort(SORT("TYPE"))}
         ]
       )
     , CConj(
-        CEqual(Var("out15"){OfSort(SORT("TYPE"))}, Op("UNIT", []){OfSort(SORT("TYPE"))}, NoMessage())
+        CEqual(Var("out14"){OfSort(SORT("TYPE"))}, Op("UNIT", []){OfSort(SORT("TYPE"))}, NoMessage())
       , CExists(
           [Var("T"){OfSort(SORT("TYPE"))}, Var("S"){OfSort(SORT("TYPE"))}, Var("typeOfLVal1"){OfSort(SORT("TYPE"))}, Var("typeOfExp8"){OfSort(SORT("TYPE"))}]
         , CConj(
@@ -1274,16 +1299,20 @@ Spec(
         "static-semantics!typeOfLVal"
       , [ Var("s"){OfSort(SCOPE())}
         , Op(
-            "V2LV"
-          , [Op("Var", [Op("I2O", [Var("x"){OfSort(STRING())}]){OfSort(SORT("Occ"))}]){OfSort(SORT("Var"))}]
+            "Var2LValue"
+          , [ Op(
+                "Var"
+              , [Op("Id2Occ", [Op("Id-LEX2Id", [Var("x"){OfSort(STRING())}]){OfSort(SORT("Id"))}]){OfSort(SORT("Occ"))}]
+              ){OfSort(SORT("Var"))}
+            ]
           ){OfSort(SORT("LValue"))}
-        , Var("out16"){OfSort(SORT("TYPE"))}
+        , Var("out15"){OfSort(SORT("TYPE"))}
         ]
       )
     , CExists(
         [Var("T"){OfSort(SORT("TYPE"))}, Var("lookupVar2"){OfSort(SORT("TYPE"))}]
       , CConj(
-          CEqual(Var("out16"){OfSort(SORT("TYPE"))}, Var("T"){OfSort(SORT("TYPE"))}, NoMessage())
+          CEqual(Var("out15"){OfSort(SORT("TYPE"))}, Var("T"){OfSort(SORT("TYPE"))}, NoMessage())
         , CConj(
             C(
               "static-semantics!lookupVar"
@@ -1299,7 +1328,7 @@ Spec(
       NoName()
     , C(
         "static-semantics!typeOfExp"
-      , [Var("s"){OfSort(SCOPE())}, Op("LV2E", [Var("lval"){OfSort(SORT("LValue"))}]){OfSort(SORT("Exp"))}, Var("out17"){OfSort(SORT("TYPE"))}]
+      , [Var("s"){OfSort(SCOPE())}, Op("LValue2Exp", [Var("lval"){OfSort(SORT("LValue"))}]){OfSort(SORT("Exp"))}, Var("out16"){OfSort(SORT("TYPE"))}]
       )
     , CExists(
         [Var("typeOfLVal2"){OfSort(SORT("TYPE"))}]
@@ -1310,7 +1339,7 @@ Spec(
             , [Var("s"){OfSort(SCOPE())}, Var("lval"){OfSort(SORT("LValue"))}, Var("typeOfLVal2"){OfSort(SORT("TYPE"))}]
             , NoMessage()
             )
-          , CEqual(Var("out17"){OfSort(SORT("TYPE"))}, Var("typeOfLVal2"){OfSort(SORT("TYPE"))}, NoMessage())
+          , CEqual(Var("out16"){OfSort(SORT("TYPE"))}, Var("typeOfLVal2"){OfSort(SORT("TYPE"))}, NoMessage())
           )
         , CTrue()
         )
@@ -1320,10 +1349,10 @@ Spec(
       NoName()
     , C(
         "static-semantics!typeOfSeq"
-      , [Var("s"){OfSort(SCOPE())}, List([]){OfSort(LIST(SORT("Exp")))}, Var("out18"){OfSort(SORT("TYPE"))}]
+      , [Var("s"){OfSort(SCOPE())}, List([]){OfSort(LIST(SORT("Exp")))}, Var("out17"){OfSort(SORT("TYPE"))}]
       )
     , CConj(
-        CEqual(Var("out18"){OfSort(SORT("TYPE"))}, Op("UNIT", []){OfSort(SORT("TYPE"))}, NoMessage())
+        CEqual(Var("out17"){OfSort(SORT("TYPE"))}, Op("UNIT", []){OfSort(SORT("TYPE"))}, NoMessage())
       , CTrue()
       )
     )
@@ -1331,12 +1360,12 @@ Spec(
       NoName()
     , C(
         "static-semantics!typeOfSeq"
-      , [Var("s"){OfSort(SCOPE())}, List([Var("e"){OfSort(SORT("Exp"))}]){OfSort(LIST(SORT("Exp")))}, Var("out19"){OfSort(SORT("TYPE"))}]
+      , [Var("s"){OfSort(SCOPE())}, List([Var("e"){OfSort(SORT("Exp"))}]){OfSort(LIST(SORT("Exp")))}, Var("out18"){OfSort(SORT("TYPE"))}]
       )
     , CExists(
         [Var("T"){OfSort(SORT("TYPE"))}, Var("typeOfExp9"){OfSort(SORT("TYPE"))}]
       , CConj(
-          CEqual(Var("out19"){OfSort(SORT("TYPE"))}, Var("T"){OfSort(SORT("TYPE"))}, NoMessage())
+          CEqual(Var("out18"){OfSort(SORT("TYPE"))}, Var("T"){OfSort(SORT("TYPE"))}, NoMessage())
         , CConj(
             C(
               "static-semantics!typeOfExp"
@@ -1357,13 +1386,13 @@ Spec(
             [Var("e"){OfSort(SORT("Exp"))}]
           , As(Var("es"){OfSort(LIST(SORT("Exp")))}, ListTail([Wld(){OfSort(SORT("Exp"))}], Wld(){OfSort(LIST(SORT("Exp")))}){OfSort(LIST(SORT("Exp")))}){OfSort(LIST(SORT("Exp")))}
           ){OfSort(LIST(SORT("Exp")))}
-        , Var("out20"){OfSort(SORT("TYPE"))}
+        , Var("out19"){OfSort(SORT("TYPE"))}
         ]
       )
     , CExists(
         [Var("T"){OfSort(SORT("TYPE"))}]
       , CConj(
-          CEqual(Var("out20"){OfSort(SORT("TYPE"))}, Var("T"){OfSort(SORT("TYPE"))}, NoMessage())
+          CEqual(Var("out19"){OfSort(SORT("TYPE"))}, Var("T"){OfSort(SORT("TYPE"))}, NoMessage())
         , CExists(
             [Var("S"){OfSort(SORT("TYPE"))}, Var("typeOfExp10"){OfSort(SORT("TYPE"))}, Var("typeOfSeq1"){OfSort(SORT("TYPE"))}]
           , CConj(
@@ -1392,7 +1421,7 @@ Spec(
       NoName()
     , C(
         "static-semantics!typeOfExp"
-      , [Var("s"){OfSort(SCOPE())}, Op("Seq", [Var("es"){OfSort(LIST(SORT("Exp")))}]){OfSort(SORT("Exp"))}, Var("out21"){OfSort(SORT("TYPE"))}]
+      , [Var("s"){OfSort(SCOPE())}, Op("Seq", [Var("es"){OfSort(LIST(SORT("Exp")))}]){OfSort(SORT("Exp"))}, Var("out20"){OfSort(SORT("TYPE"))}]
       )
     , CExists(
         [Var("typeOfSeq2"){OfSort(SORT("TYPE"))}]
@@ -1403,7 +1432,7 @@ Spec(
             , [Var("s"){OfSort(SCOPE())}, Var("es"){OfSort(LIST(SORT("Exp")))}, Var("typeOfSeq2"){OfSort(SORT("TYPE"))}]
             , NoMessage()
             )
-          , CEqual(Var("out21"){OfSort(SORT("TYPE"))}, Var("typeOfSeq2"){OfSort(SORT("TYPE"))}, NoMessage())
+          , CEqual(Var("out20"){OfSort(SORT("TYPE"))}, Var("typeOfSeq2"){OfSort(SORT("TYPE"))}, NoMessage())
           )
         , CTrue()
         )
@@ -1418,7 +1447,7 @@ Spec(
             "If"
           , [Var("e1"){OfSort(SORT("Exp"))}, Var("e2"){OfSort(SORT("Exp"))}, Var("e3"){OfSort(SORT("Exp"))}]
           ){OfSort(SORT("Exp"))}
-        , Var("out22"){OfSort(SORT("TYPE"))}
+        , Var("out21"){OfSort(SORT("TYPE"))}
         ]
       )
     , CExists(
@@ -1436,7 +1465,7 @@ Spec(
             , [Var("T"){OfSort(SORT("TYPE"))}, Var("S"){OfSort(SORT("TYPE"))}, Var("lub0"){OfSort(SORT("TYPE"))}]
             , NoMessage()
             )
-          , CEqual(Var("out22"){OfSort(SORT("TYPE"))}, Var("lub0"){OfSort(SORT("TYPE"))}, NoMessage())
+          , CEqual(Var("out21"){OfSort(SORT("TYPE"))}, Var("lub0"){OfSort(SORT("TYPE"))}, NoMessage())
           )
         , CConj(
             CConj(
@@ -1478,13 +1507,13 @@ Spec(
         "static-semantics!typeOfExp"
       , [ Var("s"){OfSort(SCOPE())}
         , Op("IfThen", [Var("e1"){OfSort(SORT("Exp"))}, Var("e2"){OfSort(SORT("Exp"))}]){OfSort(SORT("Exp"))}
-        , Var("out23"){OfSort(SORT("TYPE"))}
+        , Var("out22"){OfSort(SORT("TYPE"))}
         ]
       )
     , CExists(
         [Var("typeOfExp14"){OfSort(SORT("TYPE"))}, Var("typeOfExp15"){OfSort(SORT("TYPE"))}]
       , CConj(
-          CEqual(Var("out23"){OfSort(SORT("TYPE"))}, Op("UNIT", []){OfSort(SORT("TYPE"))}, NoMessage())
+          CEqual(Var("out22"){OfSort(SORT("TYPE"))}, Op("UNIT", []){OfSort(SORT("TYPE"))}, NoMessage())
         , CConj(
             CConj(
               C(
@@ -1512,11 +1541,11 @@ Spec(
         "static-semantics!typeOfExp"
       , [ Var("s"){OfSort(SCOPE())}
         , Op("While", [Var("e1"){OfSort(SORT("Exp"))}, Var("e2"){OfSort(SORT("Exp"))}]){OfSort(SORT("Exp"))}
-        , Var("out24"){OfSort(SORT("TYPE"))}
+        , Var("out23"){OfSort(SORT("TYPE"))}
         ]
       )
     , CConj(
-        CEqual(Var("out24"){OfSort(SORT("TYPE"))}, Op("UNIT", []){OfSort(SORT("TYPE"))}, NoMessage())
+        CEqual(Var("out23"){OfSort(SORT("TYPE"))}, Op("UNIT", []){OfSort(SORT("TYPE"))}, NoMessage())
       , CExists(
           [Var("s_loop"){OfSort(SCOPE())}, Var("typeOfExp16"){OfSort(SORT("TYPE"))}, Var("typeOfExp17"){OfSort(SORT("TYPE"))}]
         , CConj(
@@ -1567,17 +1596,20 @@ Spec(
       , [ Var("s"){OfSort(SCOPE())}
         , Op(
             "For"
-          , [ Op("Var", [Op("I2O", [Var("x"){OfSort(STRING())}]){OfSort(SORT("Occ"))}]){OfSort(SORT("Var"))}
+          , [ Op(
+                "Var"
+              , [Op("Id2Occ", [Op("Id-LEX2Id", [Var("x"){OfSort(STRING())}]){OfSort(SORT("Id"))}]){OfSort(SORT("Occ"))}]
+              ){OfSort(SORT("Var"))}
             , Var("e1"){OfSort(SORT("Exp"))}
             , Var("e2"){OfSort(SORT("Exp"))}
             , Var("e3"){OfSort(SORT("Exp"))}
             ]
           ){OfSort(SORT("Exp"))}
-        , Var("out25"){OfSort(SORT("TYPE"))}
+        , Var("out24"){OfSort(SORT("TYPE"))}
         ]
       )
     , CConj(
-        CEqual(Var("out25"){OfSort(SORT("TYPE"))}, Op("UNIT", []){OfSort(SORT("TYPE"))}, NoMessage())
+        CEqual(Var("out24"){OfSort(SORT("TYPE"))}, Op("UNIT", []){OfSort(SORT("TYPE"))}, NoMessage())
       , CExists(
           [Var("s_for"){OfSort(SCOPE())}, Var("typeOfExp18"){OfSort(SORT("TYPE"))}, Var("typeOfExp19"){OfSort(SORT("TYPE"))}, Var("typeOfExp20"){OfSort(SORT("TYPE"))}]
         , CConj(
@@ -1642,22 +1674,22 @@ Spec(
       NoName()
     , C(
         "static-semantics!typeOfExp"
-      , [Var("s"){OfSort(SCOPE())}, Op("Break", []){OfSort(SORT("Exp"))}, Var("out26"){OfSort(SORT("TYPE"))}]
+      , [Var("s"){OfSort(SCOPE())}, Op("Break", []){OfSort(SORT("Exp"))}, Var("out25"){OfSort(SORT("TYPE"))}]
       )
     , CExists(
         [Var("wld19"){OfSort(PATH())}, Var("wld20"){OfSort(OCCURRENCE())}]
       , CConj(
-          CEqual(Var("out26"){OfSort(SORT("TYPE"))}, Op("UNIT", []){OfSort(SORT("TYPE"))}, NoMessage())
+          CEqual(Var("out25"){OfSort(SORT("TYPE"))}, Op("UNIT", []){OfSort(SORT("TYPE"))}, NoMessage())
         , CResolveQuery(
             Label("static-semantics!typeOfDecl")
           , Filter(
               Closure(Label("static-semantics!P"))
             , LLam(
                 [ Tuple(
-                    [Occurrence("static-semantics!Loop", [Var("u8"){OfSort(STRING())}], WithId(Wld(){OfSort(AST_ID())})), Wld(){OfSort(SORT("TYPE"))}]
+                    [Occurrence("static-semantics!Loop", [Var("u14"){OfSort(STRING())}], WithId(Wld(){OfSort(AST_ID())})), Wld(){OfSort(SORT("TYPE"))}]
                   ){OfSort(TUPLE([OCCURRENCE(), SORT("TYPE")]))}
                 ]
-              , CEqual(Var("u8"){OfSort(STRING())}, Str("break"){OfSort(STRING())}, NoMessage())
+              , CEqual(Var("u14"){OfSort(STRING())}, Str("break"){OfSort(STRING())}, NoMessage())
               )
             )
           , Min(
@@ -1687,10 +1719,10 @@ Spec(
       NoName()
     , C(
         "static-semantics!typeOfExp"
-      , [Var("s"){OfSort(SCOPE())}, Op("Int", [Var("i"){OfSort(STRING())}]){OfSort(SORT("Exp"))}, Var("out27"){OfSort(SORT("TYPE"))}]
+      , [Var("s"){OfSort(SCOPE())}, Op("Int", [Var("i"){OfSort(SORT("IntConst"))}]){OfSort(SORT("Exp"))}, Var("out26"){OfSort(SORT("TYPE"))}]
       )
     , CConj(
-        CEqual(Var("out27"){OfSort(SORT("TYPE"))}, Op("INT", []){OfSort(SORT("TYPE"))}, NoMessage())
+        CEqual(Var("out26"){OfSort(SORT("TYPE"))}, Op("INT", []){OfSort(SORT("TYPE"))}, NoMessage())
       , CTrue()
       )
     )
@@ -1698,12 +1730,12 @@ Spec(
       NoName()
     , C(
         "static-semantics!typeOfExp"
-      , [Var("s"){OfSort(SCOPE())}, Op("Uminus", [Var("e"){OfSort(SORT("Exp"))}]){OfSort(SORT("Exp"))}, Var("out28"){OfSort(SORT("TYPE"))}]
+      , [Var("s"){OfSort(SCOPE())}, Op("Uminus", [Var("e"){OfSort(SORT("Exp"))}]){OfSort(SORT("Exp"))}, Var("out27"){OfSort(SORT("TYPE"))}]
       )
     , CExists(
         [Var("typeOfExp21"){OfSort(SORT("TYPE"))}]
       , CConj(
-          CEqual(Var("out28"){OfSort(SORT("TYPE"))}, Op("INT", []){OfSort(SORT("TYPE"))}, NoMessage())
+          CEqual(Var("out27"){OfSort(SORT("TYPE"))}, Op("INT", []){OfSort(SORT("TYPE"))}, NoMessage())
         , CConj(
             C(
               "static-semantics!typeOfExp"
@@ -1721,13 +1753,13 @@ Spec(
         "static-semantics!typeOfExp"
       , [ Var("s"){OfSort(SCOPE())}
         , Op("Divide", [Var("e1"){OfSort(SORT("Exp"))}, Var("e2"){OfSort(SORT("Exp"))}]){OfSort(SORT("Exp"))}
-        , Var("out29"){OfSort(SORT("TYPE"))}
+        , Var("out28"){OfSort(SORT("TYPE"))}
         ]
       )
     , CExists(
         [Var("typeOfExp22"){OfSort(SORT("TYPE"))}, Var("typeOfExp23"){OfSort(SORT("TYPE"))}]
       , CConj(
-          CEqual(Var("out29"){OfSort(SORT("TYPE"))}, Op("INT", []){OfSort(SORT("TYPE"))}, NoMessage())
+          CEqual(Var("out28"){OfSort(SORT("TYPE"))}, Op("INT", []){OfSort(SORT("TYPE"))}, NoMessage())
         , CConj(
             CConj(
               C(
@@ -1755,13 +1787,13 @@ Spec(
         "static-semantics!typeOfExp"
       , [ Var("s"){OfSort(SCOPE())}
         , Op("Times", [Var("e1"){OfSort(SORT("Exp"))}, Var("e2"){OfSort(SORT("Exp"))}]){OfSort(SORT("Exp"))}
-        , Var("out30"){OfSort(SORT("TYPE"))}
+        , Var("out29"){OfSort(SORT("TYPE"))}
         ]
       )
     , CExists(
         [Var("typeOfExp24"){OfSort(SORT("TYPE"))}, Var("typeOfExp25"){OfSort(SORT("TYPE"))}]
       , CConj(
-          CEqual(Var("out30"){OfSort(SORT("TYPE"))}, Op("INT", []){OfSort(SORT("TYPE"))}, NoMessage())
+          CEqual(Var("out29"){OfSort(SORT("TYPE"))}, Op("INT", []){OfSort(SORT("TYPE"))}, NoMessage())
         , CConj(
             CConj(
               C(
@@ -1789,13 +1821,13 @@ Spec(
         "static-semantics!typeOfExp"
       , [ Var("s"){OfSort(SCOPE())}
         , Op("Minus", [Var("e1"){OfSort(SORT("Exp"))}, Var("e2"){OfSort(SORT("Exp"))}]){OfSort(SORT("Exp"))}
-        , Var("out31"){OfSort(SORT("TYPE"))}
+        , Var("out30"){OfSort(SORT("TYPE"))}
         ]
       )
     , CExists(
         [Var("typeOfExp26"){OfSort(SORT("TYPE"))}, Var("typeOfExp27"){OfSort(SORT("TYPE"))}]
       , CConj(
-          CEqual(Var("out31"){OfSort(SORT("TYPE"))}, Op("INT", []){OfSort(SORT("TYPE"))}, NoMessage())
+          CEqual(Var("out30"){OfSort(SORT("TYPE"))}, Op("INT", []){OfSort(SORT("TYPE"))}, NoMessage())
         , CConj(
             CConj(
               C(
@@ -1823,13 +1855,13 @@ Spec(
         "static-semantics!typeOfExp"
       , [ Var("s"){OfSort(SCOPE())}
         , Op("Plus", [Var("e1"){OfSort(SORT("Exp"))}, Var("e2"){OfSort(SORT("Exp"))}]){OfSort(SORT("Exp"))}
-        , Var("out32"){OfSort(SORT("TYPE"))}
+        , Var("out31"){OfSort(SORT("TYPE"))}
         ]
       )
     , CExists(
         [Var("typeOfExp28"){OfSort(SORT("TYPE"))}, Var("typeOfExp29"){OfSort(SORT("TYPE"))}]
       , CConj(
-          CEqual(Var("out32"){OfSort(SORT("TYPE"))}, Op("INT", []){OfSort(SORT("TYPE"))}, NoMessage())
+          CEqual(Var("out31"){OfSort(SORT("TYPE"))}, Op("INT", []){OfSort(SORT("TYPE"))}, NoMessage())
         , CConj(
             CConj(
               C(
@@ -1857,11 +1889,11 @@ Spec(
         "static-semantics!typeOfExp"
       , [ Var("s"){OfSort(SCOPE())}
         , Op("Eq", [Var("e1"){OfSort(SORT("Exp"))}, Var("e2"){OfSort(SORT("Exp"))}]){OfSort(SORT("Exp"))}
-        , Var("out33"){OfSort(SORT("TYPE"))}
+        , Var("out32"){OfSort(SORT("TYPE"))}
         ]
       )
     , CConj(
-        CEqual(Var("out33"){OfSort(SORT("TYPE"))}, Op("INT", []){OfSort(SORT("TYPE"))}, NoMessage())
+        CEqual(Var("out32"){OfSort(SORT("TYPE"))}, Op("INT", []){OfSort(SORT("TYPE"))}, NoMessage())
       , CExists(
           [Var("T"){OfSort(SORT("TYPE"))}, Var("S"){OfSort(SORT("TYPE"))}, Var("typeOfExp30"){OfSort(SORT("TYPE"))}, Var("typeOfExp31"){OfSort(SORT("TYPE"))}]
         , CConj(
@@ -1894,11 +1926,11 @@ Spec(
         "static-semantics!typeOfExp"
       , [ Var("s"){OfSort(SCOPE())}
         , Op("Neq", [Var("e1"){OfSort(SORT("Exp"))}, Var("e2"){OfSort(SORT("Exp"))}]){OfSort(SORT("Exp"))}
-        , Var("out34"){OfSort(SORT("TYPE"))}
+        , Var("out33"){OfSort(SORT("TYPE"))}
         ]
       )
     , CConj(
-        CEqual(Var("out34"){OfSort(SORT("TYPE"))}, Op("INT", []){OfSort(SORT("TYPE"))}, NoMessage())
+        CEqual(Var("out33"){OfSort(SORT("TYPE"))}, Op("INT", []){OfSort(SORT("TYPE"))}, NoMessage())
       , CExists(
           [Var("T"){OfSort(SORT("TYPE"))}, Var("S"){OfSort(SORT("TYPE"))}, Var("typeOfExp32"){OfSort(SORT("TYPE"))}, Var("typeOfExp33"){OfSort(SORT("TYPE"))}]
         , CConj(
@@ -1931,13 +1963,13 @@ Spec(
         "static-semantics!typeOfExp"
       , [ Var("s"){OfSort(SCOPE())}
         , Op("Gt", [Var("e1"){OfSort(SORT("Exp"))}, Var("e2"){OfSort(SORT("Exp"))}]){OfSort(SORT("Exp"))}
-        , Var("out35"){OfSort(SORT("TYPE"))}
+        , Var("out34"){OfSort(SORT("TYPE"))}
         ]
       )
     , CExists(
         [Var("typeOfExp34"){OfSort(SORT("TYPE"))}, Var("typeOfExp35"){OfSort(SORT("TYPE"))}]
       , CConj(
-          CEqual(Var("out35"){OfSort(SORT("TYPE"))}, Op("INT", []){OfSort(SORT("TYPE"))}, NoMessage())
+          CEqual(Var("out34"){OfSort(SORT("TYPE"))}, Op("INT", []){OfSort(SORT("TYPE"))}, NoMessage())
         , CConj(
             CConj(
               C(
@@ -1965,13 +1997,13 @@ Spec(
         "static-semantics!typeOfExp"
       , [ Var("s"){OfSort(SCOPE())}
         , Op("Lt", [Var("e1"){OfSort(SORT("Exp"))}, Var("e2"){OfSort(SORT("Exp"))}]){OfSort(SORT("Exp"))}
-        , Var("out36"){OfSort(SORT("TYPE"))}
+        , Var("out35"){OfSort(SORT("TYPE"))}
         ]
       )
     , CExists(
         [Var("typeOfExp36"){OfSort(SORT("TYPE"))}, Var("typeOfExp37"){OfSort(SORT("TYPE"))}]
       , CConj(
-          CEqual(Var("out36"){OfSort(SORT("TYPE"))}, Op("INT", []){OfSort(SORT("TYPE"))}, NoMessage())
+          CEqual(Var("out35"){OfSort(SORT("TYPE"))}, Op("INT", []){OfSort(SORT("TYPE"))}, NoMessage())
         , CConj(
             CConj(
               C(
@@ -1999,13 +2031,13 @@ Spec(
         "static-semantics!typeOfExp"
       , [ Var("s"){OfSort(SCOPE())}
         , Op("Geq", [Var("e1"){OfSort(SORT("Exp"))}, Var("e2"){OfSort(SORT("Exp"))}]){OfSort(SORT("Exp"))}
-        , Var("out37"){OfSort(SORT("TYPE"))}
+        , Var("out36"){OfSort(SORT("TYPE"))}
         ]
       )
     , CExists(
         [Var("typeOfExp38"){OfSort(SORT("TYPE"))}, Var("typeOfExp39"){OfSort(SORT("TYPE"))}]
       , CConj(
-          CEqual(Var("out37"){OfSort(SORT("TYPE"))}, Op("INT", []){OfSort(SORT("TYPE"))}, NoMessage())
+          CEqual(Var("out36"){OfSort(SORT("TYPE"))}, Op("INT", []){OfSort(SORT("TYPE"))}, NoMessage())
         , CConj(
             CConj(
               C(
@@ -2033,13 +2065,13 @@ Spec(
         "static-semantics!typeOfExp"
       , [ Var("s"){OfSort(SCOPE())}
         , Op("Leq", [Var("e1"){OfSort(SORT("Exp"))}, Var("e2"){OfSort(SORT("Exp"))}]){OfSort(SORT("Exp"))}
-        , Var("out38"){OfSort(SORT("TYPE"))}
+        , Var("out37"){OfSort(SORT("TYPE"))}
         ]
       )
     , CExists(
         [Var("typeOfExp40"){OfSort(SORT("TYPE"))}, Var("typeOfExp41"){OfSort(SORT("TYPE"))}]
       , CConj(
-          CEqual(Var("out38"){OfSort(SORT("TYPE"))}, Op("INT", []){OfSort(SORT("TYPE"))}, NoMessage())
+          CEqual(Var("out37"){OfSort(SORT("TYPE"))}, Op("INT", []){OfSort(SORT("TYPE"))}, NoMessage())
         , CConj(
             CConj(
               C(
@@ -2067,13 +2099,13 @@ Spec(
         "static-semantics!typeOfExp"
       , [ Var("s"){OfSort(SCOPE())}
         , Op("Or", [Var("e1"){OfSort(SORT("Exp"))}, Var("e2"){OfSort(SORT("Exp"))}]){OfSort(SORT("Exp"))}
-        , Var("out39"){OfSort(SORT("TYPE"))}
+        , Var("out38"){OfSort(SORT("TYPE"))}
         ]
       )
     , CExists(
         [Var("typeOfExp42"){OfSort(SORT("TYPE"))}, Var("typeOfExp43"){OfSort(SORT("TYPE"))}]
       , CConj(
-          CEqual(Var("out39"){OfSort(SORT("TYPE"))}, Op("INT", []){OfSort(SORT("TYPE"))}, NoMessage())
+          CEqual(Var("out38"){OfSort(SORT("TYPE"))}, Op("INT", []){OfSort(SORT("TYPE"))}, NoMessage())
         , CConj(
             CConj(
               C(
@@ -2101,13 +2133,13 @@ Spec(
         "static-semantics!typeOfExp"
       , [ Var("s"){OfSort(SCOPE())}
         , Op("And", [Var("e1"){OfSort(SORT("Exp"))}, Var("e2"){OfSort(SORT("Exp"))}]){OfSort(SORT("Exp"))}
-        , Var("out40"){OfSort(SORT("TYPE"))}
+        , Var("out39"){OfSort(SORT("TYPE"))}
         ]
       )
     , CExists(
         [Var("typeOfExp44"){OfSort(SORT("TYPE"))}, Var("typeOfExp45"){OfSort(SORT("TYPE"))}]
       , CConj(
-          CEqual(Var("out40"){OfSort(SORT("TYPE"))}, Op("INT", []){OfSort(SORT("TYPE"))}, NoMessage())
+          CEqual(Var("out39"){OfSort(SORT("TYPE"))}, Op("INT", []){OfSort(SORT("TYPE"))}, NoMessage())
         , CConj(
             CConj(
               C(
@@ -2132,25 +2164,14 @@ Spec(
   , Rule(
       NoName()
     , C(
-        "static-semantics!typeOfExp"
-      , [Var("s"){OfSort(SCOPE())}, Op("Exp-Plhdr", []){OfSort(SORT("Exp"))}, Var("out41"){OfSort(SORT("TYPE"))}]
-      )
-    , CExists(
-        [Var("T"){OfSort(SORT("TYPE"))}]
-      , CConj(CEqual(Var("out41"){OfSort(SORT("TYPE"))}, Var("T"){OfSort(SORT("TYPE"))}, NoMessage()), CTrue())
-      )
-    )
-  , Rule(
-      NoName()
-    , C(
         "static-semantics!typeOfType"
-      , [Var("s"){OfSort(SCOPE())}, Op("RecordTy", [Var("fields"){OfSort(LIST(SORT("Field")))}]){OfSort(SORT("Type"))}, Var("out42"){OfSort(SORT("TYPE"))}]
+      , [Var("s"){OfSort(SCOPE())}, Op("RecordTy", [Var("fields"){OfSort(LIST(SORT("Field")))}]){OfSort(SORT("Type"))}, Var("out40"){OfSort(SORT("TYPE"))}]
       )
     , CExists(
         [Var("s_rec"){OfSort(SCOPE())}]
       , CConj(
           CEqual(
-            Var("out42"){OfSort(SORT("TYPE"))}
+            Var("out40"){OfSort(SORT("TYPE"))}
           , Op("RECORD", [Var("s_rec"){OfSort(SCOPE())}]){OfSort(SORT("TYPE"))}
           , NoMessage()
           )
@@ -2173,7 +2194,7 @@ Spec(
         , Var("s_outer"){OfSort(SCOPE())}
         , Op(
             "Field"
-          , [Var("x"){OfSort(SORT("Occ"))}, Op("O2TI", [Var("t"){OfSort(SORT("Occ"))}]){OfSort(SORT("TypeId"))}]
+          , [Var("x"){OfSort(SORT("Occ"))}, Op("Occ2TypeId", [Var("t"){OfSort(SORT("Occ"))}]){OfSort(SORT("TypeId"))}]
           ){OfSort(SORT("Field"))}
         ]
       )
@@ -2184,7 +2205,7 @@ Spec(
             C(
               "static-semantics!typeOfType"
             , [ Var("s_outer"){OfSort(SCOPE())}
-              , Op("Tid", [Op("O2TI", [Var("t"){OfSort(SORT("Occ"))}]){OfSort(SORT("TypeId"))}]){OfSort(SORT("Type"))}
+              , Op("Tid", [Op("Occ2TypeId", [Var("t"){OfSort(SORT("Occ"))}]){OfSort(SORT("TypeId"))}]){OfSort(SORT("Type"))}
               , Var("typeOfType6"){OfSort(SORT("TYPE"))}
               ]
             , NoMessage()
@@ -2193,7 +2214,7 @@ Spec(
           )
         , C(
             "static-semantics!declareField"
-          , [Var("s_rec"){OfSort(SCOPE())}, Op("O2TI", [Var("x"){OfSort(SORT("Occ"))}]){OfSort(SORT("TypeId"))}, Var("T"){OfSort(SORT("TYPE"))}]
+          , [Var("s_rec"){OfSort(SCOPE())}, Op("Occ2TypeId", [Var("x"){OfSort(SORT("Occ"))}]){OfSort(SORT("TypeId"))}, Var("T"){OfSort(SORT("TYPE"))}]
           , NoMessage()
           )
         )
@@ -2203,10 +2224,10 @@ Spec(
       NoName()
     , C(
         "static-semantics!typeOfExp"
-      , [Var("s"){OfSort(SCOPE())}, Op("NilExp", []){OfSort(SORT("Exp"))}, Var("out43"){OfSort(SORT("TYPE"))}]
+      , [Var("s"){OfSort(SCOPE())}, Op("NilExp", []){OfSort(SORT("Exp"))}, Var("out41"){OfSort(SORT("TYPE"))}]
       )
     , CConj(
-        CEqual(Var("out43"){OfSort(SORT("TYPE"))}, Op("NIL", []){OfSort(SORT("TYPE"))}, NoMessage())
+        CEqual(Var("out41"){OfSort(SORT("TYPE"))}, Op("NIL", []){OfSort(SORT("TYPE"))}, NoMessage())
       , CTrue()
       )
     )
@@ -2219,14 +2240,14 @@ Spec(
             Var("e"){OfSort(SORT("Exp"))}
           , Op("Record", [Var("t"){OfSort(SORT("TypeId"))}, Var("inits"){OfSort(LIST(SORT("InitField")))}]){OfSort(SORT("Exp"))}
           ){OfSort(SORT("Exp"))}
-        , Var("out44"){OfSort(SORT("TYPE"))}
+        , Var("out42"){OfSort(SORT("TYPE"))}
         ]
       )
     , CExists(
         [Var("s_rec"){OfSort(SCOPE())}]
       , CConj(
           CEqual(
-            Var("out44"){OfSort(SORT("TYPE"))}
+            Var("out42"){OfSort(SORT("TYPE"))}
           , Op("RECORD", [Var("s_rec"){OfSort(SCOPE())}]){OfSort(SORT("TYPE"))}
           , NoMessage()
           )
@@ -2265,12 +2286,12 @@ Spec(
                         Closure(Label("static-semantics!P"))
                       , LLam(
                           [ Tuple(
-                              [Occurrence("static-semantics!Field", [Var("u12"){OfSort(STRING())}], WithId(Wld(){OfSort(AST_ID())})), Wld(){OfSort(SORT("TYPE"))}]
+                              [Occurrence("static-semantics!Field", [Var("u15"){OfSort(STRING())}], WithId(Wld(){OfSort(AST_ID())})), Wld(){OfSort(SORT("TYPE"))}]
                             ){OfSort(TUPLE([OCCURRENCE(), SORT("TYPE")]))}
                           ]
                         , CExists(
                             [Var("wld21"){OfSort(STRING())}]
-                          , CEqual(Var("u12"){OfSort(STRING())}, Var("wld21"){OfSort(STRING())}, NoMessage())
+                          , CEqual(Var("u15"){OfSort(STRING())}, Var("wld21"){OfSort(STRING())}, NoMessage())
                           )
                         )
                       )
@@ -2314,7 +2335,9 @@ Spec(
         , Var("s_init"){OfSort(SCOPE())}
         , Op(
             "InitField"
-          , [Op("I2O", [Var("x"){OfSort(STRING())}]){OfSort(SORT("Occ"))}, Var("e"){OfSort(SORT("Exp"))}]
+          , [ Op("Id2Occ", [Op("Id-LEX2Id", [Var("x"){OfSort(STRING())}]){OfSort(SORT("Id"))}]){OfSort(SORT("Occ"))}
+            , Var("e"){OfSort(SORT("Exp"))}
+            ]
           ){OfSort(SORT("InitField"))}
         ]
       )
@@ -2342,7 +2365,10 @@ Spec(
               C(
                 "static-semantics!declareField"
               , [ Var("s_init"){OfSort(SCOPE())}
-                , Op("O2TI", [Op("I2O", [Var("x"){OfSort(STRING())}]){OfSort(SORT("Occ"))}]){OfSort(SORT("TypeId"))}
+                , Op(
+                    "Occ2TypeId"
+                  , [Op("Id2Occ", [Op("Id-LEX2Id", [Var("x"){OfSort(STRING())}]){OfSort(SORT("Id"))}]){OfSort(SORT("Occ"))}]
+                  ){OfSort(SORT("TypeId"))}
                 , Var("S"){OfSort(SORT("TYPE"))}
                 ]
               , NoMessage()
@@ -2357,7 +2383,7 @@ Spec(
       NoName()
     , C(
         "static-semantics!fieldInitialized"
-      , [ Op("O2TI", [Op("I2O", [Var("t"){OfSort(STRING())}]){OfSort(SORT("Occ"))}]){OfSort(SORT("TypeId"))}
+      , [ Op("Occ2TypeId", [Op("Id2Occ", [Var("t"){OfSort(SORT("Id"))}]){OfSort(SORT("Occ"))}]){OfSort(SORT("TypeId"))}
         , Tuple(
             [ Wld(){OfSort(PATH())}
             , Tuple(
@@ -2380,10 +2406,10 @@ Spec(
             Closure(Label("static-semantics!P"))
           , LLam(
               [ Tuple(
-                  [Occurrence("static-semantics!Field", [Var("u13"){OfSort(STRING())}], WithId(Wld(){OfSort(AST_ID())})), Wld(){OfSort(SORT("TYPE"))}]
+                  [Occurrence("static-semantics!Field", [Var("u16"){OfSort(STRING())}], WithId(Wld(){OfSort(AST_ID())})), Wld(){OfSort(SORT("TYPE"))}]
                 ){OfSort(TUPLE([OCCURRENCE(), SORT("TYPE")]))}
               ]
-            , CEqual(Var("u13"){OfSort(STRING())}, Var("x"){OfSort(STRING())}, NoMessage())
+            , CEqual(Var("u16"){OfSort(STRING())}, Var("x"){OfSort(STRING())}, NoMessage())
             )
           )
         , Min(
@@ -2410,15 +2436,17 @@ Spec(
       , [ Var("s"){OfSort(SCOPE())}
         , Op(
             "FieldVar"
-          , [Var("lval"){OfSort(SORT("LValue"))}, Op("I2O", [Var("x"){OfSort(STRING())}]){OfSort(SORT("Occ"))}]
+          , [ Var("lval"){OfSort(SORT("LValue"))}
+            , Op("Id2Occ", [Op("Id-LEX2Id", [Var("x"){OfSort(STRING())}]){OfSort(SORT("Id"))}]){OfSort(SORT("Occ"))}
+            ]
           ){OfSort(SORT("LValue"))}
-        , Var("out45"){OfSort(SORT("TYPE"))}
+        , Var("out43"){OfSort(SORT("TYPE"))}
         ]
       )
     , CExists(
         [Var("T"){OfSort(SORT("TYPE"))}]
       , CConj(
-          CEqual(Var("out45"){OfSort(SORT("TYPE"))}, Var("T"){OfSort(SORT("TYPE"))}, NoMessage())
+          CEqual(Var("out43"){OfSort(SORT("TYPE"))}, Var("T"){OfSort(SORT("TYPE"))}, NoMessage())
         , CExists(
             [Var("s_rec"){OfSort(SCOPE())}, Var("typeOfLVal3"){OfSort(SORT("TYPE"))}, Var("lookupField1"){OfSort(SORT("TYPE"))}]
           , CConj(
@@ -2451,10 +2479,10 @@ Spec(
       NoName()
     , C(
         "static-semantics!typeOfExp"
-      , [Var("s"){OfSort(SCOPE())}, Op("String", [Wld(){OfSort(STRING())}]){OfSort(SORT("Exp"))}, Var("out46"){OfSort(SORT("TYPE"))}]
+      , [Var("s"){OfSort(SCOPE())}, Op("String", [Wld(){OfSort(SORT("StrConst"))}]){OfSort(SORT("Exp"))}, Var("out44"){OfSort(SORT("TYPE"))}]
       )
     , CConj(
-        CEqual(Var("out46"){OfSort(SORT("TYPE"))}, Op("STRING", []){OfSort(SORT("TYPE"))}, NoMessage())
+        CEqual(Var("out44"){OfSort(SORT("TYPE"))}, Op("STRING", []){OfSort(SORT("TYPE"))}, NoMessage())
       , CTrue()
       )
     )
@@ -2619,8 +2647,100 @@ Spec(
     )
   , Rule(
       NoName()
-    , C("static-semantics!typeOfExps", [Wld(){OfSort(SCOPE())}, List([]){OfSort(LIST(SORT("Exp")))}, Var("out47"){OfSort(LIST(SORT("TYPE")))}])
-    , CConj(CEqual(Var("out47"){OfSort(LIST(SORT("TYPE")))}, List([]){OfSort(LIST(SORT("TYPE")))}, NoMessage()), CTrue())
+    , C("static-semantics!programOk", [Op("Module-Plhdr", []){OfSort(SORT("Module"))}])
+    , CTrue()
+    )
+  , Rule(
+      NoName()
+    , C(
+        "static-semantics!initOk"
+      , [Wld(){OfSort(SCOPE())}, Wld(){OfSort(SCOPE())}, Wld(){OfSort(SCOPE())}, Op("InitField-Plhdr", []){OfSort(SORT("InitField"))}]
+      )
+    , CTrue()
+    )
+  , Rule(
+      NoName()
+    , C(
+        "static-semantics!declareField"
+      , [Wld(){OfSort(SCOPE())}, Op("TypeId-Plhdr", []){OfSort(SORT("TypeId"))}, Var("T"){OfSort(SORT("TYPE"))}]
+      )
+    , CTrue()
+    )
+  , Rule(
+      NoName()
+    , C(
+        "static-semantics!typeOfLVal"
+      , [Wld(){OfSort(SCOPE())}, Op("LValue-Plhdr", []){OfSort(SORT("LValue"))}, Var("out45"){OfSort(SORT("TYPE"))}]
+      )
+    , CExists(
+        [Var("T"){OfSort(SORT("TYPE"))}]
+      , CConj(CEqual(Var("out45"){OfSort(SORT("TYPE"))}, Var("T"){OfSort(SORT("TYPE"))}, NoMessage()), CTrue())
+      )
+    )
+  , Rule(
+      NoName()
+    , C("static-semantics!decOk", [Wld(){OfSort(SCOPE())}, Wld(){OfSort(SCOPE())}, Op("Dec-Plhdr", []){OfSort(SORT("Dec"))}])
+    , CTrue()
+    )
+  , Rule(
+      NoName()
+    , C("static-semantics!tdecOk", [Wld(){OfSort(SCOPE())}, Wld(){OfSort(SCOPE())}, Op("TypeDec-Plhdr", []){OfSort(SORT("TypeDec"))}])
+    , CTrue()
+    )
+  , Rule(
+      NoName()
+    , C(
+        "static-semantics!typeOfType"
+      , [Wld(){OfSort(SCOPE())}, Op("Type-Plhdr", []){OfSort(SORT("Type"))}, Var("out46"){OfSort(SORT("TYPE"))}]
+      )
+    , CExists(
+        [Var("T"){OfSort(SORT("TYPE"))}]
+      , CConj(CEqual(Var("out46"){OfSort(SORT("TYPE"))}, Var("T"){OfSort(SORT("TYPE"))}, NoMessage()), CTrue())
+      )
+    )
+  , Rule(
+      NoName()
+    , C("static-semantics!fdecOk", [Wld(){OfSort(SCOPE())}, Wld(){OfSort(SCOPE())}, Op("FunDec-Plhdr", []){OfSort(SORT("FunDec"))}])
+    , CTrue()
+    )
+  , Rule(
+      NoName()
+    , C(
+        "static-semantics!typeOfArg"
+      , [Wld(){OfSort(SCOPE())}, Wld(){OfSort(SCOPE())}, Op("FArg-Plhdr", []){OfSort(SORT("FArg"))}, Var("out47"){OfSort(SORT("TYPE"))}]
+      )
+    , CExists(
+        [Var("T"){OfSort(SORT("TYPE"))}]
+      , CConj(CEqual(Var("out47"){OfSort(SORT("TYPE"))}, Var("T"){OfSort(SORT("TYPE"))}, NoMessage()), CTrue())
+      )
+    )
+  , Rule(
+      NoName()
+    , C("static-semantics!fieldInitialized", [Op("TypeId-Plhdr", []){OfSort(SORT("TypeId"))}, Wld(){OfSort(
+                                                                                                      TUPLE([PATH(), TUPLE([OCCURRENCE(), SORT("TYPE")])])
+                                                                                                    )}, Wld(){OfSort(SCOPE())}])
+    , CTrue()
+    )
+  , Rule(
+      NoName()
+    , C("static-semantics!fieldOk", [Wld(){OfSort(SCOPE())}, Wld(){OfSort(SCOPE())}, Op("Field-Plhdr", []){OfSort(SORT("Field"))}])
+    , CTrue()
+    )
+  , Rule(
+      NoName()
+    , C(
+        "static-semantics!typeOfExp"
+      , [Wld(){OfSort(SCOPE())}, Op("Exp-Plhdr", []){OfSort(SORT("Exp"))}, Var("out48"){OfSort(SORT("TYPE"))}]
+      )
+    , CExists(
+        [Var("T"){OfSort(SORT("TYPE"))}]
+      , CConj(CEqual(Var("out48"){OfSort(SORT("TYPE"))}, Var("T"){OfSort(SORT("TYPE"))}, NoMessage()), CTrue())
+      )
+    )
+  , Rule(
+      NoName()
+    , C("static-semantics!typeOfExps", [Wld(){OfSort(SCOPE())}, List([]){OfSort(LIST(SORT("Exp")))}, Var("out49"){OfSort(LIST(SORT("TYPE")))}])
+    , CConj(CEqual(Var("out49"){OfSort(LIST(SORT("TYPE")))}, List([]){OfSort(LIST(SORT("TYPE")))}, NoMessage()), CTrue())
     )
   , Rule(
       NoName()
@@ -2628,14 +2748,14 @@ Spec(
         "static-semantics!typeOfExps"
       , [ Var("x_1"){OfSort(SCOPE())}
         , ListTail([Var("x_2"){OfSort(SORT("Exp"))}], Var("xs_2"){OfSort(LIST(SORT("Exp")))}){OfSort(LIST(SORT("Exp")))}
-        , Var("out48"){OfSort(LIST(SORT("TYPE")))}
+        , Var("out50"){OfSort(LIST(SORT("TYPE")))}
         ]
       )
     , CExists(
         [Var("y_1"){OfSort(SORT("TYPE"))}, Var("ys_1"){OfSort(LIST(SORT("TYPE")))}, Var("typeOfExp47"){OfSort(SORT("TYPE"))}, Var("typeOfExps1"){OfSort(LIST(SORT("TYPE")))}]
       , CConj(
           CEqual(
-            Var("out48"){OfSort(LIST(SORT("TYPE")))}
+            Var("out50"){OfSort(LIST(SORT("TYPE")))}
           , ListTail([Var("y_1"){OfSort(SORT("TYPE"))}], Var("ys_1"){OfSort(LIST(SORT("TYPE")))}){OfSort(LIST(SORT("TYPE")))}
           , NoMessage()
           )
@@ -2718,9 +2838,9 @@ Spec(
       NoName()
     , C(
         "static-semantics!typesOfArgs"
-      , [Wld(){OfSort(SCOPE())}, Wld(){OfSort(SCOPE())}, List([]){OfSort(LIST(SORT("FArg")))}, Var("out49"){OfSort(LIST(SORT("TYPE")))}]
+      , [Wld(){OfSort(SCOPE())}, Wld(){OfSort(SCOPE())}, List([]){OfSort(LIST(SORT("FArg")))}, Var("out51"){OfSort(LIST(SORT("TYPE")))}]
       )
-    , CConj(CEqual(Var("out49"){OfSort(LIST(SORT("TYPE")))}, List([]){OfSort(LIST(SORT("TYPE")))}, NoMessage()), CTrue())
+    , CConj(CEqual(Var("out51"){OfSort(LIST(SORT("TYPE")))}, List([]){OfSort(LIST(SORT("TYPE")))}, NoMessage()), CTrue())
     )
   , Rule(
       NoName()
@@ -2729,14 +2849,14 @@ Spec(
       , [ Var("x_1"){OfSort(SCOPE())}
         , Var("x_2"){OfSort(SCOPE())}
         , ListTail([Var("x_3"){OfSort(SORT("FArg"))}], Var("xs_3"){OfSort(LIST(SORT("FArg")))}){OfSort(LIST(SORT("FArg")))}
-        , Var("out50"){OfSort(LIST(SORT("TYPE")))}
+        , Var("out52"){OfSort(LIST(SORT("TYPE")))}
         ]
       )
     , CExists(
         [Var("y_1"){OfSort(SORT("TYPE"))}, Var("ys_1"){OfSort(LIST(SORT("TYPE")))}, Var("typeOfArg0"){OfSort(SORT("TYPE"))}, Var("typesOfArgs2"){OfSort(LIST(SORT("TYPE")))}]
       , CConj(
           CEqual(
-            Var("out50"){OfSort(LIST(SORT("TYPE")))}
+            Var("out52"){OfSort(LIST(SORT("TYPE")))}
           , ListTail([Var("y_1"){OfSort(SORT("TYPE"))}], Var("ys_1"){OfSort(LIST(SORT("TYPE")))}){OfSort(LIST(SORT("TYPE")))}
           , NoMessage()
           )
@@ -2868,49 +2988,665 @@ Spec(
       )
     )
   ]
-, [ ("init", 1, Decl())
+, [ ("declareField", 1, Label("static-semantics!typeOfDecl"))
+  , ("declareField", 1, Decl())
+  , ("tdecOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("tdecOk", 1, Decl())
+  , ("declareType", 1, Label("static-semantics!typeOfDecl"))
+  , ("declareType", 1, Decl())
+  , ("declareVar", 1, Decl())
+  , ("declareVar", 1, Label("static-semantics!typeOfDecl"))
+  , ("declareTypeRaw", 1, Label("static-semantics!typeOfDecl"))
+  , ("declareTypeRaw", 1, Decl())
+  , ("decOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("decOk", 1, Decl())
+  , ("decOk", 1, Decl())
+  , ("decOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("init", 1, Decl())
   , ("init", 1, Label("static-semantics!typeOfDecl"))
   , ("init", 1, Label("static-semantics!typeOfDecl"))
   , ("init", 1, Decl())
-  , ("declareVarRaw", 1, Label("static-semantics!typeOfDecl"))
-  , ("declareVarRaw", 1, Decl())
-  , ("typesOfArgs", 1, Decl())
-  , ("typesOfArgs", 1, Label("static-semantics!typeOfDecl"))
-  , ("declareTypeRaw", 1, Decl())
-  , ("declareTypeRaw", 1, Label("static-semantics!typeOfDecl"))
-  , ("fieldOk", 1, Decl())
-  , ("fieldOk", 1, Label("static-semantics!typeOfDecl"))
-  , ("decOk", 1, Label("static-semantics!typeOfDecl"))
-  , ("decOk", 1, Decl())
-  , ("decOk", 1, Decl())
-  , ("decOk", 1, Label("static-semantics!typeOfDecl"))
-  , ("initsOk", 3, Decl())
-  , ("initsOk", 3, Label("static-semantics!typeOfDecl"))
-  , ("typeOfArg", 1, Decl())
-  , ("typeOfArg", 1, Label("static-semantics!typeOfDecl"))
-  , ("initOk", 3, Decl())
-  , ("initOk", 3, Label("static-semantics!typeOfDecl"))
-  , ("fdecsOk", 1, Decl())
-  , ("fdecsOk", 1, Label("static-semantics!typeOfDecl"))
-  , ("tdecsOk", 1, Label("static-semantics!typeOfDecl"))
-  , ("tdecsOk", 1, Decl())
-  , ("tdecOk", 1, Label("static-semantics!typeOfDecl"))
-  , ("tdecOk", 1, Decl())
-  , ("declareField", 1, Decl())
-  , ("declareField", 1, Label("static-semantics!typeOfDecl"))
-  , ("declareVar", 1, Decl())
-  , ("declareVar", 1, Label("static-semantics!typeOfDecl"))
-  , ("declareType", 1, Label("static-semantics!typeOfDecl"))
-  , ("declareType", 1, Decl())
-  , ("decsOk", 2, Label("static-semantics!P"))
-  , ("decsOk", 2, Label("static-semantics!typeOfDecl"))
-  , ("decsOk", 2, Decl())
-  , ("decsOk", 2, Decl())
-  , ("decsOk", 2, Label("static-semantics!P"))
-  , ("decsOk", 2, Label("static-semantics!typeOfDecl"))
-  , ("fieldsOk", 1, Decl())
-  , ("fieldsOk", 1, Label("static-semantics!typeOfDecl"))
   , ("fdecOk", 1, Decl())
   , ("fdecOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("fieldsOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("fieldsOk", 1, Decl())
+  , ("initOk", 3, Label("static-semantics!typeOfDecl"))
+  , ("initOk", 3, Decl())
+  , ("typeOfArg", 1, Decl())
+  , ("typeOfArg", 1, Label("static-semantics!typeOfDecl"))
+  , ("initsOk", 3, Label("static-semantics!typeOfDecl"))
+  , ("initsOk", 3, Decl())
+  , ("decsOk", 2, Label("static-semantics!typeOfDecl"))
+  , ("decsOk", 2, Decl())
+  , ("decsOk", 2, Decl())
+  , ("decsOk", 2, Label("static-semantics!P"))
+  , ("decsOk", 2, Label("static-semantics!typeOfDecl"))
+  , ("decsOk", 2, Label("static-semantics!P"))
+  , ("tdecsOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("tdecsOk", 1, Decl())
+  , ("declareVarRaw", 1, Decl())
+  , ("declareVarRaw", 1, Label("static-semantics!typeOfDecl"))
+  , ("fieldOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("fieldOk", 1, Decl())
+  , ("fdecsOk", 1, Decl())
+  , ("fdecsOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("typesOfArgs", 1, Decl())
+  , ("typesOfArgs", 1, Label("static-semantics!typeOfDecl"))
+  , ("declareField", 1, Label("static-semantics!typeOfDecl"))
+  , ("declareField", 1, Decl())
+  , ("tdecOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("tdecOk", 1, Decl())
+  , ("declareType", 1, Label("static-semantics!typeOfDecl"))
+  , ("declareType", 1, Decl())
+  , ("declareVar", 1, Decl())
+  , ("declareVar", 1, Label("static-semantics!typeOfDecl"))
+  , ("declareTypeRaw", 1, Label("static-semantics!typeOfDecl"))
+  , ("declareTypeRaw", 1, Decl())
+  , ("decOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("decOk", 1, Decl())
+  , ("decOk", 1, Decl())
+  , ("decOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("init", 1, Decl())
+  , ("init", 1, Label("static-semantics!typeOfDecl"))
+  , ("init", 1, Label("static-semantics!typeOfDecl"))
+  , ("init", 1, Decl())
+  , ("fdecOk", 1, Decl())
+  , ("fdecOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("fieldsOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("fieldsOk", 1, Decl())
+  , ("initOk", 3, Label("static-semantics!typeOfDecl"))
+  , ("initOk", 3, Decl())
+  , ("typeOfArg", 1, Decl())
+  , ("typeOfArg", 1, Label("static-semantics!typeOfDecl"))
+  , ("initsOk", 3, Label("static-semantics!typeOfDecl"))
+  , ("initsOk", 3, Decl())
+  , ("decsOk", 2, Label("static-semantics!typeOfDecl"))
+  , ("decsOk", 2, Decl())
+  , ("decsOk", 2, Decl())
+  , ("decsOk", 2, Label("static-semantics!P"))
+  , ("decsOk", 2, Label("static-semantics!typeOfDecl"))
+  , ("decsOk", 2, Label("static-semantics!P"))
+  , ("tdecsOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("tdecsOk", 1, Decl())
+  , ("declareVarRaw", 1, Decl())
+  , ("declareVarRaw", 1, Label("static-semantics!typeOfDecl"))
+  , ("fieldOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("fieldOk", 1, Decl())
+  , ("fdecsOk", 1, Decl())
+  , ("fdecsOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("typesOfArgs", 1, Decl())
+  , ("typesOfArgs", 1, Label("static-semantics!typeOfDecl"))
+  , ("declareField", 1, Label("static-semantics!typeOfDecl"))
+  , ("declareField", 1, Decl())
+  , ("tdecOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("tdecOk", 1, Decl())
+  , ("declareType", 1, Label("static-semantics!typeOfDecl"))
+  , ("declareType", 1, Decl())
+  , ("declareVar", 1, Decl())
+  , ("declareVar", 1, Label("static-semantics!typeOfDecl"))
+  , ("declareTypeRaw", 1, Label("static-semantics!typeOfDecl"))
+  , ("declareTypeRaw", 1, Decl())
+  , ("decOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("decOk", 1, Decl())
+  , ("decOk", 1, Decl())
+  , ("decOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("init", 1, Decl())
+  , ("init", 1, Label("static-semantics!typeOfDecl"))
+  , ("init", 1, Label("static-semantics!typeOfDecl"))
+  , ("init", 1, Decl())
+  , ("fdecOk", 1, Decl())
+  , ("fdecOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("fieldsOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("fieldsOk", 1, Decl())
+  , ("initOk", 3, Label("static-semantics!typeOfDecl"))
+  , ("initOk", 3, Decl())
+  , ("typeOfArg", 1, Decl())
+  , ("typeOfArg", 1, Label("static-semantics!typeOfDecl"))
+  , ("initsOk", 3, Label("static-semantics!typeOfDecl"))
+  , ("initsOk", 3, Decl())
+  , ("decsOk", 2, Label("static-semantics!typeOfDecl"))
+  , ("decsOk", 2, Decl())
+  , ("decsOk", 2, Decl())
+  , ("decsOk", 2, Label("static-semantics!P"))
+  , ("decsOk", 2, Label("static-semantics!typeOfDecl"))
+  , ("decsOk", 2, Label("static-semantics!P"))
+  , ("tdecsOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("tdecsOk", 1, Decl())
+  , ("declareVarRaw", 1, Decl())
+  , ("declareVarRaw", 1, Label("static-semantics!typeOfDecl"))
+  , ("fieldOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("fieldOk", 1, Decl())
+  , ("fdecsOk", 1, Decl())
+  , ("fdecsOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("typesOfArgs", 1, Decl())
+  , ("typesOfArgs", 1, Label("static-semantics!typeOfDecl"))
+  , ("declareField", 1, Label("static-semantics!typeOfDecl"))
+  , ("declareField", 1, Decl())
+  , ("tdecOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("tdecOk", 1, Decl())
+  , ("declareType", 1, Label("static-semantics!typeOfDecl"))
+  , ("declareType", 1, Decl())
+  , ("declareVar", 1, Decl())
+  , ("declareVar", 1, Label("static-semantics!typeOfDecl"))
+  , ("declareTypeRaw", 1, Label("static-semantics!typeOfDecl"))
+  , ("declareTypeRaw", 1, Decl())
+  , ("decOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("decOk", 1, Decl())
+  , ("decOk", 1, Decl())
+  , ("decOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("init", 1, Decl())
+  , ("init", 1, Label("static-semantics!typeOfDecl"))
+  , ("init", 1, Label("static-semantics!typeOfDecl"))
+  , ("init", 1, Decl())
+  , ("fdecOk", 1, Decl())
+  , ("fdecOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("fieldsOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("fieldsOk", 1, Decl())
+  , ("initOk", 3, Label("static-semantics!typeOfDecl"))
+  , ("initOk", 3, Decl())
+  , ("typeOfArg", 1, Decl())
+  , ("typeOfArg", 1, Label("static-semantics!typeOfDecl"))
+  , ("initsOk", 3, Label("static-semantics!typeOfDecl"))
+  , ("initsOk", 3, Decl())
+  , ("decsOk", 2, Label("static-semantics!typeOfDecl"))
+  , ("decsOk", 2, Decl())
+  , ("decsOk", 2, Decl())
+  , ("decsOk", 2, Label("static-semantics!P"))
+  , ("decsOk", 2, Label("static-semantics!typeOfDecl"))
+  , ("decsOk", 2, Label("static-semantics!P"))
+  , ("tdecsOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("tdecsOk", 1, Decl())
+  , ("declareVarRaw", 1, Decl())
+  , ("declareVarRaw", 1, Label("static-semantics!typeOfDecl"))
+  , ("fieldOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("fieldOk", 1, Decl())
+  , ("fdecsOk", 1, Decl())
+  , ("fdecsOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("typesOfArgs", 1, Decl())
+  , ("typesOfArgs", 1, Label("static-semantics!typeOfDecl"))
+  , ("declareField", 1, Label("static-semantics!typeOfDecl"))
+  , ("declareField", 1, Decl())
+  , ("tdecOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("tdecOk", 1, Decl())
+  , ("declareType", 1, Label("static-semantics!typeOfDecl"))
+  , ("declareType", 1, Decl())
+  , ("declareVar", 1, Decl())
+  , ("declareVar", 1, Label("static-semantics!typeOfDecl"))
+  , ("declareTypeRaw", 1, Label("static-semantics!typeOfDecl"))
+  , ("declareTypeRaw", 1, Decl())
+  , ("decOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("decOk", 1, Decl())
+  , ("decOk", 1, Decl())
+  , ("decOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("init", 1, Decl())
+  , ("init", 1, Label("static-semantics!typeOfDecl"))
+  , ("init", 1, Label("static-semantics!typeOfDecl"))
+  , ("init", 1, Decl())
+  , ("fdecOk", 1, Decl())
+  , ("fdecOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("fieldsOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("fieldsOk", 1, Decl())
+  , ("initOk", 3, Label("static-semantics!typeOfDecl"))
+  , ("initOk", 3, Decl())
+  , ("typeOfArg", 1, Decl())
+  , ("typeOfArg", 1, Label("static-semantics!typeOfDecl"))
+  , ("initsOk", 3, Label("static-semantics!typeOfDecl"))
+  , ("initsOk", 3, Decl())
+  , ("decsOk", 2, Label("static-semantics!typeOfDecl"))
+  , ("decsOk", 2, Decl())
+  , ("decsOk", 2, Decl())
+  , ("decsOk", 2, Label("static-semantics!P"))
+  , ("decsOk", 2, Label("static-semantics!typeOfDecl"))
+  , ("decsOk", 2, Label("static-semantics!P"))
+  , ("tdecsOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("tdecsOk", 1, Decl())
+  , ("declareVarRaw", 1, Decl())
+  , ("declareVarRaw", 1, Label("static-semantics!typeOfDecl"))
+  , ("fieldOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("fieldOk", 1, Decl())
+  , ("fdecsOk", 1, Decl())
+  , ("fdecsOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("typesOfArgs", 1, Decl())
+  , ("typesOfArgs", 1, Label("static-semantics!typeOfDecl"))
+  , ("declareField", 1, Label("static-semantics!typeOfDecl"))
+  , ("declareField", 1, Decl())
+  , ("tdecOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("tdecOk", 1, Decl())
+  , ("declareType", 1, Label("static-semantics!typeOfDecl"))
+  , ("declareType", 1, Decl())
+  , ("declareVar", 1, Decl())
+  , ("declareVar", 1, Label("static-semantics!typeOfDecl"))
+  , ("declareTypeRaw", 1, Label("static-semantics!typeOfDecl"))
+  , ("declareTypeRaw", 1, Decl())
+  , ("decOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("decOk", 1, Decl())
+  , ("decOk", 1, Decl())
+  , ("decOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("init", 1, Decl())
+  , ("init", 1, Label("static-semantics!typeOfDecl"))
+  , ("init", 1, Label("static-semantics!typeOfDecl"))
+  , ("init", 1, Decl())
+  , ("fdecOk", 1, Decl())
+  , ("fdecOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("fieldsOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("fieldsOk", 1, Decl())
+  , ("initOk", 3, Label("static-semantics!typeOfDecl"))
+  , ("initOk", 3, Decl())
+  , ("typeOfArg", 1, Decl())
+  , ("typeOfArg", 1, Label("static-semantics!typeOfDecl"))
+  , ("initsOk", 3, Label("static-semantics!typeOfDecl"))
+  , ("initsOk", 3, Decl())
+  , ("decsOk", 2, Label("static-semantics!typeOfDecl"))
+  , ("decsOk", 2, Decl())
+  , ("decsOk", 2, Decl())
+  , ("decsOk", 2, Label("static-semantics!P"))
+  , ("decsOk", 2, Label("static-semantics!typeOfDecl"))
+  , ("decsOk", 2, Label("static-semantics!P"))
+  , ("tdecsOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("tdecsOk", 1, Decl())
+  , ("declareVarRaw", 1, Decl())
+  , ("declareVarRaw", 1, Label("static-semantics!typeOfDecl"))
+  , ("fieldOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("fieldOk", 1, Decl())
+  , ("fdecsOk", 1, Decl())
+  , ("fdecsOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("typesOfArgs", 1, Decl())
+  , ("typesOfArgs", 1, Label("static-semantics!typeOfDecl"))
+  , ("declareField", 1, Label("static-semantics!typeOfDecl"))
+  , ("declareField", 1, Decl())
+  , ("tdecOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("tdecOk", 1, Decl())
+  , ("declareType", 1, Label("static-semantics!typeOfDecl"))
+  , ("declareType", 1, Decl())
+  , ("declareVar", 1, Decl())
+  , ("declareVar", 1, Label("static-semantics!typeOfDecl"))
+  , ("declareTypeRaw", 1, Label("static-semantics!typeOfDecl"))
+  , ("declareTypeRaw", 1, Decl())
+  , ("decOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("decOk", 1, Decl())
+  , ("decOk", 1, Decl())
+  , ("decOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("init", 1, Decl())
+  , ("init", 1, Label("static-semantics!typeOfDecl"))
+  , ("init", 1, Label("static-semantics!typeOfDecl"))
+  , ("init", 1, Decl())
+  , ("fdecOk", 1, Decl())
+  , ("fdecOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("fieldsOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("fieldsOk", 1, Decl())
+  , ("initOk", 3, Label("static-semantics!typeOfDecl"))
+  , ("initOk", 3, Decl())
+  , ("typeOfArg", 1, Decl())
+  , ("typeOfArg", 1, Label("static-semantics!typeOfDecl"))
+  , ("initsOk", 3, Label("static-semantics!typeOfDecl"))
+  , ("initsOk", 3, Decl())
+  , ("decsOk", 2, Label("static-semantics!typeOfDecl"))
+  , ("decsOk", 2, Decl())
+  , ("decsOk", 2, Decl())
+  , ("decsOk", 2, Label("static-semantics!P"))
+  , ("decsOk", 2, Label("static-semantics!typeOfDecl"))
+  , ("decsOk", 2, Label("static-semantics!P"))
+  , ("tdecsOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("tdecsOk", 1, Decl())
+  , ("declareVarRaw", 1, Decl())
+  , ("declareVarRaw", 1, Label("static-semantics!typeOfDecl"))
+  , ("fieldOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("fieldOk", 1, Decl())
+  , ("fdecsOk", 1, Decl())
+  , ("fdecsOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("typesOfArgs", 1, Decl())
+  , ("typesOfArgs", 1, Label("static-semantics!typeOfDecl"))
+  , ("declareField", 1, Label("static-semantics!typeOfDecl"))
+  , ("declareField", 1, Decl())
+  , ("tdecOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("tdecOk", 1, Decl())
+  , ("declareType", 1, Label("static-semantics!typeOfDecl"))
+  , ("declareType", 1, Decl())
+  , ("declareVar", 1, Decl())
+  , ("declareVar", 1, Label("static-semantics!typeOfDecl"))
+  , ("declareTypeRaw", 1, Label("static-semantics!typeOfDecl"))
+  , ("declareTypeRaw", 1, Decl())
+  , ("decOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("decOk", 1, Decl())
+  , ("decOk", 1, Decl())
+  , ("decOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("init", 1, Decl())
+  , ("init", 1, Label("static-semantics!typeOfDecl"))
+  , ("init", 1, Label("static-semantics!typeOfDecl"))
+  , ("init", 1, Decl())
+  , ("fdecOk", 1, Decl())
+  , ("fdecOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("fieldsOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("fieldsOk", 1, Decl())
+  , ("initOk", 3, Label("static-semantics!typeOfDecl"))
+  , ("initOk", 3, Decl())
+  , ("typeOfArg", 1, Decl())
+  , ("typeOfArg", 1, Label("static-semantics!typeOfDecl"))
+  , ("initsOk", 3, Label("static-semantics!typeOfDecl"))
+  , ("initsOk", 3, Decl())
+  , ("decsOk", 2, Label("static-semantics!typeOfDecl"))
+  , ("decsOk", 2, Decl())
+  , ("decsOk", 2, Decl())
+  , ("decsOk", 2, Label("static-semantics!P"))
+  , ("decsOk", 2, Label("static-semantics!typeOfDecl"))
+  , ("decsOk", 2, Label("static-semantics!P"))
+  , ("tdecsOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("tdecsOk", 1, Decl())
+  , ("declareVarRaw", 1, Decl())
+  , ("declareVarRaw", 1, Label("static-semantics!typeOfDecl"))
+  , ("fieldOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("fieldOk", 1, Decl())
+  , ("fdecsOk", 1, Decl())
+  , ("fdecsOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("typesOfArgs", 1, Decl())
+  , ("typesOfArgs", 1, Label("static-semantics!typeOfDecl"))
+  , ("declareField", 1, Label("static-semantics!typeOfDecl"))
+  , ("declareField", 1, Decl())
+  , ("tdecOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("tdecOk", 1, Decl())
+  , ("declareType", 1, Label("static-semantics!typeOfDecl"))
+  , ("declareType", 1, Decl())
+  , ("declareVar", 1, Decl())
+  , ("declareVar", 1, Label("static-semantics!typeOfDecl"))
+  , ("declareTypeRaw", 1, Label("static-semantics!typeOfDecl"))
+  , ("declareTypeRaw", 1, Decl())
+  , ("decOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("decOk", 1, Decl())
+  , ("decOk", 1, Decl())
+  , ("decOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("init", 1, Decl())
+  , ("init", 1, Label("static-semantics!typeOfDecl"))
+  , ("init", 1, Label("static-semantics!typeOfDecl"))
+  , ("init", 1, Decl())
+  , ("fdecOk", 1, Decl())
+  , ("fdecOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("fieldsOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("fieldsOk", 1, Decl())
+  , ("initOk", 3, Label("static-semantics!typeOfDecl"))
+  , ("initOk", 3, Decl())
+  , ("typeOfArg", 1, Decl())
+  , ("typeOfArg", 1, Label("static-semantics!typeOfDecl"))
+  , ("initsOk", 3, Label("static-semantics!typeOfDecl"))
+  , ("initsOk", 3, Decl())
+  , ("decsOk", 2, Label("static-semantics!typeOfDecl"))
+  , ("decsOk", 2, Decl())
+  , ("decsOk", 2, Decl())
+  , ("decsOk", 2, Label("static-semantics!P"))
+  , ("decsOk", 2, Label("static-semantics!typeOfDecl"))
+  , ("decsOk", 2, Label("static-semantics!P"))
+  , ("tdecsOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("tdecsOk", 1, Decl())
+  , ("declareVarRaw", 1, Decl())
+  , ("declareVarRaw", 1, Label("static-semantics!typeOfDecl"))
+  , ("fieldOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("fieldOk", 1, Decl())
+  , ("fdecsOk", 1, Decl())
+  , ("fdecsOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("typesOfArgs", 1, Decl())
+  , ("typesOfArgs", 1, Label("static-semantics!typeOfDecl"))
+  , ("declareField", 1, Label("static-semantics!typeOfDecl"))
+  , ("declareField", 1, Decl())
+  , ("tdecOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("tdecOk", 1, Decl())
+  , ("declareType", 1, Label("static-semantics!typeOfDecl"))
+  , ("declareType", 1, Decl())
+  , ("declareVar", 1, Decl())
+  , ("declareVar", 1, Label("static-semantics!typeOfDecl"))
+  , ("declareTypeRaw", 1, Label("static-semantics!typeOfDecl"))
+  , ("declareTypeRaw", 1, Decl())
+  , ("decOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("decOk", 1, Decl())
+  , ("decOk", 1, Decl())
+  , ("decOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("init", 1, Decl())
+  , ("init", 1, Label("static-semantics!typeOfDecl"))
+  , ("init", 1, Label("static-semantics!typeOfDecl"))
+  , ("init", 1, Decl())
+  , ("fdecOk", 1, Decl())
+  , ("fdecOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("fieldsOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("fieldsOk", 1, Decl())
+  , ("initOk", 3, Label("static-semantics!typeOfDecl"))
+  , ("initOk", 3, Decl())
+  , ("typeOfArg", 1, Decl())
+  , ("typeOfArg", 1, Label("static-semantics!typeOfDecl"))
+  , ("initsOk", 3, Label("static-semantics!typeOfDecl"))
+  , ("initsOk", 3, Decl())
+  , ("decsOk", 2, Label("static-semantics!typeOfDecl"))
+  , ("decsOk", 2, Decl())
+  , ("decsOk", 2, Decl())
+  , ("decsOk", 2, Label("static-semantics!P"))
+  , ("decsOk", 2, Label("static-semantics!typeOfDecl"))
+  , ("decsOk", 2, Label("static-semantics!P"))
+  , ("tdecsOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("tdecsOk", 1, Decl())
+  , ("declareVarRaw", 1, Decl())
+  , ("declareVarRaw", 1, Label("static-semantics!typeOfDecl"))
+  , ("fieldOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("fieldOk", 1, Decl())
+  , ("fdecsOk", 1, Decl())
+  , ("fdecsOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("typesOfArgs", 1, Decl())
+  , ("typesOfArgs", 1, Label("static-semantics!typeOfDecl"))
+  , ("declareField", 1, Label("static-semantics!typeOfDecl"))
+  , ("declareField", 1, Decl())
+  , ("tdecOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("tdecOk", 1, Decl())
+  , ("declareType", 1, Label("static-semantics!typeOfDecl"))
+  , ("declareType", 1, Decl())
+  , ("declareVar", 1, Decl())
+  , ("declareVar", 1, Label("static-semantics!typeOfDecl"))
+  , ("declareTypeRaw", 1, Label("static-semantics!typeOfDecl"))
+  , ("declareTypeRaw", 1, Decl())
+  , ("decOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("decOk", 1, Decl())
+  , ("decOk", 1, Decl())
+  , ("decOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("init", 1, Decl())
+  , ("init", 1, Label("static-semantics!typeOfDecl"))
+  , ("init", 1, Label("static-semantics!typeOfDecl"))
+  , ("init", 1, Decl())
+  , ("fdecOk", 1, Decl())
+  , ("fdecOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("fieldsOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("fieldsOk", 1, Decl())
+  , ("initOk", 3, Label("static-semantics!typeOfDecl"))
+  , ("initOk", 3, Decl())
+  , ("typeOfArg", 1, Decl())
+  , ("typeOfArg", 1, Label("static-semantics!typeOfDecl"))
+  , ("initsOk", 3, Label("static-semantics!typeOfDecl"))
+  , ("initsOk", 3, Decl())
+  , ("decsOk", 2, Label("static-semantics!typeOfDecl"))
+  , ("decsOk", 2, Decl())
+  , ("decsOk", 2, Decl())
+  , ("decsOk", 2, Label("static-semantics!P"))
+  , ("decsOk", 2, Label("static-semantics!typeOfDecl"))
+  , ("decsOk", 2, Label("static-semantics!P"))
+  , ("tdecsOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("tdecsOk", 1, Decl())
+  , ("declareVarRaw", 1, Decl())
+  , ("declareVarRaw", 1, Label("static-semantics!typeOfDecl"))
+  , ("fieldOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("fieldOk", 1, Decl())
+  , ("fdecsOk", 1, Decl())
+  , ("fdecsOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("typesOfArgs", 1, Decl())
+  , ("typesOfArgs", 1, Label("static-semantics!typeOfDecl"))
+  , ("declareField", 1, Label("static-semantics!typeOfDecl"))
+  , ("declareField", 1, Decl())
+  , ("tdecOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("tdecOk", 1, Decl())
+  , ("declareType", 1, Label("static-semantics!typeOfDecl"))
+  , ("declareType", 1, Decl())
+  , ("declareVar", 1, Decl())
+  , ("declareVar", 1, Label("static-semantics!typeOfDecl"))
+  , ("declareTypeRaw", 1, Label("static-semantics!typeOfDecl"))
+  , ("declareTypeRaw", 1, Decl())
+  , ("decOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("decOk", 1, Decl())
+  , ("decOk", 1, Decl())
+  , ("decOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("init", 1, Decl())
+  , ("init", 1, Label("static-semantics!typeOfDecl"))
+  , ("init", 1, Label("static-semantics!typeOfDecl"))
+  , ("init", 1, Decl())
+  , ("fdecOk", 1, Decl())
+  , ("fdecOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("fieldsOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("fieldsOk", 1, Decl())
+  , ("initOk", 3, Label("static-semantics!typeOfDecl"))
+  , ("initOk", 3, Decl())
+  , ("typeOfArg", 1, Decl())
+  , ("typeOfArg", 1, Label("static-semantics!typeOfDecl"))
+  , ("initsOk", 3, Label("static-semantics!typeOfDecl"))
+  , ("initsOk", 3, Decl())
+  , ("decsOk", 2, Label("static-semantics!typeOfDecl"))
+  , ("decsOk", 2, Decl())
+  , ("decsOk", 2, Decl())
+  , ("decsOk", 2, Label("static-semantics!P"))
+  , ("decsOk", 2, Label("static-semantics!typeOfDecl"))
+  , ("decsOk", 2, Label("static-semantics!P"))
+  , ("tdecsOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("tdecsOk", 1, Decl())
+  , ("declareVarRaw", 1, Decl())
+  , ("declareVarRaw", 1, Label("static-semantics!typeOfDecl"))
+  , ("fieldOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("fieldOk", 1, Decl())
+  , ("fdecsOk", 1, Decl())
+  , ("fdecsOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("typesOfArgs", 1, Decl())
+  , ("typesOfArgs", 1, Label("static-semantics!typeOfDecl"))
+  , ("declareField", 1, Label("static-semantics!typeOfDecl"))
+  , ("declareField", 1, Decl())
+  , ("tdecOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("tdecOk", 1, Decl())
+  , ("declareType", 1, Label("static-semantics!typeOfDecl"))
+  , ("declareType", 1, Decl())
+  , ("declareVar", 1, Decl())
+  , ("declareVar", 1, Label("static-semantics!typeOfDecl"))
+  , ("declareTypeRaw", 1, Label("static-semantics!typeOfDecl"))
+  , ("declareTypeRaw", 1, Decl())
+  , ("decOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("decOk", 1, Decl())
+  , ("decOk", 1, Decl())
+  , ("decOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("init", 1, Decl())
+  , ("init", 1, Label("static-semantics!typeOfDecl"))
+  , ("init", 1, Label("static-semantics!typeOfDecl"))
+  , ("init", 1, Decl())
+  , ("fdecOk", 1, Decl())
+  , ("fdecOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("fieldsOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("fieldsOk", 1, Decl())
+  , ("initOk", 3, Label("static-semantics!typeOfDecl"))
+  , ("initOk", 3, Decl())
+  , ("typeOfArg", 1, Decl())
+  , ("typeOfArg", 1, Label("static-semantics!typeOfDecl"))
+  , ("initsOk", 3, Label("static-semantics!typeOfDecl"))
+  , ("initsOk", 3, Decl())
+  , ("decsOk", 2, Label("static-semantics!typeOfDecl"))
+  , ("decsOk", 2, Decl())
+  , ("decsOk", 2, Decl())
+  , ("decsOk", 2, Label("static-semantics!P"))
+  , ("decsOk", 2, Label("static-semantics!typeOfDecl"))
+  , ("decsOk", 2, Label("static-semantics!P"))
+  , ("tdecsOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("tdecsOk", 1, Decl())
+  , ("declareVarRaw", 1, Decl())
+  , ("declareVarRaw", 1, Label("static-semantics!typeOfDecl"))
+  , ("fieldOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("fieldOk", 1, Decl())
+  , ("fdecsOk", 1, Decl())
+  , ("fdecsOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("typesOfArgs", 1, Decl())
+  , ("typesOfArgs", 1, Label("static-semantics!typeOfDecl"))
+  , ("declareField", 1, Label("static-semantics!typeOfDecl"))
+  , ("declareField", 1, Decl())
+  , ("tdecOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("tdecOk", 1, Decl())
+  , ("declareType", 1, Label("static-semantics!typeOfDecl"))
+  , ("declareType", 1, Decl())
+  , ("declareVar", 1, Decl())
+  , ("declareVar", 1, Label("static-semantics!typeOfDecl"))
+  , ("declareTypeRaw", 1, Label("static-semantics!typeOfDecl"))
+  , ("declareTypeRaw", 1, Decl())
+  , ("decOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("decOk", 1, Decl())
+  , ("decOk", 1, Decl())
+  , ("decOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("init", 1, Decl())
+  , ("init", 1, Label("static-semantics!typeOfDecl"))
+  , ("init", 1, Label("static-semantics!typeOfDecl"))
+  , ("init", 1, Decl())
+  , ("fdecOk", 1, Decl())
+  , ("fdecOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("fieldsOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("fieldsOk", 1, Decl())
+  , ("initOk", 3, Label("static-semantics!typeOfDecl"))
+  , ("initOk", 3, Decl())
+  , ("typeOfArg", 1, Decl())
+  , ("typeOfArg", 1, Label("static-semantics!typeOfDecl"))
+  , ("initsOk", 3, Label("static-semantics!typeOfDecl"))
+  , ("initsOk", 3, Decl())
+  , ("decsOk", 2, Label("static-semantics!typeOfDecl"))
+  , ("decsOk", 2, Decl())
+  , ("decsOk", 2, Decl())
+  , ("decsOk", 2, Label("static-semantics!P"))
+  , ("decsOk", 2, Label("static-semantics!typeOfDecl"))
+  , ("decsOk", 2, Label("static-semantics!P"))
+  , ("tdecsOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("tdecsOk", 1, Decl())
+  , ("declareVarRaw", 1, Decl())
+  , ("declareVarRaw", 1, Label("static-semantics!typeOfDecl"))
+  , ("fieldOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("fieldOk", 1, Decl())
+  , ("fdecsOk", 1, Decl())
+  , ("fdecsOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("typesOfArgs", 1, Decl())
+  , ("typesOfArgs", 1, Label("static-semantics!typeOfDecl"))
+  , ("declareField", 1, Label("static-semantics!typeOfDecl"))
+  , ("declareField", 1, Decl())
+  , ("tdecOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("tdecOk", 1, Decl())
+  , ("declareType", 1, Label("static-semantics!typeOfDecl"))
+  , ("declareType", 1, Decl())
+  , ("declareVar", 1, Decl())
+  , ("declareVar", 1, Label("static-semantics!typeOfDecl"))
+  , ("declareTypeRaw", 1, Label("static-semantics!typeOfDecl"))
+  , ("declareTypeRaw", 1, Decl())
+  , ("decOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("decOk", 1, Decl())
+  , ("decOk", 1, Decl())
+  , ("decOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("init", 1, Decl())
+  , ("init", 1, Label("static-semantics!typeOfDecl"))
+  , ("init", 1, Label("static-semantics!typeOfDecl"))
+  , ("init", 1, Decl())
+  , ("fdecOk", 1, Decl())
+  , ("fdecOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("fieldsOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("fieldsOk", 1, Decl())
+  , ("initOk", 3, Label("static-semantics!typeOfDecl"))
+  , ("initOk", 3, Decl())
+  , ("typeOfArg", 1, Decl())
+  , ("typeOfArg", 1, Label("static-semantics!typeOfDecl"))
+  , ("initsOk", 3, Label("static-semantics!typeOfDecl"))
+  , ("initsOk", 3, Decl())
+  , ("decsOk", 2, Label("static-semantics!typeOfDecl"))
+  , ("decsOk", 2, Decl())
+  , ("decsOk", 2, Decl())
+  , ("decsOk", 2, Label("static-semantics!P"))
+  , ("decsOk", 2, Label("static-semantics!typeOfDecl"))
+  , ("decsOk", 2, Label("static-semantics!P"))
+  , ("tdecsOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("tdecsOk", 1, Decl())
+  , ("declareVarRaw", 1, Decl())
+  , ("declareVarRaw", 1, Label("static-semantics!typeOfDecl"))
+  , ("fieldOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("fieldOk", 1, Decl())
+  , ("fdecsOk", 1, Decl())
+  , ("fdecsOk", 1, Label("static-semantics!typeOfDecl"))
+  , ("typesOfArgs", 1, Decl())
+  , ("typesOfArgs", 1, Label("static-semantics!typeOfDecl"))
   ]
 )
