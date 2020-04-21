@@ -74,11 +74,11 @@ public abstract class SpoofaxCompletionContributor extends CompletionContributor
         }
 
         if (completionResult == null) return;
-        SpoofaxCompletionInsertHandler insertHandler = new SpoofaxCompletionInsertHandler(completionResult.getReplacementRegion());
-        result.addAllElements(completionResult.getProposals().stream().map(p -> proposalToElement(p, insertHandler)).collect(Collectors.toList()));
+//        SpoofaxCompletionInsertHandler insertHandler = new SpoofaxCompletionInsertHandler(completionResult.getReplacementRegion());
+        result.addAllElements(completionResult.getProposals().stream().map(p -> proposalToElement(p/*, insertHandler */)).collect(Collectors.toList()));
     }
 
-    private LookupElement proposalToElement(CompletionProposal proposal, SpoofaxCompletionInsertHandler insertHandler) {
+    private LookupElement proposalToElement(CompletionProposal proposal) {//}, SpoofaxCompletionInsertHandler insertHandler) {
         return LookupElementBuilder
             .create(proposal.getLabel())
             .withTailText(proposal.getParameters() + (proposal.getLocation().isEmpty() ? "" : " " + proposal.getLocation()))
