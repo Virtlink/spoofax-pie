@@ -1,8 +1,10 @@
 package mb.spoofax.intellij.editor;
 
 import com.intellij.codeInsight.completion.CompletionContributor;
+import com.intellij.codeInsight.completion.CompletionInitializationContext;
 import com.intellij.codeInsight.completion.CompletionParameters;
 import com.intellij.codeInsight.completion.CompletionResultSet;
+import com.intellij.codeInsight.completion.InsertionContext;
 import com.intellij.codeInsight.lookup.LookupElement;
 import com.intellij.codeInsight.lookup.LookupElementBuilder;
 import com.intellij.icons.AllIcons;
@@ -25,6 +27,7 @@ import mb.spoofax.intellij.IntellijLanguageComponent;
 import mb.spoofax.intellij.SpoofaxPlugin;
 import mb.spoofax.intellij.resource.IntellijResourceRegistry;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jetbrains.annotations.NotNull;
 
 import javax.inject.Provider;
 import javax.swing.*;
@@ -53,6 +56,11 @@ public abstract class SpoofaxCompletionContributor extends CompletionContributor
     }
 
     @Override
+    public void beforeCompletion(@NotNull CompletionInitializationContext context) {
+        super.beforeCompletion(context);
+    }
+
+    @Override
     public void fillCompletionVariants(CompletionParameters parameters, CompletionResultSet result) {
         final Resource resource = resourceRegistry.getResource(parameters.getOriginalFile());
         final ResourceKey resourceKey = resource.getKey();
@@ -66,17 +74,17 @@ public abstract class SpoofaxCompletionContributor extends CompletionContributor
         }
 
         if (completionResult == null) return;
-        List<LookupElement> elements = completionResult.getProposals().stream().map(this::proposalToElement).collect(Collectors.toList());
-        result.addAllElements(elements);
-        result.addAllElements(completionResult.getProposals().stream().map(this::proposalToElement).collect(Collectors.toList()));
+        SpoofaxCompletionInsertHandler insertHandler = new SpoofaxCompletionInsertHandler(completionResult.getReplacementRegion());
+        result.addAllElements(completionResult.getProposals().stream().map(p -> proposalToElement(p, insertHandler)).collect(Collectors.toList()));
     }
 
-    private LookupElement proposalToElement(CompletionProposal proposal) {
+    private LookupElement proposalToElement(CompletionProposal proposal, SpoofaxCompletionInsertHandler insertHandler) {
         return LookupElementBuilder
             .create(proposal.getLabel())
             .withTailText(proposal.getParameters() + (proposal.getLocation().isEmpty() ? "" : " " + proposal.getLocation()))
             .withTypeText(proposal.getType().isEmpty() ? proposal.getDescription() : proposal.getType(), true)
             .withIcon(getIcon(StyleNames.of(proposal.getKind())));
+//            .withInsertHandler(insertHandler);
     }
 
     private @Nullable Icon getIcon(StyleNames styles) {
