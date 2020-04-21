@@ -132,7 +132,7 @@ public class TigerCompleteTaskDef implements TaskDef<TigerCompleteTaskDef.Input,
         //    TODO: What to do when the file is semantically incorrect? Recovery?
         SolverContext ctx = analyzer.createContext();
         // TODO: Specify spec name and root rule name somewhere
-        SolverState initialState = analyzer.analyze(ctx, statixAst, "static-semantics", "programOK");
+        SolverState initialState = analyzer.analyze(ctx, statixAst, "static-semantics", "programOk");
         if (initialState.hasErrors()) {
             log.error("Completion failed: input program validation failed.\n" + initialState.toString());
             return null;    // Cannot complete when analysis fails.
