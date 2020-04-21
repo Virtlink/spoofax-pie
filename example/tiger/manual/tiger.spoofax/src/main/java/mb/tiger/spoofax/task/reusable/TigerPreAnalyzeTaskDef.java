@@ -39,8 +39,4 @@ public final class TigerPreAnalyzeTaskDef extends StrategoTaskDefBase<TigerPreAn
     @Override public @Nullable IStrategoTerm exec(ExecContext context, Input input) throws Exception {
         return callStrategy("pre-analyze", input.termSupplier.get(context));
     }
-
-//    @Override public Task<IStrategoTerm> createTask(Input input) {
-//        return StrategoTaskDefBase.super.createTask(input);
-//    }
 }

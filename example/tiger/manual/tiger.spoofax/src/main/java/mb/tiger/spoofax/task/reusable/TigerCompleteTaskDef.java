@@ -25,7 +25,6 @@ import mb.statix.codecompletion.TermCompleter;
 import mb.statix.common.SolverContext;
 import mb.statix.common.SolverState;
 import mb.nabl2.terms.stratego.PlaceholderVarMap;
-import mb.statix.spoofax.StatixTerms;
 import mb.tiger.TigerAnalyzer;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spoofax.interpreter.terms.IStrategoAppl;
@@ -51,23 +50,23 @@ public class TigerCompleteTaskDef implements TaskDef<TigerCompleteTaskDef.Input,
         public final int caretLocation;
         public final Supplier<@Nullable IStrategoTerm> astSupplier;
         public final Function<IStrategoTerm, @Nullable String> prettyPrinterFunction;
-        public final Function<IStrategoTerm, @Nullable IStrategoTerm> explicateFunction;
-        public final Function<IStrategoTerm, @Nullable IStrategoTerm> deexplicateFunction;
+        public final Function<IStrategoTerm, @Nullable IStrategoTerm> preAnalyzeFunction;
+        public final Function<IStrategoTerm, @Nullable IStrategoTerm> postAnalyzeFunction;
 
         public Input(
             ResourceKey resourceKey,
             int caretLocation,
             Supplier<IStrategoTerm> astSupplier,
             Function<IStrategoTerm, @Nullable String> prettyPrinterFunction,
-            Function<IStrategoTerm, @Nullable IStrategoTerm> explicateFunction,
-            Function<IStrategoTerm, @Nullable IStrategoTerm> deexplicateFunction
+            Function<IStrategoTerm, @Nullable IStrategoTerm> preAnalyzeFunction,
+            Function<IStrategoTerm, @Nullable IStrategoTerm> postAnalyzeFunction
         ) {
             this.resourceKey = resourceKey;
             this.caretLocation = caretLocation;
             this.astSupplier = astSupplier;
             this.prettyPrinterFunction = prettyPrinterFunction;
-            this.explicateFunction = explicateFunction;
-            this.deexplicateFunction = deexplicateFunction;
+            this.preAnalyzeFunction = preAnalyzeFunction;
+            this.postAnalyzeFunction = postAnalyzeFunction;
         }
     }
 
@@ -153,7 +152,7 @@ public class TigerCompleteTaskDef implements TaskDef<TigerCompleteTaskDef.Input,
                 @Nullable IStrategoTerm deexplicatedTerm = deexplicate(context, input, t);
                 if (deexplicatedTerm == null) return t.toString();  // Return the term when deexplication failed
                 @Nullable String prettyPrinted = prettyPrint(context, deexplicatedTerm, input.prettyPrinterFunction);
-                return prettyPrinted != null ? prettyPrinted : t.toString();    // Return the term when pretty-printing failed
+                return prettyPrinted != null ? prettyPrinted : deexplicatedTerm.toString();    // Return the term when pretty-printing failed
             } catch(ExecException | InterruptedException e) {
                 throw new RuntimeException(e);
             }
@@ -167,7 +166,20 @@ public class TigerCompleteTaskDef implements TaskDef<TigerCompleteTaskDef.Input,
             log.warn("Completion returned no completion proposals.");
         }
 
-        return new CompletionResult(ListView.copyOf(completionProposals), true);
+        return new CompletionResult(ListView.copyOf(completionProposals), getRegionOfTerm(placeholder), true);
+    }
+
+    /**
+     * Gets the region of the specified term.
+     *
+     * @param term the term
+     * @return the associated region
+     */
+    private static Region getRegionOfTerm(IStrategoTerm term) {
+        ImploderAttachment imploderAttachment = ImploderAttachment.get(term);
+        int startOffset = imploderAttachment.getLeftToken().getStartOffset();
+        int endOffset = imploderAttachment.getRightToken().getEndOffset();
+        return Region.fromOffsets(startOffset, endOffset);
     }
 
     /**
@@ -274,12 +286,12 @@ public class TigerCompleteTaskDef implements TaskDef<TigerCompleteTaskDef.Input,
 
     private @Nullable IStrategoTerm explicate(ExecContext context, Input input, IStrategoTerm term) throws ExecException, InterruptedException {
         // TODO:
-        return input.explicateFunction.apply(context, term);
+        return input.preAnalyzeFunction.apply(context, term);
     }
 
     private @Nullable IStrategoTerm deexplicate(ExecContext context, Input input, IStrategoTerm term) throws ExecException, InterruptedException {
         // TODO
-        return term;
-//        return input.deexplicateFunction.apply(context, term);
+//        return term;
+        return input.postAnalyzeFunction.apply(context, term);
     }
 }

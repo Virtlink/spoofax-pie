@@ -47,8 +47,8 @@ public class TigerInstance implements LanguageInstance {
     private final TigerCompleteTaskDef completeTaskDef;
     private final TigerStatixSpecTaskDef statixSpecTaskDef;
     private final TigerPrettyPrintTaskDef prettyPrintTaskDef;
-    private final TigerPreAnalyzeTaskDef explicateTaskDef;
-//    private final TigerDeexplicateTaskDef deexplicateTaskDef;
+    private final TigerPreAnalyzeTaskDef preAnalyzeTaskDef;
+    private final TigerPostAnalyzeTaskDef postAnalyzeTaskDef;
 
     private final TigerShowParsedAstCommand showParsedAstCommand;
     private final TigerShowPrettyPrintedTextCommand showPrettyPrintedTextCommand;
@@ -70,7 +70,8 @@ public class TigerInstance implements LanguageInstance {
         TigerCompleteTaskDef completeTaskDef,
         TigerStatixSpecTaskDef statixSpecTaskDef,
         TigerPrettyPrintTaskDef prettyPrintTaskDef,
-        TigerPreAnalyzeTaskDef explicateTaskDef,
+        TigerPreAnalyzeTaskDef preAnalyzeTaskDef,
+        TigerPostAnalyzeTaskDef postAnalyzeTaskDef,
 
         TigerShowParsedAstCommand showParsedAstCommand,
         TigerShowPrettyPrintedTextCommand showPrettyPrintedTextCommand,
@@ -90,7 +91,8 @@ public class TigerInstance implements LanguageInstance {
         this.completeTaskDef = completeTaskDef;
         this.statixSpecTaskDef = statixSpecTaskDef;
         this.prettyPrintTaskDef = prettyPrintTaskDef;
-        this.explicateTaskDef = explicateTaskDef;
+        this.preAnalyzeTaskDef = preAnalyzeTaskDef;
+        this.postAnalyzeTaskDef = postAnalyzeTaskDef;
 
         this.showParsedAstCommand = showParsedAstCommand;
         this.showPrettyPrintedTextCommand = showPrettyPrintedTextCommand;
@@ -129,9 +131,8 @@ public class TigerInstance implements LanguageInstance {
             primarySelection.getStartOffset(),
             parse.createAstSupplier(resourceKey),
             (c, t) -> prettyPrintTaskDef.createFunction().apply(c, new TigerPrettyPrintTaskDef.Input(c2 -> t)),
-            (c, t) -> explicateTaskDef.createFunction().apply(c, new TigerPreAnalyzeTaskDef.Input(c2 -> t)),
-            null
-//            deexplicateFunction
+            (c, t) -> preAnalyzeTaskDef.createFunction().apply(c, new TigerPreAnalyzeTaskDef.Input(c2 -> t)),
+            (c, t) -> postAnalyzeTaskDef.createFunction().apply(c, new TigerPostAnalyzeTaskDef.Input(c2 -> t))
         ));
     }
 
