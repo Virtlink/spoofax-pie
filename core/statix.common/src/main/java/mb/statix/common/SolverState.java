@@ -250,6 +250,16 @@ public final class SolverState {
         return new SolverState(state, messages, constraints.freeze(), delays.freeze(), existentials, completeness);
     }
 
+    /**
+     * Projects the variable to a value through the unifier.
+     *
+     * @param var the variable to project
+     * @return the fully instantiated value associated with the variable; or itself when not found
+     */
+    public ITerm project(ITermVar var) {
+        return getState().unifier().findRecursive(var);
+    }
+
     @Override public String toString() {
         StringWriter out = new StringWriter();
         PrintWriter writer = new PrintWriter(out);

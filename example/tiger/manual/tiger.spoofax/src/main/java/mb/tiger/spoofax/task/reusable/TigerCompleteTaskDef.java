@@ -285,13 +285,10 @@ public class TigerCompleteTaskDef implements TaskDef<TigerCompleteTaskDef.Input,
     }
 
     private @Nullable IStrategoTerm explicate(ExecContext context, Input input, IStrategoTerm term) throws ExecException, InterruptedException {
-        // TODO:
         return input.preAnalyzeFunction.apply(context, term);
     }
 
     private @Nullable IStrategoTerm deexplicate(ExecContext context, Input input, IStrategoTerm term) throws ExecException, InterruptedException {
-        // TODO
-//        return term;
         return input.postAnalyzeFunction.apply(context, term);
     }
 }

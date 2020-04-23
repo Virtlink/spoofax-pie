@@ -2,42 +2,69 @@ Mod(
   Let(
     [ FunDecs(
         [ FunDec(
-            I2O("fact")
-          , [FArg(I2O("n"), Tid(O2TI(I2O("int"))))]
-          , Tid(O2TI(I2O("int")))
+            Id2Occ(Id-LEX2Id("fact"))
+          , [FArg(
+               Id2Occ(Id-LEX2Id("n"))
+             , Tid(Occ2TypeId(Id2Occ(Id-LEX2Id("int"))))
+             )]
+          , Tid(Occ2TypeId(Id2Occ(Id-LEX2Id("int"))))
           , Let(
               [ VarDecNoType(
-                  I2O("c")
-                , Lt(LV2E(V2LV(Var(I2O("n")))), Int("1"))
+                  Id2Occ(Id-LEX2Id("c"))
+                , Lt(
+                    LValue2Exp(Var2LValue(Var(Id2Occ(Id-LEX2Id("n")))))
+                  , Int(IntConst-LEX2IntConst("1"))
+                  )
                 )
               ]
             , [ If(
-                  LV2E(V2LV(Var(I2O("c"))))
-                , Int("1")
+                  LValue2Exp(Var2LValue(Var(Id2Occ(Id-LEX2Id("c")))))
+                , Int(IntConst-LEX2IntConst("1"))
                 , Let(
                     [ VarDec(
-                        I2O("a")
-                      , Tid(O2TI(I2O("int")))
-                      , Minus(LV2E(V2LV(Var(I2O("n")))), Int("1"))
+                        Id2Occ(Id-LEX2Id("l"))
+                      , Tid(Occ2TypeId(Id2Occ(Id-LEX2Id("int"))))
+                      , LValue2Exp(Var2LValue(Var(Id2Occ(Id-LEX2Id("n")))))
                       )
                     , VarDec(
-                        I2O("b")
-                      , Tid(O2TI(I2O("int")))
-                      , Call(
-                          I2O("fact")
-                        , [LV2E(V2LV(Var(I2O("a"))))]
-                        )
-                      )
-                    , VarDec(
-                        I2O("c")
-                      , Tid(O2TI(I2O("int")))
-                      , Times(
-                          LV2E(V2LV(Var(I2O("n"))))
-                        , LV2E(V2LV(Var(I2O("b"))))
-                        )
+                        Id2Occ(Id-LEX2Id("r"))
+                      , Tid(Occ2TypeId(Id2Occ(Id-LEX2Id("int"))))
+                      , Int(IntConst-LEX2IntConst("1"))
                       )
                     ]
-                  , [LV2E(V2LV(Var(I2O("c"))))]
+                  , [ Let(
+                        [ VarDec(
+                            Id2Occ(Id-LEX2Id("a"))
+                          , Tid(Occ2TypeId(Id2Occ(Id-LEX2Id("int"))))
+                          , Minus(
+                              LValue2Exp(Var2LValue(Var(Id2Occ(Id-LEX2Id("l")))))
+                            , LValue2Exp(Var2LValue(Var(Id2Occ(Id-LEX2Id("r")))))
+                            )
+                          )
+                        , VarDec(
+                            Id2Occ(Id-LEX2Id("b"))
+                          , Tid(Occ2TypeId(Id2Occ(Id-LEX2Id("int"))))
+                          , Call(
+                              Id2Occ(Id-LEX2Id("fact"))
+                            , [LValue2Exp(Var2LValue(Var(Id2Occ(Id-LEX2Id("a")))))]
+                            )
+                          )
+                        ]
+                      , [ Let(
+                            [ VarDec(
+                                Id2Occ(Id-LEX2Id("c"))
+                              , Tid(Occ2TypeId(Id2Occ(Id-LEX2Id("int"))))
+                              , Times(
+                                  LValue2Exp(Var2LValue(Var(Id2Occ(Id-LEX2Id("n")))))
+                                , LValue2Exp(Var2LValue(Var(Id2Occ(Id-LEX2Id("b")))))
+                                )
+                              )
+                            ]
+                          , [LValue2Exp(Var2LValue(Var(Id2Occ(Id-LEX2Id("c")))))]
+                          )
+                        ]
+                      )
+                    ]
                   )
                 )
               ]
@@ -46,10 +73,10 @@ Mod(
         ]
       )
     , VarDecNoType(
-        I2O("r")
-      , Call(I2O("fact"), [Int("10")])
+        Id2Occ(Id-LEX2Id("r"))
+      , Call(Id2Occ(Id-LEX2Id("fact")), [Int(IntConst-LEX2IntConst("10"))])
       )
     ]
-  , [LV2E(V2LV(Var(I2O("r"))))]
+  , [LValue2Exp(Var2LValue(Var(Id2Occ(Id-LEX2Id("r")))))]
   )
 )

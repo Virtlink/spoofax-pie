@@ -1,7 +1,5 @@
 package mb.statix.codecompletion;
 
-
-import com.google.common.collect.ImmutableMap;
 import mb.nabl2.terms.ITerm;
 import mb.nabl2.terms.ITermVar;
 import mb.nabl2.terms.matching.TermPattern;
@@ -12,7 +10,6 @@ import mb.nabl2.terms.substitution.PersistentSubstitution;
 import mb.statix.common.SolverState;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.immutables.value.Value;
-import org.spoofax.interpreter.terms.IStrategoTerm;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -99,15 +96,28 @@ abstract class CompletionExpectation<T extends ITerm> {
                 return null;
             }
         }
-        ITerm expectedTerm = getExpectations().get(var);
-        if (expectedTerm == null) {
-            throw new IllegalStateException("expected term is null");
+
+        ISubstitution.@Nullable Immutable substitution = trySubtitute(var, term);
+        if (substitution == null) {
+            // The variable can never be replaced by the actual term,
+            // so we reject this proposal.
+            return null;
         }
-        // Does the term we got, including variables, match the expected term?
-        Optional<ISubstitution.Immutable> optSubstitution = TermPattern.P.fromTerm(term).match(expectedTerm);
-        if (!optSubstitution.isPresent()) return null;
-        // Yes, and the substitution shows the new variables and their expected term values
-        ISubstitution.Immutable substitution = optSubstitution.get();
+
+        // Additionally, we can only accept a proposal if the other variables can be matched to their new values,
+        // or where the new value is the same as the old value, the new value is a variable, or the new value is unknown.
+        for (ITermVar v : this.getVars()) {
+            if (v.equals(var)) continue;
+            ITerm actualTerm = proposal.getNewState().project(v);
+            boolean matches = trySubtitute(v, actualTerm) != null;
+            if (!matches) {
+                // The variable can never be replaced by the value in the unifier,
+                // so we reject this proposal.
+                return null;
+            }
+        }
+
+        // The substitution shows the new variables and their expected term values
         HashMap<ITermVar, ITerm> expectedAsts = new HashMap<>(this.getExpectations());
         expectedAsts.remove(var);
         for(Map.Entry<ITermVar, ITerm> entry : substitution.entrySet()) {
@@ -115,5 +125,12 @@ abstract class CompletionExpectation<T extends ITerm> {
         }
         ITerm newIncompleteAst = PersistentSubstitution.Immutable.of(var, term).apply(getIncompleteAst());
         return ImmutableCompletionExpectation.of(newIncompleteAst, expectedAsts, proposal.getNewState());
+    }
+
+    public ISubstitution.@Nullable Immutable trySubtitute(ITermVar var, ITerm actualTerm) {
+        ITerm expectedTerm = getExpectations().get(var);
+        assert expectedTerm != null;
+        // Does the term we got, including variables, match the expected term?
+        return TermPattern.P.fromTerm(actualTerm).match(expectedTerm).orElse(null);
     }
 }

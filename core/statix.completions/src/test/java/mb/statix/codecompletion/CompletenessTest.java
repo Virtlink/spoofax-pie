@@ -116,23 +116,32 @@ public class CompletenessTest {
                 List<TermCompleter.CompletionSolverProposal> proposals = completer.complete(ctx, state, var);
                 // For each proposal, find the candidates that fit
                 final ImmutableCompletionExpectation<? extends ITerm> currentCompletionExpectation = completionExpectation;
+                log.info("------------------------------\n" +
+                    "Complete var " + var + " in AST:\n  " + currentCompletionExpectation.getIncompleteAst() + "\n" +
+                    "Expected:\n  " + currentCompletionExpectation.getExpectations().get(var) + "\n" +
+                    "State:\n  " + state);
+
                 final List<ImmutableCompletionExpectation<? extends ITerm>> candidates = proposals.stream()
                     .map(p -> currentCompletionExpectation.tryReplace(var, p))
                     .filter(Objects::nonNull).collect(Collectors.toList());
                 if(candidates.size() == 1) {
                     // Only one candidate, let's apply it
                     completionExpectation = candidates.get(0);
+                    log.info("Got 1 candidate:\n  " + candidates.stream().map(c -> c.getState().toString()).collect(Collectors.joining("\n  ")) + "\n"// +
+//                        "Proposals:\n  " + proposals.stream().map(p -> p.getTerm() + " <-  " + p.getNewState()).collect(Collectors.joining("\n  "))
+                    );
                 } else if(candidates.size() > 1) {
                     // Multiple candidates, let's use the one with the least number of open variables
                     // and otherwise the first one (could also use the biggest one instead)
                     candidates.sort(Comparator.comparingInt(o -> o.getVars().size()));
                     completionExpectation = candidates.get(0);
+                    log.info("Got " + candidates.size() + " candidates:\n  " + candidates.stream().map(c -> c.getState().toString()).collect(Collectors.joining("\n  ")) + "\n"// +
+//                        "Proposals:\n  " + proposals.stream().map(p -> p.getTerm() + " <-  " + p.getNewState()).collect(Collectors.joining("\n  "))
+                    );
                 } else {
                     // No candidates, completion algorithm is not complete
-                    fail(() -> "Could not complete var " + var + " in AST:\n  " + currentCompletionExpectation.getIncompleteAst() + "\n" +
-                        "Expected:\n  " + currentCompletionExpectation.getExpectations().get(var) + "\n" +
-                        "From proposals:\n  " + proposals.stream().map(p -> p.getTerm() + "\n  " + p.getNewState()).collect(Collectors.joining("\n  ")) + "\n" +
-                        "Got NO candidates. State:\n  " + state);
+                    fail(() -> "Got NO candidates.\n" +
+                        "Proposals:\n  " + proposals.stream().map(p -> p.getTerm() + " <-  " + p.getNewState()).collect(Collectors.joining("\n  ")));
                     return;
                 }
                 stepCount += 1;

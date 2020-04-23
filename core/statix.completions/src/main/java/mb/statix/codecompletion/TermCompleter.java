@@ -58,7 +58,7 @@ public final class TermCompleter {
             return Collections.singletonList(new CompletionSolverProposal(state, termInUnifier));
         } else {
             // The variable we're looking for is not in the unifier
-            return completeNodes(ctx, state, placeholderVar).map(s -> new CompletionSolverProposal(s, project(placeholderVar, s))).collect(Collectors.toList());
+            return completeNodes(ctx, state, placeholderVar).map(s -> new CompletionSolverProposal(s, s.project(placeholderVar))).collect(Collectors.toList());
         }
     }
 
@@ -75,8 +75,8 @@ public final class TermCompleter {
     }
 
     private Strategy<SolverState, SolverState, SolverContext> buildCompletionStrategy(ITermVar placeholderVar, Strategy<FocusedSolverState<CUser>, SolverState, SolverContext> continuation) {
-//        return seq(limit(1, focus(CUser.class, (c, s) -> c.args().stream().anyMatch(a -> a.getVars().contains(placeholderVar)))))
-        return seq(print("Focus ("+placeholderVar+"): ", limit(1, focus(CUser.class, (c, s) -> constraintContainsVar(s, c, placeholderVar)))))
+        return seq(limit(1, focus(CUser.class, (c, s) -> constraintContainsVar(s, c, placeholderVar))))
+//        return seq(print("Focus ("+placeholderVar+"): ", limit(1, focus(CUser.class, (c, s) -> constraintContainsVar(s, c, placeholderVar)))))
             .$(continuation)
             .$();
     }
@@ -90,9 +90,9 @@ public final class TermCompleter {
             .anyMatch(var::equals));
     }
 
-    private static ITerm project(ITermVar placeholderVar, SolverState s) {
-        return s.getState().unifier().findRecursive(placeholderVar);
-    }
+//    private static ITerm project(ITermVar placeholderVar, SolverState s) {
+//        return s.getState().unifier().findRecursive(placeholderVar);
+//    }
 
     /**
      * A completion solver result.
