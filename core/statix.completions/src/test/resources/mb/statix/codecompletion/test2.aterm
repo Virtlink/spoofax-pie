@@ -22,49 +22,31 @@ Mod(
                 , Int(IntConst-LEX2IntConst("1"))
                 , Let(
                     [ VarDec(
-                        Id2Occ(Id-LEX2Id("l"))
+                        Id2Occ(Id-LEX2Id("a"))
                       , Tid(Occ2TypeId(Id2Occ(Id-LEX2Id("int"))))
-                      , LValue2Exp(Var2LValue(Var(Id2Occ(Id-LEX2Id("n")))))
+                      , Minus(
+                          LValue2Exp(Var2LValue(Var(Id2Occ(Id-LEX2Id("n")))))
+                        , Int(IntConst-LEX2IntConst("1"))
+                        )
                       )
                     , VarDec(
-                        Id2Occ(Id-LEX2Id("r"))
+                        Id2Occ(Id-LEX2Id("b"))
                       , Tid(Occ2TypeId(Id2Occ(Id-LEX2Id("int"))))
-                      , Int(IntConst-LEX2IntConst("1"))
+                      , Call(
+                          Id2Occ(Id-LEX2Id("fact"))
+                        , [LValue2Exp(Var2LValue(Var(Id2Occ(Id-LEX2Id("a")))))]
+                        )
+                      )
+                    , VarDec(
+                        Id2Occ(Id-LEX2Id("c"))
+                      , Tid(Occ2TypeId(Id2Occ(Id-LEX2Id("int"))))
+                      , Times(
+                          LValue2Exp(Var2LValue(Var(Id2Occ(Id-LEX2Id("n")))))
+                        , LValue2Exp(Var2LValue(Var(Id2Occ(Id-LEX2Id("b")))))
+                        )
                       )
                     ]
-                  , [ Let(
-                        [ VarDec(
-                            Id2Occ(Id-LEX2Id("a"))
-                          , Tid(Occ2TypeId(Id2Occ(Id-LEX2Id("int"))))
-                          , Minus(
-                              LValue2Exp(Var2LValue(Var(Id2Occ(Id-LEX2Id("l")))))
-                            , LValue2Exp(Var2LValue(Var(Id2Occ(Id-LEX2Id("r")))))
-                            )
-                          )
-                        , VarDec(
-                            Id2Occ(Id-LEX2Id("b"))
-                          , Tid(Occ2TypeId(Id2Occ(Id-LEX2Id("int"))))
-                          , Call(
-                              Id2Occ(Id-LEX2Id("fact"))
-                            , [LValue2Exp(Var2LValue(Var(Id2Occ(Id-LEX2Id("a")))))]
-                            )
-                          )
-                        ]
-                      , [ Let(
-                            [ VarDec(
-                                Id2Occ(Id-LEX2Id("c"))
-                              , Tid(Occ2TypeId(Id2Occ(Id-LEX2Id("int"))))
-                              , Times(
-                                  LValue2Exp(Var2LValue(Var(Id2Occ(Id-LEX2Id("n")))))
-                                , LValue2Exp(Var2LValue(Var(Id2Occ(Id-LEX2Id("b")))))
-                                )
-                              )
-                            ]
-                          , [LValue2Exp(Var2LValue(Var(Id2Occ(Id-LEX2Id("c")))))]
-                          )
-                        ]
-                      )
-                    ]
+                  , [LValue2Exp(Var2LValue(Var(Id2Occ(Id-LEX2Id("c")))))]
                   )
                 )
               ]

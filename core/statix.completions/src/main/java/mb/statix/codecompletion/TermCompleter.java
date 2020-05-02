@@ -28,19 +28,50 @@ import static mb.statix.search.strategies.Strategies.*;
 public final class TermCompleter {
 
     private static Strategy<FocusedSolverState<CUser>, SolverState, SolverContext> completionStrategyCont =
+//        // @formatter:off
+//        seq(expandRule())
+//            .$(infer())
+//            .$(isSuccessful())
+//            .$(delayStuckQueries())
+//            .$(repeat(seq(limit(1, focus(CResolveQuery.class)))
+//                .$(expandQuery())
+//                .$(infer())
+//                .$(isSuccessful())
+//                .$(delayStuckQueries())
+//                .$()
+//            ))
+////            .$(id())
+//            .$();
+//        // @formatter:on
+//        // @formatter:off
+//            seq(print("Expand Rule: ", expandRule()))
+//             .$(print("Infer Rule: ", infer()))
+//             .$(print("Success Rule: ", isSuccessful()))
+//             .$(delayStuckQueries())
+//             .$(repeat(print("Repetition: ", seq(limit(1, focus(CResolveQuery.class)))
+//                .$(print("Expand Query: ", expandQuery()))
+//                .$(print("Infer Query: ", infer()))
+//                .$(print("Success Query: ", isSuccessful()))
+//                .$(print("Delay Query: ", delayStuckQueries()))
+//                .$()
+//             )))
+//             .$(print("Result: ", id()))
+//             .$();
+//            // @formatter:on
         // @formatter:off
-        seq(print("Expand: ", expandRule()))
-         .$(print("Infer: ", infer()))
-         .$(print("Success: ", isSuccessful()))
-         .$(delayStuckQueries())
-         .$(repeat(print("Repetition: ", seq(limit(1, focus(CResolveQuery.class)))
-            .$(expandQuery())
-            .$(infer())
+        seq(print("Expand Rule: ", expandRule()))
+            .$(print("Infer Rule: ", infer()))
             .$(isSuccessful())
             .$(delayStuckQueries())
-            .$()
-         )))
-         .$();
+            .$(repeat(seq(limit(1, focus(CResolveQuery.class)))
+                .$(print("Expand Query: ", expandQuery()))
+                .$(print("Infer Query: ", infer()))
+                .$(isSuccessful())
+                .$(delayStuckQueries())
+                .$()
+            ))
+            .$(print("Result: ", id()))
+            .$();
     // @formatter:on
 
     /**
