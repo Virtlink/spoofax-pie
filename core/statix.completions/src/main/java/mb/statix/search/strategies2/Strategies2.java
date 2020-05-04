@@ -1,7 +1,8 @@
-package mb.statix.search.strategies;
+package mb.statix.search.strategies2;
 
 import mb.statix.common.strategies.Strategy;
-import mb.statix.search.*;
+import mb.statix.common.strategies.Strategy2;
+import mb.statix.search.strategies.AssertStrategy;
 
 import java.util.Random;
 import java.util.function.Consumer;
@@ -11,7 +12,7 @@ import java.util.function.Predicate;
 /**
  * Convenience functions for creating strategies.
  */
-public final class Strategies {
+public final class Strategies2 {
 
     /**
      * Asserts that the given condition is true.
@@ -35,8 +36,21 @@ public final class Strategies {
      * @param <CTX> the context of the strategy
      * @return the resulting strategy
      */
-    public static <T, R, CTX> DebugStrategy<T, R, CTX> debug(Strategy<T, R, CTX> s, Consumer<R> action) {
-        return new DebugStrategy<>(s, action);
+    public static <T, R, CTX> DebugStrategy2<T, R, CTX> debug(Strategy2<T, R, CTX> s, Consumer<R> action) {
+        return new DebugStrategy2<>(s, action);
+    }
+
+    /**
+     * Returns only the distinct results.
+     *
+     * @param s the strategy
+     * @param <T> the type of input for the strategy
+     * @param <R> the type of outputs for the strategy
+     * @param <CTX> the context of the strategy
+     * @return the resulting strategy
+     */
+    public static <T, R, CTX> DistinctStrategy2<T, R, CTX> distinct(Strategy2<T, R, CTX> s) {
+        return new DistinctStrategy2<>(s);
     }
 
     /**
@@ -46,8 +60,20 @@ public final class Strategies {
      * @param <CTX> the context of the strategy
      * @return the resulting strategy
      */
-    public static <T, CTX> FailStrategy<T, CTX> fail() {
-        return new FailStrategy<>();
+    public static <T, CTX> FailStrategy2<T, CTX> fail() {
+        return new FailStrategy2<>();
+    }
+
+    /**
+     * Fix-point.
+     *
+     * @param s the strategy
+     * @param <T> the type of inputs and outputs for the strategy
+     * @param <CTX> the context of the strategy
+     * @return the resulting strategy
+     */
+    public static <T, CTX> FixSetStrategy2<T, CTX> fixSet(Strategy2<T, T, CTX> s) {
+        return new FixSetStrategy2<>(s);
     }
 
     /**
@@ -57,8 +83,24 @@ public final class Strategies {
      * @param <CTX> the context of the strategy
      * @return the resulting strategy
      */
-    public static <T, CTX> IdStrategy<T, CTX> id() {
-        return new IdStrategy<>();
+    public static <T, CTX> IdStrategy2<T, CTX> id() {
+        return new IdStrategy2<>();
+    }
+
+    /**
+     * If strategy.
+     *
+     * @param c condition
+     * @param t then
+     * @param e else
+     * @param <I> the type of input for the strategy
+     * @param <M> the intermediate type
+     * @param <O> the type of outputs for the strategy
+     * @param <CTX> the context of the strategy
+     * @return the resulting strategy
+     */
+    public static <I, M, O, CTX> IfStrategy2<I, M, O, CTX> if_(Strategy2<I, M, CTX> c, Strategy2<M, O, CTX> t, Strategy2<I, O, CTX> e) {
+        return new IfStrategy2<>(c, t, e);
     }
 
     /**
@@ -71,8 +113,8 @@ public final class Strategies {
      * @param <CTX> the context of the strategy
      * @return the resulting strategy
      */
-    public static <T, R, CTX> LimitStrategy<T, R, CTX> limit(int limit, Strategy<T, R, CTX> s) {
-        return new LimitStrategy<>(limit, s);
+    public static <T, R, CTX> LimitStrategy2<T, R, CTX> limit(int limit, Strategy2<T, R, CTX> s) {
+        return new LimitStrategy2<>(limit, s);
     }
 
     /**
@@ -85,8 +127,8 @@ public final class Strategies {
      * @param <CTX> the context of the strategy
      * @return the resulting strategy
      */
-    public static <T, R, CTX> OrStrategy<T, R, CTX> or(Strategy<T, R, CTX> s1, Strategy<T, R, CTX> s2) {
-        return new OrStrategy<>(s1, s2);
+    public static <T, R, CTX> OrStrategy2<T, R, CTX> or(Strategy2<T, R, CTX> s1, Strategy2<T, R, CTX> s2) {
+        return new OrStrategy2<>(s1, s2);
     }
 
     /**
@@ -98,8 +140,8 @@ public final class Strategies {
      * @param <CTX> the context of the strategy
      * @return the resulting strategy
      */
-    public static <T, R, CTX> DebugStrategy<T, R, CTX> print(String prefix, Strategy<T, R, CTX> s) {
-        return new DebugStrategy<>(s, v -> System.out.println(prefix + v.toString()));
+    public static <T, R, CTX> DebugStrategy2<T, R, CTX> print(String prefix, Strategy2<T, R, CTX> s) {
+        return new DebugStrategy2<>(s, v -> System.out.println(prefix + v.toString()));
     }
 
     /**
@@ -111,7 +153,7 @@ public final class Strategies {
      * @param <CTX> the context of the strategy
      * @return the resulting strategy
      */
-    public static <T, R, CTX> DebugStrategy<T, R, CTX> print(Strategy<T, R, CTX> s) {
+    public static <T, R, CTX> DebugStrategy2<T, R, CTX> print(Strategy2<T, R, CTX> s) {
         return print("", s);
     }
 
@@ -122,7 +164,7 @@ public final class Strategies {
      * @param <CTX> the context of the strategy
      * @return the resulting strategy
      */
-    public static <T, CTX> DebugStrategy<T, T, CTX> print() {
+    public static <T, CTX> DebugStrategy2<T, T, CTX> print() {
         return print(id());
     }
 
@@ -134,8 +176,8 @@ public final class Strategies {
      * @param <CTX> the context of the strategy
      * @return the resulting strategy
      */
-    public static <T, CTX> RepeatStrategy<T, CTX> repeat(Strategy<T, T, CTX> s) {
-        return new RepeatStrategy<>(s);
+    public static <T, CTX> RepeatStrategy2<T, CTX> repeat(Strategy2<T, T, CTX> s) {
+        return new RepeatStrategy2<>(s);
     }
 
     /**
@@ -147,8 +189,8 @@ public final class Strategies {
      * @param <CTX> the context of the strategy
      * @return the resulting strategy
      */
-    public static <T, R, CTX> SeqStrategy.Builder<T, R, CTX> seq(Strategy<T, R, CTX> s) {
-        return new SeqStrategy.Builder<>(s);
+    public static <T, R, CTX> SeqStrategy2.Builder<T, R, CTX> seq(Strategy2<T, R, CTX> s) {
+        return new SeqStrategy2.Builder<>(s);
     }
 
     /**
@@ -161,8 +203,8 @@ public final class Strategies {
      * @param <CTX> the context of the strategy
      * @return the resulting strategy
      */
-    public static <T, R, CTX> ShuffleStrategy<T, R, CTX> shuffle(Random rng, Strategy<T, R, CTX> s) {
-        return new ShuffleStrategy<>(rng, s);
+    public static <T, R, CTX> ShuffleStrategy2<T, R, CTX> shuffle(Random rng, Strategy2<T, R, CTX> s) {
+        return new ShuffleStrategy2<>(rng, s);
     }
 
     /**
@@ -174,7 +216,7 @@ public final class Strategies {
      * @param <CTX> the context of the strategy
      * @return the resulting strategy
      */
-    public static <T, R, CTX> ShuffleStrategy<T, R, CTX> shuffle(Strategy<T, R, CTX> s) {
+    public static <T, R, CTX> ShuffleStrategy2<T, R, CTX> shuffle(Strategy2<T, R, CTX> s) {
         return shuffle(new Random(), s);
     }
 
@@ -186,8 +228,8 @@ public final class Strategies {
      * @param <CTX> the context of the strategy
      * @return the resulting strategy
      */
-    public static <T, CTX> TryStrategy<T, CTX> try_(Strategy<T, T, CTX> s) {
-        return new TryStrategy<>(s);
+    public static <T, CTX> TryStrategy2<T, CTX> try_(Strategy2<T, T, CTX> s) {
+        return new TryStrategy2<>(s);
     }
 
 }
