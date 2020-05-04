@@ -1,1 +1,1 @@
-Mod(Let([FunDecs([FunDec(Id2Occ(Id-LEX2Id("fact")),[],Tid(Occ2TypeId(Occ-Plhdr())),Let([],[Exp-Plhdr()]))])],[Int(IntConst-LEX2IntConst("3"))]))
+Mod(Let([FunDecs([FunDec(Id2Occ(Id-LEX2Id("fact")),[],Tid(Occ2TypeId(Id2Occ(Id-LEX2Id("int")))),Let([],[Exp-Plhdr()]))])],[Int(IntConst-LEX2IntConst("3"))]))
