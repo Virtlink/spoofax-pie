@@ -33,6 +33,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 
 
 /**
@@ -260,12 +261,29 @@ public final class SolverState {
         return getState().unifier().findRecursive(var);
     }
 
+    @Override public boolean equals(Object o) {
+        if(this == o) return true;
+        if(o == null || getClass() != o.getClass()) return false;
+        SolverState that = (SolverState)o;
+        return state.equals(that.state) &&
+            constraints.equals(that.constraints) &&
+            delays.equals(that.delays) &&
+            Objects.equals(existentials, that.existentials) &&
+            completeness.equals(that.completeness) &&
+            messages.equals(that.messages);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(state, constraints, delays, existentials, completeness, messages);
+    }
+
     @Override public String toString() {
         StringWriter out = new StringWriter();
         PrintWriter writer = new PrintWriter(out);
         try {
             writer.println("SolverState:");
-            write(writer, (t, u) -> new UnifierFormatter(u, 2).format(t));
+            write(writer, (t, u) -> new UnifierFormatter(u, /* Increased from 2 */ 8).format(t));
         } catch (IOException e) {
             // This can never happen.
             throw new RuntimeException(e);
