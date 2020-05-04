@@ -20,6 +20,7 @@ public final class TryStrategy<T, CTX> implements Strategy<T, T, CTX> {
     @Override
     public Stream<T> apply(CTX ctx, T input) throws InterruptedException {
         return StreamEx.of(this.s.apply(ctx, input)).ifEmpty(input);
+
     }
 
     @Override

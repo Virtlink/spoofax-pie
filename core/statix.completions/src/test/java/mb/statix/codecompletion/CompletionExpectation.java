@@ -90,11 +90,11 @@ abstract class CompletionExpectation<T extends ITerm> {
         if (var.equals(term)) {
             // Trying to replace by the same variable indicates that the proposal
             // did not replace the variable by a term.
-            if (getState() != null && getState().getConstraints().intersect(proposal.getNewState().getConstraints()).isEmpty()) {
-                // This is allowed iff the new proposal's constraints
-                // are different from the current state's constraints.
-                return null;
-            }
+//            if (getState() != null && getState().getConstraints().intersect(proposal.getNewState().getConstraints()).isEmpty()) {
+//                // This is allowed iff the new proposal's constraints
+//                // are different from the current state's constraints.
+            return null;
+//            }
         }
 
         ISubstitution.@Nullable Immutable substitution = trySubtitute(var, term);
