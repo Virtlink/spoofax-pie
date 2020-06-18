@@ -5,6 +5,8 @@ import mb.statix.common.SolverState;
 import mb.statix.solver.log.NullDebugContext;
 import mb.statix.solver.persistent.Solver;
 import mb.statix.solver.persistent.SolverResult;
+import org.metaborg.util.task.NullCancel;
+import org.metaborg.util.task.NullProgress;
 
 import java.util.stream.Stream;
 
@@ -25,7 +27,9 @@ public final class InferStrategy implements Strategy<SolverState, SolverState, S
                 state.getConstraints(),
                 state.getDelays(),
                 state.getCompleteness(),
-                new NullDebugContext()
+                new NullDebugContext(),
+                new NullProgress(),
+                new NullCancel()
         );
 
         // NOTE: Call the isSuccessful() strategy on this result to ensure it has no errors.
