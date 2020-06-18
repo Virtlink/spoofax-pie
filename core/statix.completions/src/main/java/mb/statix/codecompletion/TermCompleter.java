@@ -113,6 +113,7 @@ public final class TermCompleter {
     private Strategy2<SolverState, SolverState, SolverContext> buildCompletionStrategy(ITermVar placeholderVar) {//}, Strategy2<FocusedSolverState<CUser>, SolverState, SolverContext> continuation) {
         Strategy2<FocusedSolverState<CUser>, SolverState, SolverContext> continuation = buildInnerCompletionStrategy(placeholderVar);
         return distinct(seq(
+                // Focus on a constraint that contains the var we're interested in
                 seq(limit(1, focus(CUser.class, (c, s) -> constraintContainsVar(s, c, placeholderVar))))
                 .$(continuation)
                 .$())
@@ -137,14 +138,25 @@ public final class TermCompleter {
     }
 
     private Strategy2<FocusedSolverState<CUser>, SolverState, SolverContext> buildInnerCompletionStrategy(ITermVar placeholderVar) {
-        return seq(expandRule(placeholderVar))
+        return seq(Strategies2.<FocusedSolverState<CUser>, SolverContext>id())
+                // Expand the focussed rule
+                .$(expandRule(placeholderVar))
+                // Perform inference
                 .$(infer())
+                // Remove states that have errors
                 .$(isSuccessful())
+                // Delay stuck queries
                 .$(delayStuckQueries())
+                // Repeat until all fails:
+                // Focus on a query
                 .$(repeat(distinct(seq(limit(1, focus(CResolveQuery.class)))
+                    // Expand the query into its results
                     .$(expandQuery())
+                    // Perform inference
                     .$(infer())
+                    // Remove states that have errors
                     .$(isSuccessful())
+                    // Delay stuck queries
                     .$(delayStuckQueries())
                     .$()
                 )))

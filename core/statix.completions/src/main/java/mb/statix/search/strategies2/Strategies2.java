@@ -1,5 +1,7 @@
 package mb.statix.search.strategies2;
 
+import mb.statix.common.SolverContext;
+import mb.statix.common.SolverState;
 import mb.statix.common.strategies.Strategy;
 import mb.statix.common.strategies.Strategy2;
 import mb.statix.search.strategies.AssertStrategy;

@@ -1,6 +1,7 @@
 package mb.statix.search.strategies2;
 
 import mb.nabl2.terms.ITermVar;
+import mb.statix.common.SolverContext;
 import mb.statix.common.SolverState;
 import mb.statix.common.strategies.InferStrategy2;
 import mb.statix.solver.IConstraint;
@@ -87,6 +88,15 @@ public final class SearchStrategies2 {
      * @return the resulting strategy
      */
     public static IsSuccessfulStrategy2 isSuccessful() { return new IsSuccessfulStrategy2(); }
+
+    /**
+     * Removes Ast ID constraints that where not solved.
+     *
+     * @return the resulting strategy
+     */
+    public static RemoveAstIdConstraintsStrategy2 removeAstIdConstraints() {
+        return new RemoveAstIdConstraintsStrategy2();
+    }
 
     /**
      * Unfocuses.
