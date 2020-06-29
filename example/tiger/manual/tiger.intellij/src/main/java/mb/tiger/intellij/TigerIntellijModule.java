@@ -5,6 +5,11 @@ import dagger.Module;
 import dagger.Provides;
 import mb.spoofax.core.language.LanguageScope;
 import mb.spoofax.intellij.IntellijLanguage;
+import mb.spoofax.intellij.menu.EditorContextLanguageAction;
+import mb.spoofax.intellij.menu.LanguageActionGroup;
+import mb.spoofax.intellij.resource.IntellijResourceRegistry;
+import mb.tiger.intellij.menu.TigerEditorContextLanguageAction;
+import mb.tiger.intellij.menu.TigerLanguageActionGroup;
 
 import javax.swing.*;
 
@@ -19,5 +24,13 @@ public class TigerIntellijModule {
     @Provides @LanguageScope
     Icon provideFileIcon() {
         return IconLoader.getIcon("/META-INF/fileIcon.svg");
+    }
+
+    @Provides
+    LanguageActionGroup provideLanguageActionGroup() { return new TigerLanguageActionGroup(); }
+
+    @Provides @LanguageScope
+    EditorContextLanguageAction.Factory providesTigerEditorContextLanguageAction_Factory(IntellijResourceRegistry resourceRegistry, PieRunner pieRunner) {
+        return new TigerEditorContextLanguageAction.Factory(resourceRegistry, pieRunner, resourceService, enclosingCommandContextProvider);
     }
 }

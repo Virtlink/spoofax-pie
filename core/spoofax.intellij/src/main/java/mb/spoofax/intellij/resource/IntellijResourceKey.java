@@ -1,12 +1,23 @@
 package mb.spoofax.intellij.resource;
 
+import com.intellij.openapi.vfs.VirtualFileSystem;
 import mb.resource.QualifiedResourceKeyString;
 import mb.resource.ResourceKey;
 
+/**
+ * An IntelliJ resource key.
+ * <p>
+ * IntelliJ resources are uniquely identified by an URL of the form "protocol://path", where the protocol maps to an
+ * IntelliJ {@link VirtualFileSystem} and the path is a path in that file system.
+ */
 public class IntellijResourceKey implements ResourceKey {
     private final String url;
 
-
+    /**
+     * Initializes a new instance of the {@link IntellijResourceKey} class.
+     *
+     * @param url The resource URL.
+     */
     public IntellijResourceKey(String url) {
         this.url = url;
     }

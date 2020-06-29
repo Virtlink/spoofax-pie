@@ -7,11 +7,16 @@ dependencies {
   implementation(platform(project(":spoofax.depconstraints")))
   annotationProcessor(platform(project(":spoofax.depconstraints")))
 
-  api(project(":spoofax.core"))
+  implementation(project(":common"))
+  implementation(project(":spoofax.core"))
 
-  api("org.metaborg:log.api")
+  implementation("org.metaborg:log.api")
   implementation("org.metaborg:log.backend.noop")
+  implementation("org.metaborg:resource")
+  implementation("org.metaborg:pie.api")
   implementation("org.metaborg:pie.runtime")
+  implementation("org.metaborg:pie.dagger")
+
   implementation("com.google.dagger:dagger")
 
   compileOnly("org.checkerframework:checker-qual-android")

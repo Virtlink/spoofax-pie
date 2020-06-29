@@ -1,5 +1,6 @@
 package mb.tiger.intellij;
 
+import com.intellij.openapi.extensions.PluginId;
 import mb.spoofax.intellij.SpoofaxPlugin;
 import mb.tiger.spoofax.TigerModule;
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -21,5 +22,14 @@ public class TigerPlugin {
             .tigerModule(new TigerModule())
             .tigerIntellijModule(new TigerIntellijModule())
             .build();
+    }
+
+    /**
+     * Gets the Plugin ID of this plugin.
+     *
+     * @return The {@link PluginId}.
+     */
+    public static PluginId getId() {
+        return PluginId.getId("tiger");
     }
 }

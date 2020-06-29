@@ -34,6 +34,15 @@ public final class IntellijResource implements ReadableResource {
     }
 
     /**
+     * Gets the virtual file associated with this resource.
+     *
+     * @return The virtual file.
+     */
+    public VirtualFile getVirtualFile() {
+        return this.file;
+    }
+
+    /**
      * Gets the document associated with this resource.
      *
      * @return The associated document; or null when the file has no associated text document
