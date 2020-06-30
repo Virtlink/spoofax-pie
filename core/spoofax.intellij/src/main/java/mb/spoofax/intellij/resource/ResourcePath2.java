@@ -114,8 +114,7 @@ public final class ResourcePath2 {
      */
     public @Nullable String getName() {
         // The name is the last segment, except when this is a directory,
-        // in which case it is the one-before-last segment (the last is ".")
-        // If the path is empty, the name is empty
+        // in which case it is the penultimate segment (the last is ".")
         ListView<String> segments = getSegments();
         if (segments.isEmpty()) return null;
         if (segments.get(segments.size()).equals(CURRENT_PATH)) {

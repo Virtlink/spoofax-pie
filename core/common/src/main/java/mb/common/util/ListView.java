@@ -9,7 +9,13 @@ import java.util.Collections;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Objects;
+import java.util.Set;
+import java.util.function.BiConsumer;
+import java.util.function.BinaryOperator;
 import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.Supplier;
+import java.util.stream.Collector;
 
 /**
  * A wrapper around a {@link List list} with read-only operations. Only {@link Serializable serializable} when the
@@ -21,6 +27,15 @@ import java.util.function.Consumer;
 public class ListView<E> extends BaseCollectionView<E, List<? extends E>> implements Iterable<E>, Serializable {
     public ListView(List<? extends E> collection) {
         super(collection);
+    }
+
+    public static Collector<String, ArrayList<String>, ListView<String>> collectToListView() {
+        return Collector.of(
+            ArrayList::new,
+            List::add,
+            (left, right) -> { left.addAll(right); return left; },
+            ListView::of
+        );
     }
 
     public static <E> ListView<E> of() {
